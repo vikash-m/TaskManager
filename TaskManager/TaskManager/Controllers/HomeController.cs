@@ -10,6 +10,7 @@ namespace TaskManager.Controllers
     {
         public ActionResult Index()
         {
+            //getData();
             return View();
         }
 
