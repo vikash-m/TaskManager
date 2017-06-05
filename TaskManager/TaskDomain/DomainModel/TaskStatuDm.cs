@@ -13,5 +13,6 @@ namespace TaskManager.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }       
         public virtual ICollection<TaskDm> Tasks { get; set; }
+
     }
 }

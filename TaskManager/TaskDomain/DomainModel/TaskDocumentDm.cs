@@ -13,9 +13,6 @@ namespace TaskManager.Models
         public long AddedBy { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
-
-        public virtual Task Task { get; set; }
-        public virtual Userdetail Userdetail { get; set; }
+        public bool IsDeleted { get; set; }       
     }
 }
