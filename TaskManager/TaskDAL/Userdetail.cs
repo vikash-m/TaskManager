@@ -30,6 +30,7 @@ namespace TaskDAL
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public Nullable<long> ManagerId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LoginUser> LoginUsers { get; set; }

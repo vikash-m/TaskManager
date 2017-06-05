@@ -10,13 +10,9 @@
         <EntityTypeShape EntityType="TaskManagerModel.Task" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.TaskDocument" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.TaskStatu" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.Userdetail" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
-        <AssociationConnector Association="TaskManagerModel.FK__LoginUser__Emp_I__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__LoginUser__Role___2A4B4B5E" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Userdetai__Role___267ABA7A" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__Task__TaskStatus__31EC6D26" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Task___35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Added__36B12243" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

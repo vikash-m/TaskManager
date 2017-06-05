@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TaskManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TaskManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="LoginUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -79,6 +79,7 @@
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="ManagerId" Type="bigint" />
         </EntityType>
         <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
           <End Role="Userdetails" Type="Self.Userdetails" Multiplicity="1" />
@@ -184,8 +185,7 @@
             <End Role="Userdetails" EntitySet="Userdetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -275,6 +275,7 @@
           <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__Emp_I__2B3F6F97" FromRole="Userdetails" ToRole="LoginUser" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Userdetai__Role___267ABA7A" FromRole="Userdetails" ToRole="Role" />
           <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__Added__36B12243" FromRole="Userdetails" ToRole="TaskDocument" />
+          <Property Name="ManagerId" Type="Int64" />
         </EntityType>
         <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
           <End Role="Userdetails" Type="Self.Userdetail" Multiplicity="1" />
@@ -455,6 +456,7 @@
           <EntitySetMapping Name="Userdetails">
             <EntityTypeMapping TypeName="TaskManagerModel.Userdetail">
               <MappingFragment StoreEntitySet="Userdetails">
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
