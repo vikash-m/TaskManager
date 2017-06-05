@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskDomain.DomainModel
 {
-    class RoleDm
+    public class RoleDm
     {
         public long RoleId { get; set; }
         public string RoleName { get; set; }
