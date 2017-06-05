@@ -12,5 +12,6 @@ namespace TaskManager.ViewModels
 		public long PhoneNumber { get; set; }
 		public string EmailId { get; set; }
 		public string RoleName { get; set; }
+
 	}
 }
