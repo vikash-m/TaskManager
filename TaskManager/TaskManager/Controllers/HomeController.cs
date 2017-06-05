@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TaskServiceLayer;
 
 namespace TaskManager.Controllers
 {
     public class HomeController : Controller
     {
+        EmployeeService employeeService = new EmployeeService();
         public ActionResult Index()
         {
             return View();
@@ -15,6 +17,7 @@ namespace TaskManager.Controllers
 
         public ActionResult Index1()
         {
+            var result = employeeService.GetEmployees();
             return View();
         }
 
