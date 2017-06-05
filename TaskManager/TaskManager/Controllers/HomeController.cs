@@ -35,5 +35,16 @@ namespace TaskManager.Controllers
 
             return View();
         }
+        [HttpGet]
+        public ActionResult GetUserDetails()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult GettUserDetails()
+        {
+            return View();
+        }
     }
 }
