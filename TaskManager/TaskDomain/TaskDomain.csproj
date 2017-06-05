@@ -41,8 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainModel\EmployeeModelDm.cs" />
-    <Compile Include="DomainModel\TaskDocument.cs" />
-    <Compile Include="DomainModel\TaskStatus.cs" />
+    <Compile Include="DomainModel\LoginUserDm.cs" />
+    <Compile Include="DomainModel\RoleDm.cs" />
+    <Compile Include="DomainModel\TaskDocumentDm.cs" />
+    <Compile Include="DomainModel\TaskStatuDm.cs" />
+    <Compile Include="DomainModel\UserdetailDm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModel\TaskDm.cs" />
   </ItemGroup>

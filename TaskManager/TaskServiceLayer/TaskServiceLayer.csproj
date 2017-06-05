@@ -53,5 +53,18 @@
       <Name>TaskDomain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\TaskDAL.dll" />
+    <Content Include="bin\Debug\TaskDAL.pdb" />
+    <Content Include="bin\Debug\TaskDomain.dll" />
+    <Content Include="bin\Debug\TaskDomain.pdb" />
+    <Content Include="bin\Debug\TaskServiceLayer.dll" />
+    <Content Include="bin\Debug\TaskServiceLayer.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\TaskDAL.dll.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
