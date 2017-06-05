@@ -12,6 +12,7 @@ namespace TaskManager.Controllers
         EmployeeService employeeService = new EmployeeService();
         public ActionResult Index()
         {
+            //getData();--zafar
             return View();
         }
 
