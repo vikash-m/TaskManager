@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskDomain
 {
-    public class EmployeeModel
+    public class EmployeeModelDm
     {
         public long Id { get; set; }
         public string FirstName { get; set; }

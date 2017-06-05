@@ -11,7 +11,7 @@ namespace TaskServiceLayer
     public class EmployeeService
     {
         EmployeeRepository employeeRepository = new EmployeeRepository();
-        public List<EmployeeModel> GetEmployees()
+        public List<EmployeeModelDm> GetEmployees()
         {
             var EmployeeList =  employeeRepository.GetEmployee();
             return EmployeeList;

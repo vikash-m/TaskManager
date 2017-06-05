@@ -10,13 +10,13 @@ namespace TaskDAL.Repository
     public class EmployeeRepository
     {
         TaskManagerEntities taskManagerEntities = new TaskManagerEntities();
-        public List<EmployeeModel> GetEmployee()
+        public List<EmployeeModelDm> GetEmployee()
         {
             var employees = taskManagerEntities.Userdetails.ToList();
-            List <EmployeeModel> EmployeeList = new List<EmployeeModel>();
+            List <EmployeeModelDm> EmployeeList = new List<EmployeeModelDm>();
             foreach (var e in employees)
             {
-                EmployeeModel em = new EmployeeModel();
+                EmployeeModelDm em = new EmployeeModelDm();
                 em.Id = e.Id;
                 em.FirstName = e.FirstName;
                 em.LastName = e.LastName;
