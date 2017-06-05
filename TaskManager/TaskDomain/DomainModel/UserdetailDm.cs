@@ -16,7 +16,8 @@ namespace TaskDomain.DomainModel
         public long RoleId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }       
-      
+        public bool IsDeleted { get; set; }
+        public Nullable<long> ManagerId { get; set; }
+
     }
 }
