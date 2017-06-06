@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TaskServiceLayer;
+using System.Web.Mail;
 
 namespace TaskManager.Controllers
 {
@@ -27,7 +28,7 @@ namespace TaskManager.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+            
             return View();
         }
 
