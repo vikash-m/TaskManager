@@ -18,9 +18,7 @@ namespace TaskDomain.DomainModel
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
-
         public virtual TaskStatuDm TaskStatu { get; set; }
-       
         public virtual ICollection<TaskDocumentDm> TaskDocuments { get; set; }
 
     }
