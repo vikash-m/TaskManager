@@ -1,0 +1,47 @@
+﻿@model TaskDomain.DomainModel.UserdetailDm
+    
+@{
+    ViewBag.Title = "GetUserDetails";
+    Layout = "null";
+}
+
+<h2>GetUserDetails</h2>
+
+<table>
+    <tr>
+        <td>
+            @Html.Label("First Name")
+            @Html.TextBox(Model.FirstName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Last Name")
+            @Html.TextBox(Model.LastName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Phone no")
+            @Html.TextBox(Model.PhoneNumber.ToString())
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Email Id")
+            @Html.TextBox(Model.EmailId)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Role Name")
+            @Html.TextBox(Model.RoleName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Manager Name")
+            @Html.TextBox(Model.RoleName)
+        </td>
+    </tr>
+</table>
