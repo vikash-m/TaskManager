@@ -27,14 +27,17 @@ namespace TaskManager.Controllers
             {
                 if (result.RoleName == "Employee")
                 {
+                    Session["EmpSession"] = log;
                     return RedirectToAction("");
                 }
                 else if (result.RoleName == "Manager")
                 {
+                    Session["ManangerSession"] = log;
                     return RedirectToAction("");
                 }
                 else if (result.RoleName == "Admin")
                 {
+                    Session["AdminSession"] = log;
                     return RedirectToAction("");
                 }
                 else
