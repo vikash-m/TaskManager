@@ -22,21 +22,25 @@ namespace TaskManager.Controllers
             LoginServices logServices = new LoginServices();
             string name = log.UserName;
             string password = log.Password;
-            var result =logServices.getLogDetails(name, password);
-            if(result.RoleName=="Employee")
+            var result = logServices.getLogDetails(name, password);
+            if (result != null)
             {
-                return RedirectToAction("");
-            }else if(result.RoleName=="Manager")
-            {
-                return RedirectToAction("");
-            }
-            else if(result.RoleName=="Admin")
-            {
-                return RedirectToAction("");
-            }
-            else
-            {
-                return RedirectToAction("");
+                if (result.RoleName == "Employee")
+                {
+                    return RedirectToAction("");
+                }
+                else if (result.RoleName == "Manager")
+                {
+                    return RedirectToAction("");
+                }
+                else if (result.RoleName == "Admin")
+                {
+                    return RedirectToAction("");
+                }
+                else
+                {
+                    return RedirectToAction("");
+                }
             }
             return View();
         }
