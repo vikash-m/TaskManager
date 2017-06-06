@@ -1,0 +1,52 @@
+﻿@model TaskDomain.DomainModel.UserdetailDm
+    
+@{
+    ViewBag.Title = "SaveUserDetails";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+<h2>SaveUserDetails</h2>
+@using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
+{
+
+<table>
+    <tr>
+        <td>
+            @Html.Label("First Name")
+            @Html.TextBoxFor(m => m.FirstName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Last Name")
+            @Html.TextBoxFor(m => m.LastName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Phone no")
+            @Html.TextBoxFor(m => m.PhoneNumber)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Email Id")
+            @Html.TextBoxFor(m => m.EmailId)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Role Name")
+           @Html.DropDownListFor(m=>m.RoleId,(SelectList)ViewBag.List,"--Select Roles--")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Manager Name")
+            @Html.DropDownListFor(m => m.ManagerId,(SelectList)ViewBag.List1,"--Select Manager--")
+        </td>
+    </tr>
+</table>
+
+    <input type="submit" value="AddUser" />
+}

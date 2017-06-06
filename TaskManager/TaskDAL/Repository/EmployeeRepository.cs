@@ -32,5 +32,31 @@ namespace TaskDAL.Repository
             }
             return EmployeeList;
         }
+
+        public List<TaskDm> GetEmployeeTasks()
+        {
+            var employeeTasks = taskManagerEntities.Tasks.ToList();
+            List<TaskDm> EmployeeTaskList = new List<TaskDm>();
+            foreach (var et in employeeTasks)
+            {
+                TaskDm emtask = new TaskDm();
+                emtask.Id = et.Id;
+                emtask.Title = et.Title;
+                emtask.TaskStatusId = et.TaskStatusId;
+                emtask.StartDate = et.StartDate;
+                emtask.EndDate = et.EndDate;
+                emtask.CreatedBy = et.CreatedBy;
+                emtask.AssignedTo = et.AssignedTo;
+                emtask.CreateDate = et.CreateDate;
+                emtask.ModifiedDate = et.ModifiedDate;
+                emtask.IsDeleted = et.IsDeleted;
+                emtask.Description = et.Description;
+
+                EmployeeTaskList.Add(emtask);
+
+            }
+            return EmployeeTaskList;
+        }
+
     }
 }
