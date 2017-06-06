@@ -19,6 +19,8 @@ namespace TaskManager.Controllers
         public ActionResult Index1()
         {
             var result = employeeService.GetEmployees();
+
+            employeeService.GetEmployees();
             return View();
         }
 
