@@ -16,5 +16,11 @@ namespace TaskServiceLayer
             var EmployeeList =  employeeRepository.GetEmployee();
             return EmployeeList;
         }
+
+        public List<TaskDm> GetEmployeeTasks()
+        {
+            var EmployeeTasks = employeeRepository.GetEmployeeTasks();
+            return EmployeeTasks;
+        }
     }
 }
