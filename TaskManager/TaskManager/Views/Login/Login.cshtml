@@ -66,9 +66,10 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            var data = $("#myForm").serialize();
             $("#btnsubmit").click(function () {
                 debugger;
+                var data = $("#myForm").serialize();
+
                 $.ajax({
                     type: "POST",
                     url: "/Login/Login",
