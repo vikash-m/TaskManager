@@ -13,6 +13,7 @@ namespace TaskDomain.DomainModel
         public long AddedBy { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }       
+        public bool IsDeleted { get; set; }
+        
     }
 }
