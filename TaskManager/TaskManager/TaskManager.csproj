@@ -157,6 +157,7 @@
     <Compile Include="ViewModels\UserInfoVm.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\TaskDomain.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\kendo\Black\editor.png" />
@@ -1955,6 +1956,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\roslyn\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
