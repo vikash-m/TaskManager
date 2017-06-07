@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace TaskDomain.DomainModel
 {
@@ -11,7 +12,12 @@ namespace TaskDomain.DomainModel
         public long Id { get; set; }
         public long RoleId { get; set; }
         public long EmpId { get; set; }
+        
+        [Required(ErrorMessage = "Please Enter Email Address")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string UserName { get; set; }
+        [Required(ErrorMessage = "Please Enter Password")]
         public string Password { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
