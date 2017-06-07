@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
 
-namespace TaskManager.Controllers
-{
-    public class LoginController : Controller
+namespace TaskManager.Controllers { 
+enum Roles { Admin=1,Manager,Employee };
+public class LoginController : Controller
     {
         // GET: Login
         [HttpGet]
@@ -22,28 +22,30 @@ namespace TaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 LoginServices logServices = new LoginServices();
                 string name = log.UserName;
                 string password = log.Password;
                 var result = logServices.getLogDetails(name, password);
+               
                 if (result != null)
                 {
                     int Id = (int)log.Id;
-                    if (result.RoleName == "Employee")
+                    if (result.RoleId == (long)Roles.Employee)
                     {
                         var UserDetails = UserDetailsData(Id);
                             
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("Dashboard","Manager");
                     }
-                    else if (result.RoleName == "Manager")
+                    else if (result.RoleId ==(long)Roles.Manager)
                     {
                         var UserDetails = UserDetailsData(Id);
 
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
                     }
-                    else if (result.RoleName == "Admin")
+                    else if (result.RoleId == (long)Roles.Admin)
                     {
                         var UserDetails = UserDetailsData(Id);
 
