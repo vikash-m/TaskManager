@@ -31,20 +31,20 @@ namespace TaskManager.Controllers
                 int Id = (int)log.EmpId;
 
                 var UserDetails = UserDetailsData(Id); ;
-                if (result != null)
+                if (UserDetails != null)
                 {
-                    if (result.RoleId == (long)Roles.Employee)
+                    if (UserDetails.RoleId == (long)Roles.Employee)
                     {
 
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("Dashboard", "Manager");
                     }
-                    else if (result.RoleId == (long)Roles.Manager)
+                    else if (UserDetails.RoleId == (long)Roles.Manager)
                     {
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
                     }
-                    else if (result.RoleId == (long)Roles.Admin)
+                    else if (UserDetails.RoleId == (long)Roles.Admin)
                     {
 
                         Session["SessionData"] = UserDetails;
