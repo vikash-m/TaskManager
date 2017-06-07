@@ -16,5 +16,10 @@ namespace TaskServiceLayer
             var logDetails = loginRepository.getLogDetails(Name, Password);
             return logDetails;
         }
+        public UserdetailDm GetUserDetailsData(int Id)
+        {
+            var UserData = loginRepository.getUserDetailsData(Id);
+            return UserData;
+        }
     }
 }
