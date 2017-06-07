@@ -33,6 +33,21 @@ namespace TaskDAL.Repository
             return EmployeeList;
         }
 
+        public TaskStatusCountDm GetTaskCounts()
+        {
+            long totalTasks = taskManagerEntities.Tasks.Count();
+            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 1).Count();
+            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 2).Count();
+            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 3).Count();
+            TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
+            taskStatusCount.total = totalTasks;
+            taskStatusCount.pending = pending;
+            taskStatusCount.inprogress = inprogress;
+            taskStatusCount.completed = completed;
+            return taskStatusCount;
+        }
+
+
         public List<TaskDm> GetEmployeeTasks()
         {
             var employeeTasks = taskManagerEntities.Tasks.ToList();
@@ -51,7 +66,27 @@ namespace TaskDAL.Repository
                 emtask.ModifiedDate = et.ModifiedDate;
                 emtask.IsDeleted = et.IsDeleted;
                 emtask.Description = et.Description;
+                emtask.TaskStatusId = et.TaskStatusId;
+               
 
+                var createdBy = taskManagerEntities.Userdetails.Where(x => x.Id == et.CreatedBy).FirstOrDefault();
+                string createdByName = createdBy.FirstName;
+                if(createdBy.LastName != null)
+                {
+                    createdByName = createdByName + " " + createdBy.LastName;
+                }
+                emtask.CreatedByName = createdByName;
+
+                var assignedTo = taskManagerEntities.Userdetails.Where(x => x.Id == et.AssignedTo).FirstOrDefault();
+                string assignedToName = assignedTo.FirstName;
+                if (assignedTo.LastName != null)
+                {
+                    assignedToName = assignedToName + " " + assignedTo.LastName;
+                }
+
+                string taskStatus = taskManagerEntities.TaskStatus.Where(x => x.Id == et.TaskStatusId).FirstOrDefault().Status;
+                emtask.TaskStatus = taskStatus;
+                emtask.AssignedToName = assignedToName;
                 EmployeeTaskList.Add(emtask);
 
             }

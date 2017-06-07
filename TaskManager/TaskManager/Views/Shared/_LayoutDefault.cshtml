@@ -48,7 +48,10 @@
                         </div>
                     </li>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
+                        <a href="@Url.Action("Dashboard", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("MyTasks", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">My Tasks</span> <span class="fa arrow"></span></a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +90,6 @@
         </div>
     </div>
     
-            
     <!-- Mainly scripts -->
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -95,7 +97,7 @@
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/kendo")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap") 
     @RenderSection("scripts", required: false)
 </body>
 </html>

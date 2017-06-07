@@ -1,0 +1,127 @@
+﻿@model List<TaskDomain.DomainModel.TaskDm>
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+<script src="~/Scripts/kendo/jquery.min.js"></script>
+<script src="~/Scripts/kendo/kendo.all.min.js"></script>
+<script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+<h2>My Tasks</h2>
+@(Html.Kendo().Grid(Model)
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.Id).ClientTemplate(
+                    @"");
+            columns.Bound(c => c.Title);
+            columns.Bound(c => c.CreatedByName).Title("Created By");
+            columns.Bound(c => c.AssignedToName).Title("Assigned To");
+            columns.Bound(c => c.StartDate).ClientTemplate("#= kendo.toString(kendo.parseDate(StartDate), 'dd/MM/yyyy') #");
+            columns.Bound(c => c.EndDate).ClientTemplate("#= kendo.toString(kendo.parseDate(EndDate), 'dd/MM/yyyy') #");
+            columns.Bound(c => c.Description);
+            columns.Bound(c => c.TaskStatus);
+            columns.Command(command => command.Custom("Update").Click("showDetails")).Width(180);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Groupable(g => g.Messages(messages => messages.Empty("My Tasks")))
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Employee", "Index"))
+            .PageSize(20)
+        )
+)
+@(Html.Kendo().Window().Name("Details")
+    .Title("Task Details")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(500)
+    .Height(400)
+)
+<style>
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
+<script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <table class="table table-bordered table-striped" style="width:100%;height:100%">
+            <tr>
+                <td>Id:</td>
+                <td>#= Id #</td>
+            </tr>
+            <tr>
+                <td>Title:</td>
+                <td>#= Title #</td>
+            </tr>
+            <tr>
+                <td>Created By:</td>
+                <td>#= CreatedByName #</td>
+            </tr>
+            <tr>
+                <td>Assigned To:</td>
+                <td>#= AssignedToName #</td>
+            </tr>
+            <tr>
+                <td>Start Date:</td>
+                <td>#= StartDate #</td>
+            </tr>
+            <tr>
+                <td>End Date:</td>
+                <td>#= EndDate #</td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>#= Description #</td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>#= TaskStatus #</td>
+            </tr>
+            <tr>
+                <td><a class="btn btn-primary" id="button" >Update</a></td>
+                <td><a class="btn btn-primary" id="button" >Cancel</a></td>
+            </tr>
+        </table>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var detailsTemplate = kendo.template($("#template").html());
+
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#Details").data("kendoWindow");
+
+        wnd.content(detailsTemplate(dataItem));
+        wnd.center().open();
+    }
+</script>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/kendo")

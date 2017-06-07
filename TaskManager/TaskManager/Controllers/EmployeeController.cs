@@ -12,10 +12,18 @@ namespace TaskManager.Controllers
     {
         // GET: Employee
         EmployeeService employeeService = new EmployeeService();
-        public ActionResult Index()
+
+        public ActionResult Dashboard()
+        {
+            var taskStatusCounts = employeeService.GetTaskCounts();
+            return View(taskStatusCounts);
+        }
+
+        public ActionResult MyTasks()
         {
             var employeeTasks = employeeService.GetEmployeeTasks();
             return View(employeeTasks);
         }
+
     }
 }
