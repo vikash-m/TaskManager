@@ -99,11 +99,11 @@
             </tr>
             <tr>
                 <td>Status:</td>
-                <td>#= TaskStatus #</td>
+                <td><select id="ddlstatus" style="width:200px"></select></td>
             </tr>
             <tr>
-                <td><a class="btn btn-primary" id="button" >Update</a></td>
-                <td><a class="btn btn-primary" id="button" >Cancel</a></td>
+                <td align="center" colspan="2"><a style="margin-right:20px" class="btn btn-primary" id="button" >Update</a>
+                <a style="margin-left:20px" class="btn btn-primary" id="button" >Cancel</a></td>
             </tr>
         </table>
     </div>
@@ -120,6 +120,23 @@
 
         wnd.content(detailsTemplate(dataItem));
         wnd.center().open();
+        GetStatus();
+    }
+
+    function GetStatus() {
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/Employee/GetStatusList',
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    $("#ddlstatus").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Status));
+                }
+                $("#ddlstatus").val();
+            }
+        });
     }
 </script>
 

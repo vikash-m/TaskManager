@@ -24,6 +24,11 @@ namespace TaskManager.Controllers
             var employeeTasks = employeeService.GetEmployeeTasks();
             return View(employeeTasks);
         }
-
+        [HttpPost]
+        public JsonResult GetStatusList()
+        {
+            var statusList = employeeService.GetStatusList();
+            return Json(new { data = statusList });
+        }
     }
 }

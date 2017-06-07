@@ -1960,7 +1960,8 @@
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Views\Home\GetUserDetails.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\MyTasks.cshtml" />
+    <Content Include="Views\Employee\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

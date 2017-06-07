@@ -33,6 +33,22 @@ namespace TaskDAL.Repository
             return EmployeeList;
         }
 
+
+        public List<TaskStatuDm> GetStatusList()
+        {
+            var statusList = taskManagerEntities.TaskStatus.ToList();
+            List<TaskStatuDm> StatusList = new List<TaskStatuDm>();
+            foreach (var st in statusList)
+            {
+                TaskStatuDm ts = new TaskStatuDm();
+                ts.Id = st.Id;
+                ts.Status = st.Status;
+                StatusList.Add(ts);
+
+            }
+            return StatusList;
+        }
+
         public TaskStatusCountDm GetTaskCounts()
         {
             long totalTasks = taskManagerEntities.Tasks.Count();

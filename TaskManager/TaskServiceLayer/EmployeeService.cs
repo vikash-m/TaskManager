@@ -23,6 +23,12 @@ namespace TaskServiceLayer
             return EmployeeTasks;
         }
 
+        public List<TaskStatuDm> GetStatusList()
+        {
+            var StatusList = employeeRepository.GetStatusList();
+            return StatusList;
+        }
+
         public TaskStatusCountDm GetTaskCounts()
         {
             var TaskCounts = employeeRepository.GetTaskCounts();
