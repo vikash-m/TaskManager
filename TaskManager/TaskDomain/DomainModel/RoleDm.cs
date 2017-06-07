@@ -11,7 +11,7 @@ namespace TaskDomain.DomainModel
         public long RoleId { get; set; }
         public string RoleName { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
