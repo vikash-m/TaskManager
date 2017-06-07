@@ -43,6 +43,7 @@ namespace TaskDAL.Repository
                 UserModel.EmailId = result.EmailId;
                 UserModel.CreateDate = result.CreateDate;
                 UserModel.ModifiedDate = result.ModifiedDate;
+                UserModel.RoleId = result.RoleId;
                 UserModel.RoleName = result.Role.RoleName;
                 UserModel.PhoneNumber = result.PhoneNumber;
                 var ManagerName = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == Id);
