@@ -6,14 +6,15 @@ using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
 
-namespace TaskManager.Controllers { 
-enum Roles { Admin=1,Manager,Employee };
-public class LoginController : Controller
+namespace TaskManager.Controllers
+{
+    enum Roles { Admin = 1, Manager, Employee };
+    public class LoginController : Controller
     {
         // GET: Login
         [HttpGet]
         public ActionResult Login()
-         {
+        {
 
             return View();
         }
@@ -22,32 +23,29 @@ public class LoginController : Controller
         {
             if (ModelState.IsValid)
             {
-               
+
                 LoginServices logServices = new LoginServices();
                 string name = log.UserName;
                 string password = log.Password;
                 var result = logServices.getLogDetails(name, password);
-               
+                int Id = (int)log.EmpId;
+
+                var UserDetails = UserDetailsData(Id); ;
                 if (result != null)
                 {
-                    int Id = (int)log.Id;
                     if (result.RoleId == (long)Roles.Employee)
                     {
-                        var UserDetails = UserDetailsData(Id);
-                            
-                        Session["SessionData"] = UserDetails;
-                        return RedirectToAction("Dashboard","Manager");
-                    }
-                    else if (result.RoleId ==(long)Roles.Manager)
-                    {
-                        var UserDetails = UserDetailsData(Id);
 
+                        Session["SessionData"] = UserDetails;
+                        return RedirectToAction("Dashboard", "Manager");
+                    }
+                    else if (result.RoleId == (long)Roles.Manager)
+                    {
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
                     }
                     else if (result.RoleId == (long)Roles.Admin)
                     {
-                        var UserDetails = UserDetailsData(Id);
 
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
@@ -65,11 +63,11 @@ public class LoginController : Controller
             }
         }
 
-        public UserdetailDm UserDetailsData(int Id )
+        public UserdetailDm UserDetailsData(int Id)
         {
             LoginServices logServices = new LoginServices();
-             var UserDataResult =logServices.GetUserDetailsData(Id);
-            return UserDataResult; 
+            var UserDataResult = logServices.GetUserDetailsData(Id);
+            return UserDataResult;
 
         }
     }
