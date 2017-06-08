@@ -40,7 +40,7 @@
                                 <li><a href="contacts.html">Contacts</a></li>
                                 <li><a href="mailbox.html">Mailbox</a></li>
                                 <li class="divider"></li>
-                                <li><a href="login.html">Logout</a></li>
+                                <li><a href="@Url.Action("Logout", "Login")" >Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
@@ -72,8 +72,8 @@
                             <span class="m-r-sm text-muted welcome-message">Welcome to Task Manager</span>
                         </li>
                         <li>
-                            <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Log out
+                            <a  href="@Url.Action("Logout", "Login")" >
+                            <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
                     </ul>
