@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
 using System.Web.Mail;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TaskManager.Controllers
 {
@@ -56,9 +58,10 @@ namespace TaskManager.Controllers
 
             return RedirectToAction("SaveUserDetails");
         }
-        public ActionResult ViewUserDetails()
+        public ActionResult ViewUserDetails(int? page)
         {
-            return View();
+            var result = userService.ViewUser().ToList().ToPagedList(page ?? 1,2);
+            return View(result);
         }
     }
 }

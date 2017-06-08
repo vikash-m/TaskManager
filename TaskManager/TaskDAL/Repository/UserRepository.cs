@@ -56,6 +56,32 @@ namespace TaskDAL.Repository
             }
         }
 
+        public List<UserdetailDm> ViewUser()
+        {
+            var res = taskManagerEntities.Userdetails.ToList();
+            List<UserdetailDm> udm = new List<UserdetailDm>();
+            foreach(var item in res)
+            {
+                UserdetailDm ud = new UserdetailDm();
+                ud.FirstName = item.FirstName;
+                ud.LastName = item.LastName;
+                ud.PhoneNumber = item.PhoneNumber;
+                ud.EmailId = item.EmailId;
+                ud.RoleName = item.Role.RoleName;
+                var MgrName = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == item.ManagerId);
+                udm.Add(ud);
+                if(MgrName==null)
+                {
+                    ud.ManagerName = "No Manager";
+                }
+                else
+                {
+                    ud.ManagerName = MgrName.FirstName;
+                }
+            }
+            return udm;
+        }
+
         public bool SaveLoginUser(UserdetailDm userDetailsDm, string password)
         {
             //fetch emp id based on udm.EmailId

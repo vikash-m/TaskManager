@@ -1,52 +1,76 @@
 ﻿@model TaskDomain.DomainModel.UserdetailDm
-    
+
 @{
     ViewBag.Title = "SaveUserDetails";
-    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h2>SaveUserDetails</h2>
+<h2 style="color:blue">AddUserDetails</h2>
+<br />
+<br />
 @using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
 {
 
-<table>
-    <tr>
-        <td>
-            @Html.Label("First Name")
-            @Html.TextBoxFor(m => m.FirstName)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Last Name")
-            @Html.TextBoxFor(m => m.LastName)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Phone no")
-            @Html.TextBoxFor(m => m.PhoneNumber)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Email Id")
-            @Html.TextBoxFor(m => m.EmailId)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Role Name")
-           @Html.DropDownListFor(m=>m.RoleId,(SelectList)ViewBag.List,"--Select Roles--")
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Manager Name")
-            @Html.DropDownListFor(m => m.ManagerId,(SelectList)ViewBag.List1,"--Select Manager--")
-        </td>
-    </tr>
-</table>
+    <div class="ibox-content">
+        <div class="row">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        @Html.Label("First Name")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder="First Name" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        @Html.Label("Last Name")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                    </div>
+                </div>
+                <div></div>
 
-    <input type="submit" value="AddUser" />
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+
+                        @Html.Label("Phone no")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+
+                        @Html.Label("Email Id")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" , @placeholder = "Email Id - ex:abcd@gmail.com" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        @Html.Label("Role Name")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        @Html.Label("Manager Name")
+                    </label>
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
+                    </div>
+                </div>
+                
+                <input type="submit" value="AddUser"  class="class="btn btn-w-m btn-success"/>
+            </form>
+            </div>
+        </div>
+
 }

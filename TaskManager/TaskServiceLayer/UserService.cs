@@ -30,6 +30,11 @@ namespace TaskServiceLayer
             var dropMgrRes = userRepository.DropdownMgr();
             return dropMgrRes;
         }
+        public List<UserdetailDm> ViewUser()
+        {
+            var viewUsr = userRepository.ViewUser();
+            return viewUsr;
+        }
     }
 
 
