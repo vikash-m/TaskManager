@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
+using TaskManager.Enum;
 using TaskServiceLayer;
 
 namespace TaskManager.Controllers
 {
-    enum Roles { Admin = 1, Manager, Employee };
+   // enum Roles { Admin = 1, Manager, Employee };
     public class LoginController : Controller
     {
         // GET: Login
@@ -23,7 +24,8 @@ namespace TaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                
+               
                 LoginServices logServices = new LoginServices();
                 string name = log.UserName;
                 string password = log.Password;
@@ -33,18 +35,18 @@ namespace TaskManager.Controllers
                 var UserDetails = UserDetailsData(Id); ;
                 if (UserDetails != null)
                 {
-                    if (UserDetails.RoleId == (long)Roles.Employee)
+                    if (UserDetails.RoleId == (long)EnumRoles.Roles.Employee)
                     {
 
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("Dashboard", "Manager");
                     }
-                    else if (UserDetails.RoleId == (long)Roles.Manager)
+                    else if (UserDetails.RoleId == (long)EnumRoles.Roles.Manager)
                     {
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
                     }
-                    else if (UserDetails.RoleId == (long)Roles.Admin)
+                    else if (UserDetails.RoleId == (long)EnumRoles.Roles.Admin)
                     {
 
                         Session["SessionData"] = UserDetails;
@@ -75,7 +77,7 @@ namespace TaskManager.Controllers
             Session.Clear();
             Session.Abandon();
           
-            RedirectToAction("Login","Login");
+            RedirectToAction("Login");
         }
     }
 }
