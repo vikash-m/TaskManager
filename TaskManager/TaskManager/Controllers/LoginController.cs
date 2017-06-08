@@ -72,12 +72,12 @@ namespace TaskManager.Controllers
             return UserDataResult;
 
         }
-        public void Logout()
+        public ActionResult Logout()
         {
             Session.Clear();
             Session.Abandon();
           
-            RedirectToAction("Login");
+           return RedirectToAction("Login");
         }
     }
 }
