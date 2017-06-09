@@ -109,5 +109,46 @@ namespace TaskDAL.Repository
             return EmployeeTaskList;
         }
 
+        public TaskDm GetTaskDetails(long Id)
+        {
+            try
+            {
+
+
+                var TaskResult = taskManagerEntities.Tasks.FirstOrDefault(m => m.Id == Id);
+                var TaskDocumentResult = taskManagerEntities.TaskDocuments.FirstOrDefault(m => m.TaskId == TaskResult.Id);
+                var taskobj = new TaskDm();
+                taskobj.Id = TaskResult.Id;
+
+              
+                    var assignedto= TaskResult.AssignedTo;
+              var assignedtoName=  taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == assignedto).FirstName;
+                taskobj.AssignedToName = assignedtoName;
+                var createdBy = TaskResult.CreatedBy;
+                var createdByName=  taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == createdBy).FirstName;
+
+                taskobj.CreatedByName = createdByName;
+                taskobj.Description = TaskResult.Description;
+                taskobj.StartDate = TaskResult.StartDate;
+                taskobj.Title = TaskResult.Title;
+                taskobj.EndDate = TaskResult.EndDate;
+                taskobj.TaskDocuments = TaskResult.TaskDocuments.Select(m => new TaskDocumentDm() {
+                    AddedBy = TaskDocumentResult.AddedBy,
+                    Id = TaskDocumentResult.Id,
+                    TaskId = TaskDocumentResult.TaskId,
+                    DocumentPath = TaskDocumentResult.DocumentPath
+                
+
+                }
+                ).ToList();
+
+                return taskobj;
+            }
+            catch(Exception e )
+            {
+                return null;
+            }
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +30,35 @@ namespace TaskManager.Controllers
         {
             var statusList = employeeService.GetStatusList();
             return Json(new { data = statusList });
+        }
+        
+        [HttpGet]
+        public ActionResult GetTaskDetails(long Id)
+        {
+            var SingleTaskDetails = employeeService.GetTaskDetails(Id);
+            var dir = new System.IO.DirectoryInfo(Server.MapPath("~/App_Data/uploads/"));
+            System.IO.FileInfo[] fileNames = dir.GetFiles("*.*");
+            List<string> items = new List<string>();
+            foreach (var file in fileNames)
+            {
+                items.Add(file.Name);
+            }
+           // ViewBag.Downloads = items;
+            List<string> extension = new List<string>();
+            extension.Add("png");
+            extension.Add("pdf");
+            extension.Add("text");
+            ViewBag.Downloads = extension;
+            return View(SingleTaskDetails);
+        }
+
+       
+        public FileResult Download(string ImageName)
+
+
+        {
+            var FileVirtualPath = "~/App_Data/Uploads/" + ImageName;
+            return File(FileVirtualPath, "application/force-download", Path.GetFileName(FileVirtualPath));
         }
     }
 }

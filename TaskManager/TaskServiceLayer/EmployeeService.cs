@@ -34,5 +34,11 @@ namespace TaskServiceLayer
             var TaskCounts = employeeRepository.GetTaskCounts();
             return TaskCounts;
         }
+
+        public TaskDm GetTaskDetails(long Id)
+        {
+            var SingleTaskDetails = employeeRepository.GetTaskDetails(Id);
+           return SingleTaskDetails;
+        }
     }
 }

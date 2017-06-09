@@ -1,0 +1,87 @@
+﻿@model TaskDomain.DomainModel.TaskDm
+@{
+    ViewBag.Title = "GetTaskDetails";
+
+
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+        }
+
+
+
+
+
+<table class="table table-responsive"> 
+    <tr>
+        <td>Title:</td>
+        <td>@Model.Title</td>
+    </tr>
+    <tr>
+        <td>Assigned Name:</td>
+        <td>@Model.AssignedToName</td>
+    </tr>
+    <tr>
+        <td>Created By:</td>
+        <td>@Model.CreatedByName</td>
+    </tr>
+    <tr>
+        <td>Task Status:</td>
+        <td>@Model.TaskStatus</td>
+    </tr>
+    
+
+@foreach (var item in Model.TaskDocuments)
+{
+    <tr>
+    <td>Document Link </td>
+        
+    <td><a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">Download Link</a></td>
+    </tr>
+}
+
+@foreach (var item in Model.TaskDocuments)
+{
+<tr>
+    <td>
+        <div class="file-box">
+            <div class="file">
+                <a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">
+                    <span class="corner"></span>
+                    <span class="corner"></span>
+                   
+
+                    <div class="icon">
+                        <i class="fa fa-file"></i>
+                    </div>
+                     
+
+                    <div class="file-name">
+                        @item.DocumentPath
+                        <br />
+                        <small>@item.CreateDate.ToShortDateString()</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </td>
+</tr>
+
+
+}
+
+   </table>
+  <!-- Mainly scripts -->
+<script src="~/js/jquery-2.1.1.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="~/js/plugins/slimscroll/jquery.slimscroll.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="~/js/inspinia.js"></script>
+<script src="~/js/plugins/pace/pace.min.js"></script>
+<script>
+        $(document).ready(function(){
+            $('.file-box').each(function() {
+                animationHover(this, 'pulse');
+            });
+        });
+</script>
