@@ -31,7 +31,13 @@ namespace TaskManager.Controllers
             var statusList = employeeService.GetStatusList();
             return Json(new { data = statusList });
         }
-        
+        [HttpPost]
+        public bool UpdateTask(long id, long status)
+        {
+            var result = employeeService.UpdateTask(id, status);
+            return result;
+        }
+
         [HttpGet]
         public ActionResult GetTaskDetails(long Id)
         {

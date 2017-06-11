@@ -49,6 +49,14 @@ namespace TaskDAL.Repository
             return StatusList;
         }
 
+        public bool updatetask(long id, long status)
+        {
+            var task = taskManagerEntities.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            task.TaskStatusId = status;
+            taskManagerEntities.SaveChanges();
+            return true;
+        }
+
         public TaskStatusCountDm GetTaskCounts()
         {
             long totalTasks = taskManagerEntities.Tasks.Count();

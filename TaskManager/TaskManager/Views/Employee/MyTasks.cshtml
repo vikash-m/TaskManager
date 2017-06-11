@@ -1,144 +1,299 @@
 ﻿@model List<TaskDomain.DomainModel.TaskDm>
-@using Kendo.Mvc.UI
-@{
+    @using Kendo.Mvc.UI
+    @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
-}
-<script src="~/Scripts/kendo/jquery.min.js"></script>
-<script src="~/Scripts/kendo/kendo.all.min.js"></script>
-<script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
-<h2>My Tasks</h2>
-@(Html.Kendo().Grid(Model)
-        .Name("grid")
-        .Columns(columns =>
-        {
-            columns.Bound(c => c.Id).ClientTemplate(
-                    @"");
-            columns.Bound(c => c.Title);
-            columns.Bound(c => c.CreatedByName).Title("Created By");
-            columns.Bound(c => c.AssignedToName).Title("Assigned To");
-            columns.Bound(c => c.StartDate).ClientTemplate("#= kendo.toString(kendo.parseDate(StartDate), 'dd/MM/yyyy') #");
-            columns.Bound(c => c.EndDate).ClientTemplate("#= kendo.toString(kendo.parseDate(EndDate), 'dd/MM/yyyy') #");
-            columns.Bound(c => c.Description);
-            columns.Bound(c => c.TaskStatus);
-            columns.Command(command => command.Custom("Update").Click("showDetails")).Width(180);
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        .Groupable(g => g.Messages(messages => messages.Empty("My Tasks")))
-        .Sortable()
-        .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("Employee", "Index"))
-            .PageSize(20)
-        )
-)
-@(Html.Kendo().Window().Name("Details")
-    .Title("Task Details")
-    .Visible(false)
-    .Modal(true)
-    .Draggable(true)
-    .Width(500)
-    .Height(400)
-)
-<style>
-    .customer-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-        margin-left: 5px;
     }
+    <script src="~/Scripts/kendo/jquery.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+    <h2>My Tasks</h2>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-success">
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Created By</th>
+                                    <th>Assigned To</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (TaskDomain.DomainModel.TaskDm m in Model)
+                                {
+                                <tr>
+                                    <td>@m.Id</td>
+                                    <td>@m.Title</td>
+                                    <td>@m.CreatedByName</td>
+                                    <td>@m.AssignedToName</td>
+                                    <td>@m.StartDate</td>
+                                    <td>@m.EndDate</td>
+                                    <td>@m.TaskStatus</td>
+                                    <td><button type="button" id="btnupdatetask" class="btn bg-black" data-toggle="modal" data-target=".bs-add-leave-modal" data-content="@m.Id" data-status="@m.TaskStatusId"  >Update</button></td>
 
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-</style>
-<script type="text/x-kendo-template" id="template">
-    <div id="details-container">
-        <table class="table table-bordered table-striped" style="width:100%;height:100%">
-            <tr>
-                <td>Id:</td>
-                <td>#= Id #</td>
-            </tr>
-            <tr>
-                <td>Title:</td>
-                <td>#= Title #</td>
-            </tr>
-            <tr>
-                <td>Created By:</td>
-                <td>#= CreatedByName #</td>
-            </tr>
-            <tr>
-                <td>Assigned To:</td>
-                <td>#= AssignedToName #</td>
-            </tr>
-            <tr>
-                <td>Start Date:</td>
-                <td>#= StartDate #</td>
-            </tr>
-            <tr>
-                <td>End Date:</td>
-                <td>#= EndDate #</td>
-            </tr>
-            <tr>
-                <td>Description:</td>
-                <td>#= Description #</td>
-            </tr>
-            <tr>
-                <td>Status:</td>
-                <td><select id="ddlstatus" style="width:200px"></select></td>
-            </tr>
-            <tr>
-                <td align="center" colspan="2"><a style="margin-right:20px" class="btn btn-primary" id="button" >Update</a>
-                <a style="margin-left:20px" class="btn btn-primary" id="button" >Cancel</a></td>
-            </tr>
-        </table>
-    </div>
-</script>
+                                </tr>
 
-<script type="text/javascript">
-    var detailsTemplate = kendo.template($("#template").html());
 
-    function showDetails(e) {
-        e.preventDefault();
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+                        @*@(Html.Kendo().Grid(Model)
+                        .Name("grid")
+                        .Columns(columns =>
+                        {
+                        columns.Bound(c => c.Id).ClientTemplate(
+                        @"");
+                        columns.Bound(c => c.Title);
+                        columns.Bound(c => c.CreatedByName).Title("Created By");
+                        columns.Bound(c => c.AssignedToName).Title("Assigned To");
+                        columns.Bound(c => c.StartDate).ClientTemplate("#= kendo.toString(kendo.parseDate(StartDate), 'dd/MM/yyyy') #");
+                        columns.Bound(c => c.EndDate).ClientTemplate("#= kendo.toString(kendo.parseDate(EndDate), 'dd/MM/yyyy') #");
+                        columns.Bound(c => c.Description);
+                        columns.Bound(c => c.TaskStatus);
+                        columns.Command(command => command.Custom("Update").Click("showDetails")).Width(180);
+                        })
+                        .HtmlAttributes(new { style = "height: 550px;" })
+                        .Scrollable()
+                        .Groupable(g => g.Messages(messages => messages.Empty("My Tasks")))
+                        .Sortable()
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("Employee", "Index"))
+                        .PageSize(20)
+                        )
+                        )*@
+                        @(Html.Kendo().Window().Name("Details")
+                        .Title("Task Details")
+                        .Visible(false)
+                        .Modal(true)
+                        .Draggable(true)
+                        .Width(500)
+                        .Height(400)
+                        )
+                        <div style="align-content:center" class="modal bs-add-leave-modal" id="AddLeaveModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                            <div class="modal-dialog" style="margin: 50px -300px" role="document">
+                                <div class="modal-content border-radius-modalBottom">
+                                    <div class="modal-header modalHeaderStyle">
+                                        <button type="button" class="close text-color-white" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h3 class="modal-title">Update Task</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group" style="padding-bottom:20px">
+                                            <table class="table table-bordered table-striped" style="width:100%;height:100%">
+                                                <tr>
+                                                    <td>Id:</td>
+                                                    <td><span id="taskid"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Title:</td>
+                                                    <td><span id="tasktitle"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Created By:</td>
+                                                    <td><span id="taskcreatedby"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Assigned To:</td>
+                                                    <td><span id="taskassignedto"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Start Date:</td>
+                                                    <td><span id="taskstartdate"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>End Date:</td>
+                                                    <td><span id="taskenddate"></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status:</td>
+                                                    <td><select id="ddlstatus" style="width:200px"></select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" align="center">
+                                                        <button type="button" style="margin-right:30px" id="btnupdate"  class="btn btn-primary">Update</button>
+                                                        <button type="button" style="margin-left:30px" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var wnd = $("#Details").data("kendoWindow");
 
-        wnd.content(detailsTemplate(dataItem));
-        wnd.center().open();
-        GetStatus();
-    }
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
 
-    function GetStatus() {
-        $.ajax({
-            cache: false,
-            type: 'post',
-            url: '/Employee/GetStatusList',
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                for (var i = 0; i < data.data.length; i++) {
-                    $("#ddlstatus").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Status));
-                }
-                $("#ddlstatus").val();
-            }
-        });
-    }
-</script>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/kendo")
+                        <style>
+                            .customer-photo {
+                                display: inline-block;
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                background-size: 32px 35px;
+                                background-position: center center;
+                                vertical-align: middle;
+                                line-height: 32px;
+                                box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+                                margin-left: 5px;
+                            }
+
+                            .customer-name {
+                                display: inline-block;
+                                vertical-align: middle;
+                                line-height: 32px;
+                                padding-left: 3px;
+                            }
+                        </style>
+                        <script type="text/x-kendo-template" id="template">
+                            <div id="details-container">
+                                <table class="table table-bordered table-striped" style="width:100%;height:100%">
+                                    <tr>
+                                        <td>Id:</td>
+                                        <td>#= Id #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Title:</td>
+                                        <td>#= Title #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created By:</td>
+                                        <td>#= CreatedByName #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Assigned To:</td>
+                                        <td>#= AssignedToName #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Start Date:</td>
+                                        <td>#= StartDate #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>End Date:</td>
+                                        <td>#= EndDate #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description:</td>
+                                        <td>#= Description #</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td><select id="ddlstatus" style="width:200px"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="2">
+                                            <a style="margin-right:20px" class="btn btn-primary" id="button">Update</a>
+                                            <button class="k-button close-button">Close</button>
+                                    </tr>
+                                </table>
+                            </div>
+                        </script>
+
+                        <script type="text/javascript">
+
+                            $(document).on('click', '#btnupdatetask', function (e) {
+                                var tt = $(this);
+                                
+                                var title = tt.parent().parent().children()[1].innerText;
+                                var createdby = tt.parent().parent().children()[2].innerText;
+                                var assignedto = tt.parent().parent().children()[3].innerText;
+                                var startdate = tt.parent().parent().children()[4].innerText;
+                                var enddate = tt.parent().parent().children()[5].innerText;
+                                var statusid = $(this).data("status")  ;
+                                var id = $(this).data("content");
+                                $('#taskid').html(id);
+                                $('#tasktitle').html(title);
+                                $('#taskcreatedby').html(createdby);
+                                $('#taskassignedto').html(assignedto);
+                                $('#taskstartdate').html(startdate);
+                                $('#taskenddate').html(enddate);
+
+                                GetStatus(statusid);
+
+                            }
+                            );
+
+
+                            var detailsTemplate = kendo.template($("#template").html());
+
+                            //function showDetails(e) {
+                            //    e.preventDefault();
+
+                            //    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            //    var wnd = $("#Details").data("kendoWindow");
+
+                            //    wnd.content(detailsTemplate(dataItem));
+                            //    wnd.center().open();
+                            //    GetStatus(dataItem.TaskStatusId);
+                            //}
+
+                            function GetStatus(TaskStatusId) {
+                                debugger;
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/Employee/GetStatusList',
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        $("#ddlstatus").empty();
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            $("#ddlstatus").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Status));
+                                        }
+                                        $("#ddlstatus").val(TaskStatusId);
+                                    }
+                                });
+                            }
+
+                            $(document).on('click', '#btnupdate', function (e) {
+
+
+                                var id = $('#taskid').html();
+                                var status = $("#ddlstatus").val();
+                                $.ajax({
+                                    cache: false,
+                                    type: 'post',
+                                    url: '/Employee/UpdateTask',
+                                    data: { id: id, status: status },
+                                    success: function (data) {
+                                        if (data) {
+                                            $('#AddLeaveModal').modal('hide');
+                                            location.reload();
+                                        }
+                                    }
+                                });
+                            })
+                           
+                        </script>
+                        @Scripts.Render("~/bundles/jquery")
+                        @Scripts.Render("~/bundles/kendo")

@@ -35,6 +35,12 @@ namespace TaskServiceLayer
             return TaskCounts;
         }
 
+        public bool UpdateTask(long id, long status)
+        {
+            var result = employeeRepository.updatetask(id, status);
+            return result;
+        }
+
         public TaskDm GetTaskDetails(long Id)
         {
             var SingleTaskDetails = employeeRepository.GetTaskDetails(Id);
