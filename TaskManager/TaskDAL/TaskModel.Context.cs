@@ -31,5 +31,7 @@ namespace TaskDAL
         public virtual DbSet<TaskDocument> TaskDocuments { get; set; }
         public virtual DbSet<TaskStatu> TaskStatus { get; set; }
         public virtual DbSet<Userdetail> Userdetails { get; set; }
+
+        public System.Data.Entity.DbSet<TaskDomain.DomainModel.TaskDm> TaskDms { get; set; }
     }
 }

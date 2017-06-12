@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskDomain.DomainModel
 {
-  public class UserdetailDm
+  public class UserdetailDm 
     {
         public long Id { get; set; }
         public string FirstName { get; set; }
@@ -19,6 +19,6 @@ namespace TaskDomain.DomainModel
         public bool IsDeleted { get; set; }       
         public string RoleName { get; set; }
         public string ManagerName { get; set; }
-        public long ManagerId { get; set; } 
+        public Nullable<long> ManagerId { get; set; } 
     }
 }

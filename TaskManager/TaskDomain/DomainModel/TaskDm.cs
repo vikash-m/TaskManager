@@ -13,13 +13,13 @@ namespace TaskDomain.DomainModel
         public long AssignedTo { get; set; }
         public string CreatedByName { get; set; }
         public string AssignedToName { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string Description { get; set; }
-        public Nullable<long> TaskStatusId { get; set; }
+        public long? TaskStatusId { get; set; }
         public string TaskStatus { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public virtual TaskStatuDm TaskStatu { get; set; }
         public virtual ICollection<TaskDocumentDm> TaskDocuments { get; set; }
