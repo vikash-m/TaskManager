@@ -30,23 +30,23 @@ namespace TaskManager.Controllers
                 string name = log.UserName;
                 string password = log.Password;
                 var result = logServices.getLogDetails(name, password);
-                int Id = (int)log.EmpId;
+                int Id = (int)result.Id;
 
                 var UserDetails = UserDetailsData(Id); ;
                 if (UserDetails != null)
                 {
-                    if (UserDetails.RoleId == (long)EnumRoles.Roles.Employee)
+                    if (UserDetails.RoleId == (long)Enum.Enum.Roles.Employee)
                     {
 
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("Dashboard", "Manager");
                     }
-                    else if (UserDetails.RoleId == (long)EnumRoles.Roles.Manager)
+                    else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Manager)
                     {
                         Session["SessionData"] = UserDetails;
                         return RedirectToAction("");
                     }
-                    else if (UserDetails.RoleId == (long)EnumRoles.Roles.Admin)
+                    else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Admin)
                     {
 
                         Session["SessionData"] = UserDetails;

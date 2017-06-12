@@ -1,0 +1,53 @@
+﻿@model List<TaskDomain.DomainModel.TaskDm>
+@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "ListTask";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+<h2>ListTask</h2>
+
+<div>
+    <table class="table-bordered" border="1" cellpadding="10" width="120%" a >
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Create By</th>
+                <th>Assigned To</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Description</th>
+                <th>Task Status</th>
+                <th>Created Date</th>
+                <th>Modified Date </th>
+                <th></th>
+           </tr>
+            
+        </thead>
+        <tbody>
+            @foreach (var data in Model)
+            {
+                <tr>
+                    <td> @data.Title </td>
+                    <td> @data.CreatedByName </td>
+                    <td> @data.AssignedToName </td>
+                    <td> @data.StartDate </td>
+                    <td> @data.EndDate </td>
+                    <td> @data.Description </td>
+                    <td> @data.TaskStatus </td>
+                    <td> @data.CreateDate </td>
+                    <td> @data.ModifiedDate </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Manager", new { id = data.Id })
+                        @Html.ActionLink("Delete", "Delete", "Manager", new { id = data.Id })
+                        @Html.ActionLink("Upload Document", "DocumentPartialView", "Manager",new {id = data.Id }, new { })
+                    </td>
+                </tr>              
+             }
+        </tbody>
+    </table>
+</div>
+
+      
+
+

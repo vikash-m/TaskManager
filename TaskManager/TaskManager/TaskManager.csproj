@@ -161,7 +161,8 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Enum\EnumRoles.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Enum\Enum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1977,6 +1978,10 @@
     <Content Include="Views\Employee\GetTaskDetails.cshtml" />
     <Content Include="Views\Home\SaveUserDetails.cshtml" />
     <Content Include="Views\Home\ViewUserDetails.cshtml" />
+    <Content Include="Views\Manager\CreateTask.cshtml" />
+    <Content Include="Views\Manager\Dashboard.cshtml" />
+    <Content Include="Views\Manager\ListTask.cshtml" />
+    <Content Include="Views\Manager\_AddDocument.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
