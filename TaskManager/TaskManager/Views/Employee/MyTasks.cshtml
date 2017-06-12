@@ -7,13 +7,23 @@
     <script src="~/Scripts/kendo/jquery.min.js"></script>
     <script src="~/Scripts/kendo/kendo.all.min.js"></script>
     <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
-    <h2>My Tasks</h2>
+    
+<div class="row border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>My Tasks</h2>
+        <ol class="breadcrumb">
+            
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-success">
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped" style="margin-top:20px">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -37,7 +47,7 @@
                                     <td>@m.StartDate</td>
                                     <td>@m.EndDate</td>
                                     <td>@m.TaskStatus</td>
-                                    <td><button type="button" id="btnupdatetask" class="btn bg-black" data-toggle="modal" data-target=".bs-add-leave-modal" data-content="@m.Id" data-status="@m.TaskStatusId"  >Update</button></td>
+                                    <td><button type="button" id="btnupdatetask" class="btn bg-black btn-primary" data-toggle="modal" data-target=".bs-add-leave-modal" data-content="@m.Id" data-status="@m.TaskStatusId"  >Update</button></td>
 
                                 </tr>
 
