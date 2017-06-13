@@ -23,6 +23,7 @@ namespace TaskDAL.Repository
                 log.Password = result.Password;
                 log.RoleName = result.Role.RoleName;
                 log.EmpId = result.EmpId;
+                log.RoleId = result.RoleId;
                 return log;
                
             }
