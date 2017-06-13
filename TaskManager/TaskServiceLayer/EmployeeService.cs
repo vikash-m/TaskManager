@@ -17,9 +17,9 @@ namespace TaskServiceLayer
             return EmployeeList;
         }
 
-        public List<TaskDm> GetEmployeeTasks()
+        public List<TaskDm> GetEmployeeTasks(long id)
         {
-            var EmployeeTasks = employeeRepository.GetEmployeeTasks();
+            var EmployeeTasks = employeeRepository.GetEmployeeTasks(id);
             return EmployeeTasks;
         }
 
@@ -29,9 +29,9 @@ namespace TaskServiceLayer
             return StatusList;
         }
 
-        public TaskStatusCountDm GetTaskCounts()
+        public TaskStatusCountDm GetTaskCounts(long id)
         {
-            var TaskCounts = employeeRepository.GetTaskCounts();
+            var TaskCounts = employeeRepository.GetTaskCounts(id);
             return TaskCounts;
         }
 

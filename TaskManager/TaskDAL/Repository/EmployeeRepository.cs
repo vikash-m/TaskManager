@@ -57,12 +57,12 @@ namespace TaskDAL.Repository
             return true;
         }
 
-        public TaskStatusCountDm GetTaskCounts()
+        public TaskStatusCountDm GetTaskCounts(long id)
         {
             long totalTasks = taskManagerEntities.Tasks.Count();
-            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 1).Count();
-            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 2).Count();
-            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 3).Count();
+            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 1 & x.AssignedTo == id).Count();
+            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 2 & x.AssignedTo == id).Count();
+            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 3 & x.AssignedTo == id).Count();
             TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
             taskStatusCount.total = totalTasks;
             taskStatusCount.pending = pending;
@@ -72,9 +72,9 @@ namespace TaskDAL.Repository
         }
 
 
-        public List<TaskDm> GetEmployeeTasks()
+        public List<TaskDm> GetEmployeeTasks(long id)
         {
-            var employeeTasks = taskManagerEntities.Tasks.ToList();
+            var employeeTasks = taskManagerEntities.Tasks.Where(x=> x.AssignedTo==id).ToList();
             List<TaskDm> EmployeeTaskList = new List<TaskDm>();
             foreach (var et in employeeTasks)
             {

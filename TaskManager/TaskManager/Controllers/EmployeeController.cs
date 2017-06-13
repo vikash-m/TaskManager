@@ -15,16 +15,18 @@ namespace TaskManager.Controllers
     {
         // GET: Employee
         EmployeeService employeeService = new EmployeeService();
-
+        
         public ActionResult Dashboard()
         {
-            var taskStatusCounts = employeeService.GetTaskCounts();
+            var user = (UserdetailDm)Session["SessionData"];
+            var taskStatusCounts = employeeService.GetTaskCounts(user.Id);
             return View(taskStatusCounts);
         }
 
         public ActionResult MyTasks(int ?page)
         {
-            var employeeTasks = employeeService.GetEmployeeTasks().ToPagedList(page ?? 1,5);
+            var user = (UserdetailDm)Session["SessionData"];
+            var employeeTasks = employeeService.GetEmployeeTasks(user.Id).ToPagedList(page ?? 1,5);
             return View(employeeTasks);
         }
         [HttpPost]
