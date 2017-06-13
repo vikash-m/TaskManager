@@ -8,6 +8,7 @@ using TaskServiceLayer;
 using System.Web.Mail;
 using PagedList;
 using PagedList.Mvc;
+using TaskDAL;
 
 namespace TaskManager.Controllers
 {
@@ -15,37 +16,14 @@ namespace TaskManager.Controllers
     {
         EmployeeService employeeService = new EmployeeService();
         UserService userService = new UserService();
-        public ActionResult Index()
-        {
-            //getData();--zafar
-            return View();
-        }
-
-        public ActionResult Index1()
-        {
-            var result = employeeService.GetEmployees();
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
         [HttpGet]
         public ActionResult SaveUserDetails()
         {
             var roleResult = userService.DropdownRoles();
-            var RolRes = new SelectList(roleResult, "RoleId", "RoleName");
-            ViewBag.List = RolRes;
+            IEnumerable<SelectListItem> roles=new SelectList(roleResult, "RoleId", "RoleName");
+           // var RolRes = new SelectList(roleResult, "RoleId", "RoleName");
+            ViewBag.List = roles;
             var mgrResult = userService.DropdownMgr();
             var MgrRes = new SelectList(mgrResult, "Id", "FirstName");
             ViewBag.List1 = MgrRes;
@@ -56,12 +34,37 @@ namespace TaskManager.Controllers
         {
             var result = userService.SaveUsers(ud);
 
-            return RedirectToAction("SaveUserDetails");
+            return RedirectToAction("ViewUserDetails");
         }
         public ActionResult ViewUserDetails(int? page)
         {
-            var result = userService.ViewUser().ToList().ToPagedList(page ?? 1,2);
+            var result = userService.ViewUser().ToList().ToPagedList(page ?? 1,10);
             return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult EditUserDetails(int id)
+        {
+           var res= userService.EditUser(id);
+            var roleResult = userService.DropdownRoles();
+            IEnumerable<SelectListItem> roles = new SelectList(roleResult, "RoleId", "RoleName");
+            // var RolRes = new SelectList(roleResult, "RoleId", "RoleName");
+            ViewBag.List = roles;
+            var mgrResult = userService.DropdownMgr();
+            var MgrRes = new SelectList(mgrResult, "Id", "FirstName");
+            ViewBag.List1 = MgrRes;
+            return View(res);
+        }
+        [HttpPost]
+        public ActionResult EditUserDetails(UserdetailDm udm)
+        {
+            var result = userService.SaveEditUser(udm);
+            return RedirectToAction("ViewUserDetails");
+        }
+        public ActionResult DeleteUser(int id)
+        {
+            var result = userService.DeleteUser(id);
+            return RedirectToAction("ViewUserDetails");
         }
     }
 }

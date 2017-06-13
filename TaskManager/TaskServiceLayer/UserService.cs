@@ -20,7 +20,7 @@ namespace TaskServiceLayer
             bool UserList = userRepository.SaveUser(udm);
             return UserList;
         }
-        public List<Role> DropdownRoles()
+        public List<RoleModel> DropdownRoles()
         {
             var dropRolesRes = userRepository.DropdownRoles();
             return dropRolesRes;
@@ -34,6 +34,21 @@ namespace TaskServiceLayer
         {
             var viewUsr = userRepository.ViewUser();
             return viewUsr;
+        }
+        public UserdetailDm EditUser(int id)
+        {
+           var edit= userRepository.EditUser(id);
+            return edit;
+        }
+        public bool SaveEditUser(UserdetailDm udm)
+        {
+            bool UserList = userRepository.SaveEditUser(udm);
+            return UserList;
+        }
+        public Userdetail DeleteUser(int id)
+        {
+            var del = userRepository.DeleteUser(id);
+            return del;
         }
     }
 

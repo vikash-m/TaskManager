@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using TaskDomain.DomainModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,11 +17,39 @@
     <link href="~/css/style.css" rel="stylesheet">
     <!-- Morris -->
     <link href="~/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
-</head>
+    <script src="~/js/jquery-2.1.1.js"></script>
 
-<body style="margin-top: -50px;">
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var url = window.location;
+            $('ul.nav a[href="' + url + '"]').parent().addClass('active');
+            $('ul.nav a').filter(function () {
+                return this.href == url;
+            }).parent().addClass('active');
+        });
+
+
+
+    </script>
+</head>
+@{
+    var SessionRoles = (UserdetailDm)Session["SessionData"];
+
+    string userRoleName = SessionRoles.RoleName;
+}
+
+<body class="pace-done" style="margin-top: -50px;">
+    <div class="pace-done pace-inactive">
+        <div class="pace-progress">
+            <div class="pace-progress-inner">
+            </div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
     <div id="wrapper">
-        <nav class="navbar-default navbar-static-side"  role="navigation">
+        <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
@@ -31,8 +60,8 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs">
-                                        <strong class="font-bold">David Williams</strong>
-                                    </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                                        <strong class="font-bold">Shalini</strong>
+                                    </span> <span class="text-muted text-xs block">Manager <b class="caret"></b></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -40,21 +69,42 @@
                                 <li><a href="contacts.html">Contacts</a></li>
                                 <li><a href="mailbox.html">Mailbox</a></li>
                                 <li class="divider"></li>
-                                <li><a href="@Url.Action("Logout", "Login")" >Logout</a></li>
+                                <li><a href="@Url.Action("Logout", "Login")">Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
                             TM
                         </div>
                     </li>
-                    <li class="active">
-                        <a href="@Url.Action("Dashboard", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
+                    <li>
+                        <a href="@Url.Action("ViewUserDetails", "Home")"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
+
                     </li>
-                    <li class="active">
-                        <a href="@Url.Action("MyTasks", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">My Tasks</span> <span class="fa arrow"></span></a>
-                    </li>
+                    @if (userRoleName == "Employee" || userRoleName == "Manager")
+                    {
+                        <li>
+                            <a href="@Url.Action("MyTasks", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">My Tasks</span> <span class="fa arrow"></span></a>
+                        </li>
+                    }
+                    @if (SessionRoles.RoleName == "Admin")
+                    {
+                        <li>
+                            <a href=""><i class="fa fa-user"></i> <span class="nav-label">Users </span> <span class="fa arrow"></span></a>
+
+                            <ul class="nav nav-second-level sidebar-collapse in">
+                                <li>
+                                    <a href="@Url.Action("SaveUserDetails", "Home")">Add User   <i class="fa fa-plus"></i></a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ViewUserDetails", "Home")">View User  <i class="fa fa-eye"></i></a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    }
                 </ul>
             </div>
+
         </nav>
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom">
@@ -72,8 +122,8 @@
                             <span class="m-r-sm text-muted welcome-message">Welcome to Task Manager</span>
                         </li>
                         <li>
-                            <a  href="@Url.Action("Logout", "Login")" >
-                            <i class="fa fa-sign-out"></i> Log out
+                            <a href="@Url.Action("Logout", "Login")">
+                                <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
                     </ul>
@@ -89,7 +139,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Mainly scripts -->
     <script src="~/js/jquery-2.1.1.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
@@ -110,4 +160,5 @@
     <script src="~/Scripts/respond.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

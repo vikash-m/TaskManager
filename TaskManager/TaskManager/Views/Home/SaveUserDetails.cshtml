@@ -2,75 +2,99 @@
 
 @{
     ViewBag.Title = "SaveUserDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 
 }
 
-<h2 style="color:blue">AddUserDetails</h2>
-<br />
-<br />
-@using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
-{
 
-    <div class="ibox-content">
-        <div class="row">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        @Html.Label("First Name")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder="First Name" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        @Html.Label("Last Name")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
-                    </div>
-                </div>
-                <div></div>
+<div class="row-wrapper border-bottom white-bg page-heading" style="margin-left:-15px;margin-right:-15px;height:95px;">
+    <br />
+    <div class="col-lg-10">
+        <h2><b>Add User Details </b></h2>
+    </div>
+</div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
+@*<div class="wrapper wrapper-content animated fadeInRight">*@
+    <div class="row">
 
-                        @Html.Label("Phone no")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
-                    </div>
+        <div class="ibox float-e-margins">
+            <div class="wrapper wrapper-content">
+                <div class="ibox-title">
+                    <h5>Add User</h5>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
 
-                        @Html.Label("Email Id")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" , @placeholder = "Email Id - ex:abcd@gmail.com" })
+
+
+
+                @using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
+            {
+
+                    <div class="ibox-content">
+
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+                                    @Html.Label("First Name")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                    @*@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error" })*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+                                    @Html.Label("Last Name")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                    @*@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error" })*@
+                                </div>
+                            </div>
+                            <div></div>
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+
+                                    @Html.Label("Phone no")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
+                                    @*@Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error" })*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+
+                                    @Html.Label("Email Id")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email Id - ex:abcd@gmail.com" })
+                                    @*@Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error" })*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+                                    @Html.Label("Role Name")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">
+                                    @Html.Label("Manager Name")
+                                </label>
+                                <div class="col-lg-10" style="margin-bottom:10px;">
+                                    @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-sm btn-success" onclick="@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");">Add User</button>
+
+                        </form>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        @Html.Label("Role Name")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">
-                        @Html.Label("Manager Name")
-                    </label>
-                    <div class="col-sm-10">
-                        @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
-                    </div>
-                </div>
-                
-                <input type="submit" value="AddUser"  class="class="btn btn-w-m btn-success"/>
-            </form>
+                }
             </div>
-        </div>
-
-}
+            </div>
+</div>
+@*</div>*@
