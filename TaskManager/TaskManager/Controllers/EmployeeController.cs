@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TaskManager.Controllers
 {
@@ -20,9 +22,9 @@ namespace TaskManager.Controllers
             return View(taskStatusCounts);
         }
 
-        public ActionResult MyTasks()
+        public ActionResult MyTasks(int ?page)
         {
-            var employeeTasks = employeeService.GetEmployeeTasks();
+            var employeeTasks = employeeService.GetEmployeeTasks().ToPagedList(page ?? 1,5);
             return View(employeeTasks);
         }
         [HttpPost]
