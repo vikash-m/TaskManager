@@ -8,7 +8,7 @@
 <h2>ListTask</h2>
 
 <div>
-    <table class="table-bordered" border="1" cellpadding="10" width="120%" a >
+    <table class="table table-bordered" border="1" cellpadding="10" width="120%" a >
         <thead>
             <tr>
                 <th>Title</th>
@@ -38,8 +38,8 @@
                     <td> @data.CreateDate </td>
                     <td> @data.ModifiedDate </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Manager", new { id = data.Id })
-                        @Html.ActionLink("Delete", "Delete", "Manager", new { id = data.Id })
+                        @Html.ActionLink("Edit", "EditTask", "Manager", new { id = data.Id },new { })
+                        @Html.ActionLink("Delete", "DeleteTask", "Manager", new { id = data.Id })
                         @Html.ActionLink("Upload Document", "DocumentPartialView", "Manager",new {id = data.Id }, new { })
                     </td>
                 </tr>              

@@ -26,6 +26,7 @@ namespace TaskServiceLayer
             var result = ManagerRepository.AddTask(task);
             return result;
         }
+
         public bool AddTaskDocument(TaskDocumentDm taskDocument, long loginUserId)
         {
             taskDocument.CreateDate = DateTime.Now;
@@ -46,16 +47,29 @@ namespace TaskServiceLayer
             var taskList = ManagerRepository.UpdateTask(task);
             return taskList;
         }
+
         public bool DeleteTask(TaskDm task)
         {
             task.ModifiedDate = DateTime.Now;
-            var taskList = ManagerRepository.DeleteTask(task);
-            return taskList;
+            var result = ManagerRepository.DeleteTask(task);
+            return result;
         }
 
         public string GetTaskNameByTaskId(long? id)
         {
            return ManagerRepository.GetTaskNameByTaskId(id);
+        }
+
+        public bool DeleteTaskDocument(TaskDocumentDm taskDocument)
+        {
+            taskDocument.ModifiedDate = DateTime.Now;
+            var result = ManagerRepository.DeleteTaskDocument(taskDocument);
+            return result;
+        }
+
+        public TaskDm GetTaskByTaskId(long? id)
+        {
+            return ManagerRepository.GetTaskByTaskId(id);
         }
     }
 }

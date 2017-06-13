@@ -90,7 +90,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <EntityDeploy Include="TaskModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
