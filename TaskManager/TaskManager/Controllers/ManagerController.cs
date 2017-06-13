@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using TaskServiceLayer;
 using TaskDomain.DomainModel;
 using System.IO;
+using System;
 
 namespace TaskManager.Controllers
 {
@@ -62,32 +63,43 @@ namespace TaskManager.Controllers
             };
             return PartialView("_AddDocument",taskDocument);
         }
+
         [HttpPost]
         public ActionResult AddDocumentDetails(TaskDocumentDm taskDocument)
-        {
-
-            var loginUser = (UserdetailDm)Session["SessionData"];
-            foreach (var file in taskDocument.Document)
-            {
-                if (file != null)
+        {          
+                var loginUser = (UserdetailDm)Session["SessionData"];
+                foreach (var file in taskDocument.Document)
                 {
-                    var filePath = Path.Combine(Server.MapPath("~/TaskDocumentFile/ "), taskDocument.TaskTitle);
-                   // var filePath = Server.MapPath("~/E:/Task");
-                    if (!Directory.Exists(filePath))
+                    if (file != null)
                     {
-                        Directory.CreateDirectory(filePath);
+                        var folderPath = Path.Combine("F:\\Doc\\" + taskDocument.TaskTitle);
+                        var filePath = Path.Combine("F:\\Doc\\" + taskDocument.TaskTitle + "\\" + file.FileName);                       
+                        if (!Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        file.SaveAs(filePath);
+                        taskDocument.DocumentPath = filePath;                        
+                        ManagerService.AddTaskDocument(taskDocument, loginUser.Id);
                     }
-                    file.SaveAs(filePath);
-                    taskDocument.DocumentPath = filePath;
-                    ManagerService.AddTaskDocument(taskDocument, loginUser.Id);
-                }
-            }
-           
+                }                         
+         
+         return RedirectToAction("ListTask");
+        }
 
-                  
-           // var result = ManagerService.AddTaskDocument(taskDocument, loginUser.Id);
+        [HttpPut]
+        public ActionResult DeleteTaskDocument(TaskDocumentDm taskDocument)
+        {
+            var result = ManagerService.DeleteTaskDocument(taskDocument);
 
             return RedirectToAction("ListTask");
+        }
+
+       public ActionResult EditTask(int? id)
+        {
+            var task = ManagerService.GetTaskByTaskId(id);
+            return View(task);
+            
         }
     }
 }

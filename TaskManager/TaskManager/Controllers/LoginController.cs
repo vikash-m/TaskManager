@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TaskDomain.DomainModel;
-using TaskManager.Enum;
 using TaskServiceLayer;
 
 namespace TaskManager.Controllers
@@ -30,7 +25,7 @@ namespace TaskManager.Controllers
                 string name = log.UserName;
                 string password = log.Password;
                 var result = logServices.getLogDetails(name, password);
-                int Id = (int)result.Id;
+                int Id = (int)result.EmpId;
 
                 var UserDetails = UserDetailsData(Id); ;
                 if (UserDetails != null)
@@ -44,7 +39,7 @@ namespace TaskManager.Controllers
                     else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Manager)
                     {
                         Session["SessionData"] = UserDetails;
-                        return RedirectToAction("");
+                        return RedirectToAction("ListTask", "Manager");
                     }
                     else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Admin)
                     {

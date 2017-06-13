@@ -167,6 +167,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CreateTaskDm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -1984,6 +1985,7 @@
     <Content Include="Views\Manager\Dashboard.cshtml" />
     <Content Include="Views\Manager\ListTask.cshtml" />
     <Content Include="Views\Manager\_AddDocument.cshtml" />
+    <Content Include="Views\Manager\EditTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
