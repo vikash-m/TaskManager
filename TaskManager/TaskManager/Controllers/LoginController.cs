@@ -30,7 +30,7 @@ namespace TaskManager.Controllers
                 string name = log.UserName;
                 string password = log.Password;
                 var result = logServices.getLogDetails(name, password);
-                int Id = (int)result.Id;
+                int Id = (int)result.EmpId;
 
                 var UserDetails = UserDetailsData(Id); ;
                 if (UserDetails != null)
