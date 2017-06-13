@@ -1,5 +1,7 @@
-﻿@model List<TaskDomain.DomainModel.TaskDm>
-    @using Kendo.Mvc.UI
+﻿@model PagedList<TaskDomain.DomainModel.TaskDm>
+    @using Kendo.Mvc.UI;
+@using PagedList.Mvc;
+@using PagedList;
     @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
@@ -54,12 +56,8 @@
 
                                 }
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
                         </table>
+                        @Html.PagedListPager( Model, page => Url.Action("MyTasks", new { page}))
                         </div>
                     <!-- /.box-body -->
                 </div>
