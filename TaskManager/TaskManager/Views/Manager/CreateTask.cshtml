@@ -1,102 +1,106 @@
-﻿@model TaskManager.ViewModels.CreateTaskDm
-@using Kendo.Mvc.UI
+﻿@model TaskDomain.DomainModel.TaskDm
 
 @{
     ViewBag.Title = "CreateTask";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+
 }
+
 <script src="~/Scripts/kendo/jquery.min.js"></script>
 <script src="~/Scripts/kendo/kendo.all.min.js"></script>
 <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 </script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        $("#UploadDocument").click(function () {
-            $(".DocumentUploadModal").modal('show');
-        });
-
-        $("#btnHideModal").click(function () {
-           
-            $(".DocumentUploadModal").modal('hide');
-        });
-    });
-</script>
-
-<h2>CreateTask</h2>
-
-@using (Html.BeginForm("AddTask", "Manager", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Task.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Task.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Task.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Task.AssignedTo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Task.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
-                @Html.ValidationMessageFor(model => model.Task.AssignedTo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group ">
-            @Html.LabelFor(model => model.Task.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 demo-section k-content">
-                @(Html.Kendo().DatePickerFor(model => model.Task.StartDate)
-                       .Name("StartDate")
-                       .Value("8/07/2017")
-                       .HtmlAttributes(new { @class = "form-control", type = "text" }))
-                @Html.ValidationMessageFor(model => model.Task.StartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Task.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 ">
-                @(Html.Kendo().DatePickerFor(model => model.Task.EndDate)
-                       .Name("EndDate")
-                       .Value(System.DateTime.Now)
-                       .HtmlAttributes(new { @class = "form-control" })
-                )
-                @Html.ValidationMessageFor(model => model.Task.EndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Task.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Task.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Task.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div>
-                    <input type="button" value="Upload Document" class="btn btn-default" id= "UploadDocument" />
-                </div>
-                <input type="submit" value="Create" class="btn btn-default " />
-            </div>
-
-        </div>
-
+<div class="row-wrapper border-bottom white-bg page-heading" style="margin-left:-15px;margin-right:-15px;height:95px;">
+    <br />
+    <div class="col-lg-10">
+        <h2><b>Add Task Details </b></h2>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
+@*<div class="wrapper wrapper-content animated fadeInRight">*@
+<div class="row">
+
+    <div class="ibox float-e-margins">
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>Create New Task</h5>
+            </div>
+
+
+
+
+            @using (Html.BeginForm("AddTask", "Manager", FormMethod.Post))
+            {
+
+                <div class="ibox-content">
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Title")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Title" })
+                              
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Assign To")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                               @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
+                              
+                            </div>
+                        </div>
+                        <div></div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+
+                                @Html.Label("Start Date")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @(Html.Kendo().DatePickerFor(model => model.StartDate)
+                       .Name("StartDate")
+                       .Value(DateTime.Now)
+                       .HtmlAttributes(new { @class = "form-control", style = "width: 280px" }))
+                               
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+
+                                @Html.Label("End Date")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @(Html.Kendo().DatePickerFor(model => model.EndDate)
+                       .Name("EndDate")
+                       .Value(DateTime.Now)
+                       .HtmlAttributes(new { @class = "form-control ", style = "width: 280px" })
+                                ) 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Description")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @placeholder = "Description" })
+                            </div>
+                        </div>
+                       
+                            
+                        <div><input type="submit" value="Create" class="btn btn-success " /></div>
+                        
+
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/kendo")

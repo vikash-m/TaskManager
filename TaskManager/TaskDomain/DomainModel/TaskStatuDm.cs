@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TaskDomain.DomainModel
 {
@@ -9,9 +7,9 @@ namespace TaskDomain.DomainModel
     {
         public long Id { get; set; }
         public string Status { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }       
+        public DateTime CreateDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public bool IsDeleted { get; set; }
         public virtual ICollection<TaskDm> Tasks { get; set; }
 
     }

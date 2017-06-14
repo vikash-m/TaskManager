@@ -1,53 +1,80 @@
-﻿@model List<TaskDomain.DomainModel.TaskDm>
-@using Kendo.Mvc.UI
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList<TaskDomain.DomainModel.TaskDm>
 @{
-    ViewBag.Title = "ListTask";
+    ViewBag.Title = "ViewUserDetails";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
+<div class="row-wrapper border-bottom white-bg page-heading" style="margin-left:-15px;margin-right:-15px;height:95px;">
 
-<h2>ListTask</h2>
+    <div class="col-lg-10">
+        <h2><b>Task Details</b></h2>
+    </div>
+    <div class="col-lg-2"></div>
 
-<div>
-    <table class="table table-bordered" border="1" cellpadding="10" width="120%" a >
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Create By</th>
-                <th>Assigned To</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Description</th>
-                <th>Task Status</th>
-                <th>Created Date</th>
-                <th>Modified Date </th>
-                <th></th>
-           </tr>
-            
-        </thead>
-        <tbody>
-            @foreach (var data in Model)
-            {
-                <tr>
-                    <td> @data.Title </td>
-                    <td> @data.CreatedByName </td>
-                    <td> @data.AssignedToName </td>
-                    <td> @data.StartDate </td>
-                    <td> @data.EndDate </td>
-                    <td> @data.Description </td>
-                    <td> @data.TaskStatus </td>
-                    <td> @data.CreateDate </td>
-                    <td> @data.ModifiedDate </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditTask", "Manager", new { id = data.Id },new { })
-                        @Html.ActionLink("Delete", "DeleteTask", "Manager", new { id = data.Id })
-                        @Html.ActionLink("Upload Document", "DocumentPartialView", "Manager",new {id = data.Id }, new { })
-                    </td>
-                </tr>              
-             }
-        </tbody>
-    </table>
 </div>
 
-      
 
+<div class="wrapper wrapper-content">
+    <div class="ibox-title">
+        <h5>View User Details</h5>
+    </div>
 
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-10"></div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("CreateTask","Manager") + "'");" />Add Task <i class="fa fa-plus"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <table class="table table-striped table-bordered table-hover dataTables" border="1" cellpadding="10" width="100%" a>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Create By</th>
+                    <th>Assigned To</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Description</th>
+                    <th>Task Status</th>
+                    <th>Created Date</th>
+                    <th>Modified Date </th>
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var data in Model)
+            {
+                    <tr>
+                        <td> @data.Title </td>
+                        <td> @data.CreatedByName </td>
+                        <td> @data.AssignedToName </td>
+                        <td> @data.StartDate.Value.ToShortDateString() </td>
+                        <td> @data.EndDate.Value.ToShortDateString()  </td>
+                        <td> @data.Description </td>
+                        <td> @data.TaskStatus </td>
+                        <td> @data.CreateDate.ToShortDateString() </td>
+                        <td> @data.ModifiedDate  </td>
+                        <td>
+                           <a href="@Url.Action("DocumentPartialView", "Manager", new {id=data.Id})"><i class="fa fa-upload"></i></a>
+                            <a href="@Url.Action("EditTask", "Manager", new {id=data.Id})"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("ViewTaskDetail", "Manager", new {id=data.Id})"><i class="fa fa-folder-open"></i></a>
+                           <a onclick="return confirm('Are you sure you want to delete?')" href="@Url.Action("DeleteTask", "Manager", new {id=data.Id})"><i class="fa fa-trash-o" style="color:red"></i></a>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @Html.PagedListPager(Model, page => Url.Action("ViewUserDetails", new { page }))
+    </div>
+</div>

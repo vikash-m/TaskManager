@@ -4,5 +4,143 @@
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
 
+<script src="~/Scripts/kendo/jquery.min.js"></script>
+<script src="~/Scripts/kendo/kendo.all.min.js"></script>
+<script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
 <h2>Dashboard</h2>
+<div class="row">
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@Model.total</h1>
+                <small>Total Tasks</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@Model.pending</h1>
+                <small>Pending Tasks</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@Model.inprogress</h1>
+                <small>Inprogress tasks</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">@Model.completed</h1>
+                <small>Completed tasks</small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Tasks</h5>
+            </div>
+            <div class="ibox-content" style="height: 450px;">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-dashboard-chart">
+                                <div class="demo-section k-content wide">
+                                    @(Html.Kendo().Chart()
+        .Name("chart")
+        .Title("Task Status Column chart")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .Series(series =>
+        {
+            series.Column(new double[] { Model.pending, Model.inprogress, Model.completed }).Name("Tasks");
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(false))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories("Pending", "InProgress", "Completed")
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("{0}%"))
 
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0}%")
+            .Template("#= series.name #: #= value #")
+        )
+                                    )
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="demo-section k-content wide">
+                            @(Html.Kendo().Chart()
+        .Name("Paichart")
+                .Title(title => title
+                    .Text("Task Status Pie chart")
+                    .Position(ChartTitlePosition.Top))
+        .Legend(legend => legend
+            .Visible(false)
+        )
+        .ChartArea(chart => chart
+            .Background("transparent")
+         )
+        .Series(series =>
+        {
+            series.Pie(new dynamic[] {
+                new {category="Pending",value=Model.pending,color="#9de219"},
+                new {category="InProgress",value=Model.inprogress,color="#90cc38"},
+                new {category="Completed",value=Model.completed,color="#068c35"}
+            })
+            .Labels(labels => labels
+                .Template("#= category #: \n #= value#%")
+                .Background("transparent")
+                .Visible(true)
+            )
+            .StartAngle(150);
+        })
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0}%")
+        )
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

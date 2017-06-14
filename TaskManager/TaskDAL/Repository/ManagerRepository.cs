@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskDomain.DomainModel;
+
 
 namespace TaskDAL.Repository
 {
     public class ManagerRepository
     {
-        TaskManagerEntities _db = new TaskManagerEntities();
+        private readonly TaskManagerEntities _db = new TaskManagerEntities();
 
-        public List<UserdetailDm> GetEmployeesDetailsByManagerId(long? ManagerId)
+        public List<UserdetailDm> GetEmployeesDetailsByManagerId(long? managerId)
         {
             var result = from data in _db.Userdetails
-                         where data.ManagerId == ManagerId
+                         where data.ManagerId == managerId
                          select data;
             var employeeList = new List<UserdetailDm>();
             foreach (var employee in result)
@@ -50,24 +49,26 @@ namespace TaskDAL.Repository
                 StartDate = taskDm.StartDate,
                 EndDate = taskDm.EndDate,
                 Description = taskDm.Description,
-                CreateDate = taskDm.CreateDate
-
+                CreateDate = taskDm.CreateDate,
+                TaskStatusId = taskDm.TaskStatusId
             };
-            var result = _db.Tasks.Add(task);
+            _db.Tasks.Add(task);
             _db.SaveChanges();
             return true;
         }
 
         public List<TaskDm> GetAllTask()
         {
-            var result = _db.Tasks.ToList();
+            var result = from data in _db.Tasks
+                         where data.IsDeleted == false
+                         select data;
             var taskList = new List<TaskDm>();
 
             foreach (var task in result)
             {
                 var list = new TaskDm
                 {
-                    Id = (long)task.Id,
+                    Id = task.Id,
                     Title = task.Title,
                     CreatedByName = GetEmployeeNameById(task.CreatedBy),
                     AssignedToName = GetEmployeeNameById(task.AssignedTo),
@@ -75,6 +76,7 @@ namespace TaskDAL.Repository
                     EndDate = task.EndDate,
                     Description = task.Description,
                     CreateDate = task.CreateDate,
+                    ModifiedDate = task.ModifiedDate,
                     TaskStatusId = (long)task.TaskStatusId,
                     TaskStatus = GetTaskStatusByTaskStatusId((long)task.TaskStatusId)
                 };
@@ -133,7 +135,7 @@ namespace TaskDAL.Repository
 
         }
 
-        public bool DeleteTask(TaskDm task)
+        public bool DeleteTask(long? id)
         {
             //var result = from data in _db.Tasks
             //                      where data.Id == task.Id
@@ -146,9 +148,9 @@ namespace TaskDAL.Repository
                 {
 
                     var taskToBeUpdated = new Task();
-                    taskToBeUpdated = ctx.Tasks.FirstOrDefault(i => i.Id == task.Id);
-                    taskToBeUpdated.IsDeleted = task.IsDeleted;
-                    taskToBeUpdated.ModifiedDate = task.ModifiedDate;
+                    taskToBeUpdated = ctx.Tasks.FirstOrDefault(i => i.Id == id);
+                    taskToBeUpdated.IsDeleted = true;
+                    taskToBeUpdated.ModifiedDate = DateTime.Now;
                     ctx.SaveChanges();
                     return true;
                 }
@@ -180,7 +182,7 @@ namespace TaskDAL.Repository
                 DocumentPath = taskDocument.DocumentPath,
                 TaskId = taskDocument.TaskId
             };
-            var result = _db.TaskDocuments.Add(task);
+            _db.TaskDocuments.Add(task);
             _db.SaveChanges();
             return true;
         }
@@ -207,15 +209,15 @@ namespace TaskDAL.Repository
         }
 
         public TaskDm GetTaskByTaskId(long? id)
-        {  
-           var taskResult = from data in _db.Tasks
-                               where data.Id== id
-                               select data;
-           var task = taskResult.FirstOrDefault();
-            
-           var assignedToName = from data in _db.Userdetails
-                                         where data.Id == task.AssignedTo
-                                         select data.FirstName;
+        {
+            var taskResult = from data in _db.Tasks
+                             where data.Id == id
+                             select data;
+            var task = taskResult.FirstOrDefault();
+
+            var assignedToName = from data in _db.Userdetails
+                                 where data.Id == task.AssignedTo
+                                 select data.FirstName;
             var createdByName = from data in _db.Userdetails
                                 where data.Id == task.CreatedBy
                                 select data.FirstName;
@@ -223,28 +225,83 @@ namespace TaskDAL.Repository
                              where data.Id == task.TaskStatusId
                              select data.Status;
             var taskDm = new TaskDm
-                    {
-                       Id = task.Id,
-                       Title = task.Title,                        
-                       AssignedTo= task.AssignedTo,
-                       StartDate= task.StartDate,
-                       EndDate= task.EndDate,
-                       Description= task.Description,
-                       CreatedBy= task.CreatedBy,
-                       CreateDate= task.CreateDate,
-                       ModifiedDate= task.ModifiedDate,
-                       IsDeleted= task.IsDeleted,
-                       TaskStatusId = task.TaskStatusId,
-                       TaskStatus = taskStatus.FirstOrDefault(),
-                       AssignedToName = assignedToName.FirstOrDefault(),
-                       CreatedByName= createdByName.FirstOrDefault(),
-                    };
-                   
-                    return taskDm;
-                }
-            }
-           
+            {
+                Id = task.Id,
+                Title = task.Title,
+                AssignedTo = task.AssignedTo,
+                StartDate = task.StartDate,
+                EndDate = task.EndDate,
+                Description = task.Description,
+                CreatedBy = task.CreatedBy,
+                CreateDate = task.CreateDate,
+                ModifiedDate = task.ModifiedDate,
+                IsDeleted = task.IsDeleted,
+                TaskStatusId = task.TaskStatusId,
+                TaskStatus = taskStatus.FirstOrDefault(),
+                AssignedToName = assignedToName.FirstOrDefault(),
+                CreatedByName = createdByName.FirstOrDefault(),
+            };
 
-        
+            return taskDm;
+        }
+
+        public TaskStatusCountDm GetTaskCounts(long id)
+        {
+            var totalTasks = _db.Tasks.Where(x => x.IsDeleted == false).Count();
+            var pending = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Pending & x.CreatedBy == id & x.IsDeleted == false).Count();
+            var inprogress = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.InProgress & x.CreatedBy == id & x.IsDeleted == false).Count();
+            var completed = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Completed & x.CreatedBy == id & x.IsDeleted == false).Count();
+            TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
+            taskStatusCount.total = totalTasks;
+            taskStatusCount.pending = pending;
+            taskStatusCount.inprogress = inprogress;
+            taskStatusCount.completed = completed;
+            return taskStatusCount;
+        }
+
+        public TaskDetail GetTaskAndTaskDocumentDetailsByTaskId(long? id)
+        {
+            var taskList = _db.Tasks.Where(x => x.Id == id).FirstOrDefault();
+            var taskDocumentList = _db.TaskDocuments.Where(x => x.TaskId == id).ToList();
+
+
+            var taskDm = new TaskDm
+            {
+                Id = taskList.Id,
+                Title = taskList.Title,
+                CreatedByName = GetEmployeeNameById(taskList.CreatedBy),
+                AssignedToName = GetEmployeeNameById(taskList.AssignedTo),
+                StartDate = taskList.StartDate,
+                EndDate = taskList.EndDate,
+                Description = taskList.Description,
+                CreateDate = taskList.CreateDate,
+                ModifiedDate = taskList.ModifiedDate,
+                TaskStatusId = taskList.TaskStatusId,
+                TaskStatus = GetTaskStatusByTaskStatusId((long)taskList.TaskStatusId)
+            };
+            var taskDetails = new TaskDetail
+            {
+                Task = taskDm,
+                TaskDocumentDm = new List<TaskDocumentDm>()
+
+            };
+
+            foreach (var taskDocument in taskDocumentList)
+            {
+                var list = new TaskDocumentDm()
+                {
+                    Id = (long)taskDocument.Id,
+                    DocumentPath = taskDocument.DocumentPath,
+                    CreateDate = taskDocument.CreateDate,
+                    ModifiedDate = taskDocument.ModifiedDate
+
+                };
+                taskDetails.TaskDocumentDm.Add(list);
+            }
+
+
+            return taskDetails;
+        }
     }
+}
 

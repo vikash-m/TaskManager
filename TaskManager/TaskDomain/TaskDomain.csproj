@@ -47,6 +47,7 @@
     <Compile Include="DomainModel\LoginUserDm.cs" />
     <Compile Include="DomainModel\RoleDm.cs" />
     <Compile Include="DomainModel\RoleModel.cs" />
+    <Compile Include="DomainModel\TaskDetail.cs" />
     <Compile Include="DomainModel\TaskDocumentDm.cs" />
     <Compile Include="DomainModel\TaskStatuDm.cs" />
     <Compile Include="DomainModel\TaskStatusCountDm.cs" />

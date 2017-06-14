@@ -11,65 +11,77 @@ namespace TaskServiceLayer
 {
     public class ManagerService
     {
-        public ManagerRepository ManagerRepository = new ManagerRepository();
+        private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         public List<UserdetailDm> GetEmployeesDetailsByManagerId(long ManagerId)
         {
-           var employeeList = ManagerRepository.GetEmployeesDetailsByManagerId(ManagerId);                
+
+            var employeeList = _managerRepository.GetEmployeesDetailsByManagerId(ManagerId);
             return employeeList;
         }
 
         public bool AddTask(TaskDm task, long loginUserId)
         {
-            task.CreateDate = DateTime.Now;               
+            task.CreateDate = DateTime.Now;
             task.CreatedBy = loginUserId;
-            var result = ManagerRepository.AddTask(task);
+            var result = _managerRepository.AddTask(task);
             return result;
         }
 
         public bool AddTaskDocument(TaskDocumentDm taskDocument, long loginUserId)
         {
             taskDocument.CreateDate = DateTime.Now;
-            taskDocument.AddedBy = loginUserId;            
-            var result = ManagerRepository.AddTaskDocument(taskDocument);
+            taskDocument.AddedBy = loginUserId;
+            var result = _managerRepository.AddTaskDocument(taskDocument);
             return result;
         }
 
         public List<TaskDm> GetAllTask()
         {
-            var taskList = ManagerRepository.GetAllTask();
-            return taskList;
+            var taskList = _managerRepository.GetAllTask();
+            return taskList.ToList();
         }
 
         public bool UpdateTask(TaskDm task)
         {
             task.ModifiedDate = DateTime.Now;
-            var taskList = ManagerRepository.UpdateTask(task);
+            var taskList = _managerRepository.UpdateTask(task);
             return taskList;
         }
 
-        public bool DeleteTask(TaskDm task)
+        public bool DeleteTask(long? id)
         {
-            task.ModifiedDate = DateTime.Now;
-            var result = ManagerRepository.DeleteTask(task);
+
+            var result = _managerRepository.DeleteTask(id);
             return result;
         }
 
         public string GetTaskNameByTaskId(long? id)
         {
-           return ManagerRepository.GetTaskNameByTaskId(id);
+            return _managerRepository.GetTaskNameByTaskId(id);
         }
 
         public bool DeleteTaskDocument(TaskDocumentDm taskDocument)
         {
             taskDocument.ModifiedDate = DateTime.Now;
-            var result = ManagerRepository.DeleteTaskDocument(taskDocument);
+            var result = _managerRepository.DeleteTaskDocument(taskDocument);
             return result;
         }
 
         public TaskDm GetTaskByTaskId(long? id)
         {
-            return ManagerRepository.GetTaskByTaskId(id);
+            return _managerRepository.GetTaskByTaskId(id);
+        }
+
+        public TaskStatusCountDm GetTaskCounts(long id)
+        {
+            var taskCounts = _managerRepository.GetTaskCounts(id);
+            return taskCounts;
+        }
+
+        public TaskDetail GetTaskAndTaskDocumentDetailByTaskId(long? id)
+        {
+            return _managerRepository.GetTaskAndTaskDocumentDetailsByTaskId(id);
         }
     }
 }
