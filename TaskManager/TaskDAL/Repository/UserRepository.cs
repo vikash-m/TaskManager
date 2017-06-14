@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 using TaskDomain.DomainModel;
 using System.Data;
 
+
+
 namespace TaskDAL.Repository
 {
     public class UserRepository
     {
+        
         TaskManagerEntities taskManagerEntities = new TaskManagerEntities();
         private static Random random = new Random();
 
@@ -162,7 +165,7 @@ namespace TaskDAL.Repository
             }
             public List<Userdetail> DropdownMgr()
             {
-                var dropMgr = taskManagerEntities.Userdetails.Where(m => m.RoleId == 3).ToList();
+                var dropMgr = taskManagerEntities.Userdetails.Where(m => m.RoleId ==(long)EnumClass.Roles.Manager).ToList();
                 return dropMgr;
             }
             public UserdetailDm EditUser(int id)

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
-using TaskManager.Enum;
 using TaskServiceLayer;
 
 namespace TaskManager.Controllers
@@ -38,18 +37,18 @@ namespace TaskManager.Controllers
                     var UserDetails = UserDetailsData(Id);
                     if (UserDetails != null)
                     {
-                        if (UserDetails.RoleId == (long)Enum.Enum.Roles.Employee)
+                        if (UserDetails.RoleId == (long)EnumClass.Roles.Employee)
                         {
 
                             Session["SessionData"] = UserDetails;
                             return RedirectToAction("Dashboard", "Employee");
                         }
-                        else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Manager)
+                        else if (UserDetails.RoleId == (long)EnumClass.Roles.Manager)
                         {
                             Session["SessionData"] = UserDetails;
                             return RedirectToAction("Dashboard", "Manager");
                         }
-                        else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Admin)
+                        else if (UserDetails.RoleId == (long)EnumClass.Roles.Admin)
                         {
 
                             Session["SessionData"] = UserDetails;
