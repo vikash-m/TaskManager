@@ -15,86 +15,96 @@
 </div>
 
 @*<div class="wrapper wrapper-content animated fadeInRight">*@
-    <div class="row">
+<div class="row">
 
-        <div class="ibox float-e-margins">
-            <div class="wrapper wrapper-content">
-                <div class="ibox-title">
-                    <h5>Add User</h5>
-                </div>
-
-
-
-
-                @using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
+    <div class="ibox float-e-margins">
+        <div class="wrapper wrapper-content">
+            <div class="ibox-title">
+                <h5>Add User</h5>
+            </div>
+            @using (Html.BeginForm("SaveUserDetails", "Home", FormMethod.Post))
             {
 
-                    <div class="ibox-content">
+                <div class="ibox-content">
 
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
-                                    @Html.Label("First Name")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
-                                    @*@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error" })*@
-                                </div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("First Name")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                @*@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error" })*@
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
-                                    @Html.Label("Last Name")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
-                                    @*@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error" })*@
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Last Name")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                @*@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error" })*@
                             </div>
-                            <div></div>
+                        </div>
+                        <div></div>
 
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
 
-                                    @Html.Label("Phone no")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
-                                    @*@Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error" })*@
-                                </div>
+                                @Html.Label("Phone no")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
+                                @*@Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error" })*@
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
 
-                                    @Html.Label("Email Id")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email Id - ex:abcd@gmail.com" })
-                                    @*@Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error" })*@
-                                </div>
+                                @Html.Label("Email Id")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email Id - ex:abcd@gmail.com" })
+                                @*@Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error" })*@
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
-                                    @Html.Label("Role Name")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Role Name")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
                             </div>
-                            <div class="form-group">
-                                <label class="col-lg-2 control-label">
-                                    @Html.Label("Manager Name")
-                                </label>
-                                <div class="col-lg-10" style="margin-bottom:10px;">
-                                    @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">
+                                @Html.Label("Manager Name")
+                            </label>
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
                             </div>
+                        </div>
 
-                            <button type="submit" class="btn btn-sm btn-success" onclick="@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");">Add User</button>
+                        <button type="submit"  class="btn btn-sm btn-success"  onclick="notify()"@*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
 
-                        </form>
-                    </div>
-                }
-            </div>
-            </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript" src="~/Scripts/pnotify.custom.min.js"></script>
+<link href="~/Content/pnotify.custom.min.css" rel="stylesheet" media="all" type="text/css" />
+ <script type="text/javascript">
+     function notify() {
+         new PNotify({
+             title: 'Success!',
+             text: 'New user is added successfully.'
+         });
+     };
+</script>
 @*</div>*@
+
+

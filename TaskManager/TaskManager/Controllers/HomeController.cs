@@ -32,15 +32,31 @@ namespace TaskManager.Controllers
         [HttpPost]
         public ActionResult SaveUserDetails(UserdetailDm ud)
         {
-            var result = userService.SaveUsers(ud);
-
-            return RedirectToAction("ViewUserDetails");
+            var user = (UserdetailDm)Session["SessionData"];
+            if (null != user)
+            {
+                var result = userService.SaveUsers(ud);
+                return RedirectToAction("ViewUserDetails");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
         public ActionResult ViewUserDetails(int? page)
         {
-            var result = userService.ViewUser().ToList().ToPagedList(page ?? 1,10);
-            return View(result);
+            var user = (UserdetailDm)Session["SessionData"];
+            if (null != user)
+            {
+                var result = userService.ViewUser().ToList().ToPagedList(page ?? 1, 10);
+                return View(result);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
+        
 
         [HttpGet]
         public ActionResult EditUserDetails(int id)
