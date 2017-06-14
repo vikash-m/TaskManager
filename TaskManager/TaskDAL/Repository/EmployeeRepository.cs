@@ -60,9 +60,9 @@ namespace TaskDAL.Repository
         public TaskStatusCountDm GetTaskCounts(long id)
         {
             long totalTasks = taskManagerEntities.Tasks.Count();
-            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 1 & x.AssignedTo == id).Count();
-            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 2 & x.AssignedTo == id).Count();
-            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == 3 & x.AssignedTo == id).Count();
+            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Pending & x.AssignedTo == id).Count();
+            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.InProgress & x.AssignedTo == id).Count();
+            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Completed & x.AssignedTo == id).Count();
             TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
             taskStatusCount.total = totalTasks;
             taskStatusCount.pending = pending;
