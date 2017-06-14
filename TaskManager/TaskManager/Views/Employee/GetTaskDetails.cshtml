@@ -4,73 +4,148 @@
 
 
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
-        }
-
-
-
-
-
-<table class="table table-responsive"> 
-    <tr>
-        <td>Title:</td>
-        <td>@Model.Title</td>
-    </tr>
-    <tr>
-        <td>Assigned Name:</td>
-        <td>@Model.AssignedToName</td>
-    </tr>
-    <tr>
-        <td>Created By:</td>
-        <td>@Model.CreatedByName</td>
-    </tr>
-    <tr>
-        <td>Task Status:</td>
-        <td>@Model.TaskStatus</td>
-    </tr>
-    
-
-@foreach (var item in Model.TaskDocuments)
-{
-    <tr>
-    <td>Document Link </td>
-        
-    <td><a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">Download Link</a></td>
-    </tr>
 }
 
-@foreach (var item in Model.TaskDocuments)
-{
-<tr>
-    <td>
-        <div class="file-box">
-            <div class="file">
-                <a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">
-                    <span class="corner"></span>
-                    <span class="corner"></span>
-                   
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Task Details</h2>
 
-                    <div class="icon">
-                        <i class="fa fa-file"></i>
-                    </div>
-                     
+    </div>
+    <div class="col-lg-2"></div>
+</div>
 
-                    <div class="file-name">
-                        @item.DocumentPath
-                        <br />
-                        <small>@item.CreateDate.ToShortDateString()</small>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-9 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                   <div class="ibox float-e-margins">
+                       <div class="ibox-content ">
+                           <div class="row">
+                               <form class="form-horizontal">
+                                   <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Title :")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextBoxFor(m=>m.Title,new {@class="form-control",disabled="disabled" })</div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Assigned Name:")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextBoxFor(m=>m.AssignedToName,new { @class = "form-control", disabled = "disabled" })</div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Created By:")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextBoxFor(m=>m.CreatedByName, new { @class = "form-control", disabled = "disabled" })</div>
+                                   </div>
+                                 @*<div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Task Status:")</b></label>
+                                       <div class="col-lg-1 control-label">@Model.TaskStatus</div>
+                                   </div>*@
+                        
+
+                                    <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Task Description :")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextAreaFor(m=>m.Description, new { @class = "form-control", disabled = "disabled" })</div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Created Date :")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextBoxFor(m => m.CreateDate, new { @class = "form-control", disabled = "disabled" })</div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label class="col-lg-4 control-label"><b>@Html.Label("Task Status :")</b></label>
+                                       <div class="col-lg-4 control-label">@Html.TextBoxFor(m => m.TaskStatus, new { @class = "form-control", disabled = "disabled" })</div>
+                                   </div>
+                                  
+                                   @*@foreach (var item in Model.TaskDocuments)
+            {
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">@Html.Label("Download Link :")</label>
+                    <div class="col-lg-10"> <a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">@item.DocumentPath </a></div>
+                </div>
+            }*@
+                                   <div class="col-lg-9 animated fadeInRight">
+                                       <div class="row">
+                                           <div class="col-lg-12">
+                                               @foreach (var item in Model.TaskDocuments)
+            {
+
+
+                                                   <div class="file-box">
+                                                       <div class="file">
+                                                           <a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">
+                                                               <span class="corner"></span>
+
+                                                               <div class="icon myextension" data-path="@item.DocumentPath">
+                                                                   <i id="fileicon" class="fa fa-file"></i>
+                                                               </div>
+                                                               <div class="file-name">
+                                                                   @item.DocumentPath
+                                                                   <br />
+                                                                   <small>@item.CreateDate.ToShortDateString()</small>
+                                                               </div>
+                                                           </a>
+                                                       </div>
+
+                                                   </div>
+                                               }
+                                           </div>
+                                       </div>
+                                   </div>
+                               </form>
+                           </div>
+                       </div>
+                   </div>
+                    <div class="col-lg-4">
+
                     </div>
-                </a>
+
+                </div>
             </div>
         </div>
-
-    </td>
-</tr>
+    </div>
 
 
-}
 
-   </table>
-  <!-- Mainly scripts -->
+
+
+
+
+</div>
+
+@*<table class="table table-responsive">
+        <tr>
+            <td>Title:</td>
+            <td>@Model.Title</td>
+        </tr>
+        <tr>
+            <td>Assigned Name:</td>
+            <td>@Model.AssignedToName</td>
+        </tr>
+        <tr>
+            <td>Created By:</td>
+            <td>@Model.CreatedByName</td>
+        </tr>
+        <tr>
+            <td>Task Status:</td>
+            <td>@Model.TaskStatus</td>
+        </tr>
+
+
+        @foreach (var item in Model.TaskDocuments)
+        {
+            <tr>
+                <td>Document Link </td>
+
+                <td><a href="@Url.Action("Download","Employee",new { ImageName = item.DocumentPath.ToString() })">@item.DocumentPath </a></td>
+            </tr>
+        }
+    </table>*@
+
+
+
+
+
+
+
+<!-- Mainly scripts -->
 <script src="~/js/jquery-2.1.1.js"></script>
 <script src="~/js/bootstrap.min.js"></script>
 <script src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -78,10 +153,49 @@
 <!-- Custom and plugin javascript -->
 <script src="~/js/inspinia.js"></script>
 <script src="~/js/plugins/pace/pace.min.js"></script>
-<script>
-        $(document).ready(function(){
-            $('.file-box').each(function() {
-                animationHover(this, 'pulse');
-            });
+
+<script type="text/javascript">
+
+    //debugger;
+    //var extension;
+    //function mySubstring(path) {
+    //    extension = path.split('.');
+    //    return extension;
+
+    //}
+
+    $(document).ready(function () {
+        debugger;
+        $('.file-box').each(function () {
+            animationHover(this, 'pulse');
         });
+
+
+        //  var res = mySubstring(path);
+        var res = $('.myextension')[0];
+        var result = $(res).attr('data-path');
+
+        var extension = result.split('.');
+        $('#fileicon').removeClass('fa fa-file');
+        if (extension[1] == "png") {
+
+            $('#fileicon').addClass('fa fa-image');
+        }
+        else if (extension[1] == "pdf") {
+            $('#fileicon').addClass('fa fa-pdf');
+        }
+        else if (extension[1] == "xls") {
+            $('#fileicon').addClass('fa fa-xls');
+        }
+
+    });
+
 </script>
+
+
+
+
+
+
+
+
