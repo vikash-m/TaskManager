@@ -29,7 +29,7 @@
             </div>
             @using (Html.BeginForm("UpdateTask", "Manager", FormMethod.Post))
             {
-
+                @Html.HiddenFor(model => model.Id)
                 <div class="ibox-content">
 
                     <form class="form-horizontal">

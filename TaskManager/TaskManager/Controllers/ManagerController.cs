@@ -136,7 +136,7 @@ namespace TaskManager.Controllers
                 if (file == null) continue;
 
                 var folderPath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle);
-                var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), file.FileName);
+                var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle, file.FileName);
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);

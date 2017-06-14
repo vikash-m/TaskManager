@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,7 @@ namespace TaskDomain.DomainModel
         public long CreatedBy { get; set; }
         public long AssignedTo { get; set; }
         public string CreatedByName { get; set; }
-        public string AssignedToName { get; set; }
+        public string AssignedToName { get; set; }       
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Description { get; set; }
