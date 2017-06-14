@@ -14,5 +14,9 @@
                     @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @type = "Password", @required = "required" })
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
+                if (ViewBag.message != null)
+                {
+                <div class="text-center text-danger">@ViewBag.message</div>
+                }
                 <input type="submit" id="btnsubmit" value="Login" class="btn btn-primary block full-width m-b" />
 }

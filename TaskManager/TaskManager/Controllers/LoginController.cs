@@ -24,45 +24,58 @@ namespace TaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-               
+
+
                 LoginServices logServices = new LoginServices();
                 string name = log.UserName;
                 string password = log.Password;
-                var result = logServices.getLogDetails(name, password);
-                int Id = (int)result.EmpId;
-
-                var UserDetails = UserDetailsData(Id); 
-                if (UserDetails != null)
+                try
                 {
-                    if (UserDetails.RoleId == (long)Enum.Enum.Roles.Employee)
-                    {
+                    var result = logServices.getLogDetails(name, password);
 
-                        Session["SessionData"] = UserDetails;
-                        return RedirectToAction("Dashboard", "Employee");
-                    }
-                    else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Manager)
-                    {
-                        Session["SessionData"] = UserDetails;
-                        return RedirectToAction("Dashboard", "Manager");
-                    }
-                    else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Admin)
-                    {
+                    int Id = (int)result.EmpId;
 
-                        Session["SessionData"] = UserDetails;
-                        return RedirectToAction("ViewUserDetails","Home");
-                    }
-                    else
+                    var UserDetails = UserDetailsData(Id);
+                    if (UserDetails != null)
                     {
-                        return RedirectToAction("");
+                        if (UserDetails.RoleId == (long)Enum.Enum.Roles.Employee)
+                        {
+
+                            Session["SessionData"] = UserDetails;
+                            return RedirectToAction("Dashboard", "Employee");
+                        }
+                        else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Manager)
+                        {
+                            Session["SessionData"] = UserDetails;
+                            return RedirectToAction("Dashboard", "Manager");
+                        }
+                        else if (UserDetails.RoleId == (long)Enum.Enum.Roles.Admin)
+                        {
+
+                            Session["SessionData"] = UserDetails;
+                            return RedirectToAction("ViewUserDetails", "Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("");
+                        }
                     }
+                    ViewBag.message = "Invalid UserName/Password";
+                    return View();
                 }
-                return View();
+                catch (Exception e) {
+                    ViewBag.message = "Invalid UserName/Password";
+                    return View();
+                }
+
             }
+
             else
             {
+                
                 return View();
             }
+           
         }
 
         public UserdetailDm UserDetailsData(int Id)
