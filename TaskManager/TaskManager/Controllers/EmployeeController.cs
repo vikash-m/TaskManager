@@ -19,15 +19,30 @@ namespace TaskManager.Controllers
         public ActionResult Dashboard()
         {
             var user = (UserdetailDm)Session["SessionData"];
-            var taskStatusCounts = employeeService.GetTaskCounts(user.Id);
-            return View(taskStatusCounts);
+            if (null != user)
+            {
+                
+                var taskStatusCounts = employeeService.GetTaskCounts(user.Id);
+                return View(taskStatusCounts);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
 
         public ActionResult MyTasks(int ?page)
         {
             var user = (UserdetailDm)Session["SessionData"];
-            var employeeTasks = employeeService.GetEmployeeTasks(user.Id).ToPagedList(page ?? 1,5);
-            return View(employeeTasks);
+            if (null != user)
+            {
+                var employeeTasks = employeeService.GetEmployeeTasks(user.Id).ToPagedList(page ?? 1, 5);
+                return View(employeeTasks);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
         [HttpPost]
         public JsonResult GetStatusList()
