@@ -43,7 +43,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Title" })
-                              
+
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,8 +51,8 @@
                                 @Html.Label("Assign To")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                               @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
-                              
+                                @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
+
                             </div>
                         </div>
                         <div></div>
@@ -67,7 +67,7 @@
                        .Name("StartDate")
                        .Value(DateTime.Now)
                        .HtmlAttributes(new { @class = "form-control", style = "width: 280px" }))
-                               
+
                             </div>
                         </div>
                         <div class="form-group">
@@ -80,7 +80,7 @@
                        .Name("EndDate")
                        .Value(DateTime.Now)
                        .HtmlAttributes(new { @class = "form-control ", style = "width: 280px" })
-                                ) 
+                                )
                             </div>
                         </div>
                         <div class="form-group">
@@ -91,10 +91,20 @@
                                 @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Description" })
                             </div>
                         </div>
-                       
-                            
-                        <div><input type="submit" value="Create" class="btn btn-success " /></div>
-                        
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Document,  new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="margin-top: 8px">
+                                @Html.TextBoxFor(model => model.Document, new { type = "file", name = "Document", multiple = "multiple" })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-success "/>
+                            </div>
+                        </div>
+
 
                     </form>
                 </div>

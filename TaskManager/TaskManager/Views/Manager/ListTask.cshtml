@@ -1,8 +1,8 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model PagedList<TaskDomain.DomainModel.TaskDm>
+@model IPagedList<TaskDomain.DomainModel.TaskDm>
 @{
-    ViewBag.Title = "ViewUserDetails";
+    ViewBag.Title = "ListTask";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
 <div class="row-wrapper border-bottom white-bg page-heading" style="margin-left:-15px;margin-right:-15px;height:95px;">
@@ -17,7 +17,7 @@
 
 <div class="wrapper wrapper-content">
     <div class="ibox-title">
-        <h5>View User Details</h5>
+        <h5>View Task Details</h5>
     </div>
 
     <div class="ibox-content">
