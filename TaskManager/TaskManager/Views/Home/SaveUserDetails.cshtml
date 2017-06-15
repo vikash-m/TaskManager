@@ -6,6 +6,8 @@
 
 }
 
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
 <div class="row-wrapper border-bottom white-bg page-heading" style="margin-left:-15px;margin-right:-15px;height:95px;">
     <br />
@@ -34,7 +36,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
-                                @*@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error" })*@
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -43,7 +45,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
-                                @*@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error" })*@
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
                         <div></div>
@@ -55,7 +57,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
-                                @*@Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error" })*@
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error",style="color:red" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -65,7 +67,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email Id - ex:abcd@gmail.com" })
-                                @*@Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error" })*@
+                                @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -85,7 +87,7 @@
                             </div>
                         </div>
 
-                        <button type="submit"  class="btn btn-sm btn-success"  onclick="notify()"@*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
+                        <button type="submit"  class="btn btn-sm btn-success" id="btn" onclick="notify()"@*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
 
                     </form>
                 </div>
@@ -98,13 +100,20 @@
 <script type="text/javascript" src="~/Scripts/pnotify.custom.min.js"></script>
 <link href="~/Content/pnotify.custom.min.css" rel="stylesheet" media="all" type="text/css" />
  <script type="text/javascript">
+     
      function notify() {
-         new PNotify({
-             title: 'Success!',
-             text: 'New user is added successfully.'
-         });
-     };
+         debugger
+         if (($('#FirstName').val() != "") && ($('#LastName').val() != "") && ($('#PhoneNumber').val() != "") && ($('#EmailId').val() != "") && ($('#RoleId').val() != "")) {
+             new PNotify({
+                 title: 'Success!',
+                 text: 'New user is added successfully.'
 
+             });
+         }
+
+     }
+     
+     
 
 </script>
 @*<script type="text/javascript">

@@ -33,14 +33,22 @@ namespace TaskManager.Controllers
         public ActionResult SaveUserDetails(UserdetailDm ud)
         {
             var user = (UserdetailDm)Session["SessionData"];
-            if (null != user)
+            if (ModelState.IsValid)
             {
                 var result = userService.SaveUsers(ud);
-                return RedirectToAction("ViewUserDetails");
+                if(result)
+                {
+                    return RedirectToAction("ViewUserDetails");
+                }
+                else
+                {
+                    return RedirectToAction("SaveUserDetails");
+                }
+                
             }
             else
             {
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("SaveUserDetails");
             }
         }
         public ActionResult ViewUserDetails(int? page)
