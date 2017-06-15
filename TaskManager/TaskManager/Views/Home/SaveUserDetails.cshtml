@@ -73,7 +73,7 @@
                                 @Html.Label("Role Name")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;" >
-                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", @id="rolename", style = "160%" })
+                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", @*@id="rolename",*@ style = "160%" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -81,7 +81,7 @@
                                 @Html.Label("Manager Name")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;" >
-                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", @id = "manager",style = "160%" })
+                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", @*@id = "manager",*@ style = "160%" })
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
 
 
 </script>
-<script type="text/javascript">
+@*<script type="text/javascript">
      $(document).ready(function () {
          debugger;
          $('#rolename').change(function () {
@@ -127,7 +127,7 @@
 
          //$('#rolename').removeAttr("disabled", true);
     
-</script>
+</script>*@
 @*</div>*@
 
 
