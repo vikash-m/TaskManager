@@ -60,30 +60,39 @@ namespace TaskManager.Controllers
         [HttpGet]
         public ActionResult GetTaskDetails(long Id)
         {
-            var SingleTaskDetails = employeeService.GetTaskDetails(Id);
-            var dir = new System.IO.DirectoryInfo(Server.MapPath("~/App_Data/uploads/"));
-            System.IO.FileInfo[] fileNames = dir.GetFiles("*.*");
-            List<string> items = new List<string>();
-            foreach (var file in fileNames)
+            var user = (UserdetailDm)Session["SessionData"];
+            if (null != user)
             {
-                items.Add(file.Name);
+                var SingleTaskDetails = employeeService.GetTaskDetails(Id);
+                return View(SingleTaskDetails);
             }
-           // ViewBag.Downloads = items;
-            List<string> extension = new List<string>();
-            extension.Add("png");
-            extension.Add("pdf");
-            extension.Add("text");
-            ViewBag.Downloads = extension;
-            return View(SingleTaskDetails);
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+           // var dir = new System.IO.DirectoryInfo(Server.MapPath("~/App_Data/uploads/"));
+           // System.IO.FileInfo[] fileNames = dir.GetFiles("*.*");
+           // List<string> items = new List<string>();
+           // foreach (var file in fileNames)
+           // {
+           //     items.Add(file.Name);
+           // }
+           //// ViewBag.Downloads = items;
+           // List<string> extension = new List<string>();
+           // extension.Add("png");
+           // extension.Add("pdf");
+           // extension.Add("text");
+           // ViewBag.Downloads = extension;
+            
         }
 
        
-        public FileResult Download(string ImageName)
+        public FileResult Download(string FileName)
 
 
         {
-            var FileVirtualPath = "~/App_Data/Uploads/" + ImageName;
-            return File(FileVirtualPath, "application/force-download", Path.GetFileName(FileVirtualPath));
+           // var FileVirtualPath = "~/App_Data/Uploads/" + FileName;
+            return File(FileName, "application/force-download", Path.GetFileName(FileName));
         }
     }
 }
