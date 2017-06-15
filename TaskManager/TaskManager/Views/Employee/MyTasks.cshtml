@@ -36,6 +36,7 @@
                                     <th>End Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
+                                    <th>View Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,8 +50,9 @@
                                     <td>@m.StartDate</td>
                                     <td>@m.EndDate</td>
                                     <td>@m.TaskStatus</td>
-                                    <td><button type="button" id="btnupdatetask" class="btn bg-black btn-primary" data-toggle="modal" data-target=".bs-add-leave-modal" data-content="@m.Id" data-status="@m.TaskStatusId"  >Update</button></td>
-
+                                    <td><button type="button" id="btnupdatetask" class="btn bg-black btn-primary" data-toggle="modal" data-target=".bs-add-leave-modal" data-content="@m.Id" data-status="@m.TaskStatusId"  >Update</button>
+                                    <a href="@Url.Action("DocumentPartialView", "Manager", new {id=@m.Id})"><i class="fa fa-upload"></i></a></td>
+                                    <td><a  id="btntaskdetails" class="btn bg-black btn-primary"  href="@Url.Action("GetTaskDetails", "Employee", new {Id = @m.Id})">View Details</a></td>
                                 </tr>
 
 
