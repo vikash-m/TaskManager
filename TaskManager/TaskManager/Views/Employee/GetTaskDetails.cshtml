@@ -189,7 +189,12 @@
         }
         else if (extension[1] == "xls") {
             $('#fileicon').addClass('fa fa-xls');
+        } else if (extension[1] == "txt" || extension[1] == "Text") {
+            $('#fileicon').addClass('fa fa-text');
+        } else {
+            $('#fileicon').addClass('fa fa-file')
         }
+
 
     });
 
