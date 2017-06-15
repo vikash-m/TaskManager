@@ -115,8 +115,6 @@ namespace TaskManager.Controllers
             return PartialView("_AddDocument", taskDocument);
         }
 
-
-
         [HttpPost]
         public ActionResult AddDocumentDetails(TaskDocumentDm taskDocument)
         {

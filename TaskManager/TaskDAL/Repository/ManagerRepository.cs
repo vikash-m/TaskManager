@@ -87,7 +87,7 @@ namespace TaskDAL.Repository
             return taskList;
         }
 
-        public string GetTaskStatusByTaskStatusId(long taskId)
+        private string GetTaskStatusByTaskStatusId(long taskId)
         {
             var result = from data in _db.TaskStatus
                          where data.Id == taskId
@@ -97,7 +97,7 @@ namespace TaskDAL.Repository
             return taskStatus;
         }
 
-        public string GetEmployeeNameById(long id)
+        private string GetEmployeeNameById(long id)
         {
             var result = from data in _db.Userdetails
                          where data.Id == id
