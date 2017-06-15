@@ -146,6 +146,7 @@ namespace TaskDAL.Repository
                     AddedBy = m.AddedBy,
                     Id = m.Id,
                     TaskId = m.TaskId,
+                    CreateDate = m.CreateDate,
                     DocumentPath = m.DocumentPath
                 }
                 ).ToList();
