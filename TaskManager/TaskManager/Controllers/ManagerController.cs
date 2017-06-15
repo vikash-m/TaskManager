@@ -145,8 +145,9 @@ namespace TaskManager.Controllers
                 taskDocument.DocumentPath = filePath;
                 _managerService.AddTaskDocument(taskDocument, user.Id);
             }
-
-            return RedirectToAction("ListTask");
+            return user.RoleId == (long)Enum.Enum.Roles.Employee ?
+                RedirectToAction("MyTasks", "Employee")
+                : RedirectToAction("ListTask");
         }
 
         [HttpPost]
