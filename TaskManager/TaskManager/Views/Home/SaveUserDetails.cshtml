@@ -72,16 +72,16 @@
                             <label class="col-lg-2 control-label">
                                 @Html.Label("Role Name")
                             </label>
-                            <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", style = "160%" })
+                            <div class="col-lg-10" style="margin-bottom:10px;" >
+                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", @id="rolename", style = "160%" })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">
                                 @Html.Label("Manager Name")
                             </label>
-                            <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", style = "160%" })
+                            <div class="col-lg-10" style="margin-bottom:10px;" >
+                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", @id = "manager",style = "160%" })
                             </div>
                         </div>
 
@@ -104,6 +104,29 @@
              text: 'New user is added successfully.'
          });
      };
+
+
+</script>
+<script type="text/javascript">
+     $(document).ready(function () {
+         debugger;
+         $('#rolename').change(function () {
+             debugger;
+             var rolename = $('#rolename').val();
+             if (rolename == 3) {
+                 $('#manager').attr("disabled", true);
+             }
+             else {
+                 $('#manager').attr("disabled", false);
+             }
+         });
+     
+            
+
+         });
+
+         //$('#rolename').removeAttr("disabled", true);
+    
 </script>
 @*</div>*@
 
