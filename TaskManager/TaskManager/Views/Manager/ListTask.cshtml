@@ -27,7 +27,8 @@
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("CreateTask","Manager") + "'");" />Add Task <i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("CreateTask","Manager") + "'");" >Add Task <i class="fa fa-plus"></i>
+                           </button>
                         </span>
                     </div>
                 </div>
@@ -62,7 +63,15 @@
                         <td> @data.Description </td>
                         <td> @data.TaskStatus </td>
                         <td> @data.CreateDate.ToShortDateString() </td>
-                        <td> @data.ModifiedDate  </td>
+                        @if (data.ModifiedDate != null)
+                        {
+                            <td> @data.ModifiedDate.Value.ToShortDateString() </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
                         <td>
                            <a href="@Url.Action("DocumentPartialView", "Manager", new {id=data.Id})"><i class="fa fa-upload"></i></a>
                            <a href="@Url.Action("EditTask", "Manager", new {id=data.Id})"><i class="fa fa-edit"></i></a>
