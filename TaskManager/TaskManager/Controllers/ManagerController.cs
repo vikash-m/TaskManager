@@ -18,7 +18,7 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            var taskList = _managerService.GetAllTask().ToPagedList(page ?? 1, 10);
+            var taskList = _managerService.GetAllTask(user.Id).ToPagedList(page ?? 1, 10);
             return View(taskList);
         }
 
@@ -58,7 +58,14 @@ namespace TaskManager.Controllers
 
             taskDm.TaskStatusId = (long)Enum.Enum.Status.Pending;
             var result = _managerService.AddTask(taskDm, user.Id);
-
+            if (taskDm.Document == null) return RedirectToAction("ListTask");
+            var taskDocument = new TaskDocumentDm
+            {
+                TaskId = result.Id,
+                Document = taskDm.Document,
+                TaskTitle = taskDm.Title
+            };
+            SetDocumentPath(taskDocument, user);
             return RedirectToAction("ListTask");
         }
 
@@ -108,18 +115,7 @@ namespace TaskManager.Controllers
             return PartialView("_AddDocument", taskDocument);
         }
 
-        //TO DO: Add document while creating task
 
-        //public ActionResult AddDocumentPartialView(string taskName)
-        //{
-        //    //var taskName = ManagerService.GetTaskNameByTaskId(id);
-        //    var taskDocument = new TaskDocumentDm
-        //    {
-        //        //TaskId = (long)id,
-        //        TaskTitle = taskName
-        //    };
-        //    return PartialView("_AddDocument", taskDocument);
-        //}
 
         [HttpPost]
         public ActionResult AddDocumentDetails(TaskDocumentDm taskDocument)
@@ -131,6 +127,14 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+            SetDocumentPath(taskDocument, user);
+            return user.RoleId == (long)Enum.Enum.Roles.Employee ?
+                RedirectToAction("MyTasks", "Employee")
+                : RedirectToAction("ListTask");
+        }
+
+        private void SetDocumentPath(TaskDocumentDm taskDocument, UserdetailDm user)
+        {
             foreach (var file in taskDocument.Document)
             {
                 if (file == null) continue;
@@ -145,9 +149,6 @@ namespace TaskManager.Controllers
                 taskDocument.DocumentPath = filePath;
                 _managerService.AddTaskDocument(taskDocument, user.Id);
             }
-            return user.RoleId == (long)Enum.Enum.Roles.Employee ?
-                RedirectToAction("MyTasks", "Employee")
-                : RedirectToAction("ListTask");
         }
 
         [HttpPost]

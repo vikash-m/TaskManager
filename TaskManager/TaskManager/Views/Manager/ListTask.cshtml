@@ -65,8 +65,8 @@
                         <td> @data.ModifiedDate  </td>
                         <td>
                            <a href="@Url.Action("DocumentPartialView", "Manager", new {id=data.Id})"><i class="fa fa-upload"></i></a>
-                            <a href="@Url.Action("EditTask", "Manager", new {id=data.Id})"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("ViewTaskDetail", "Manager", new {id=data.Id})"><i class="fa fa-folder-open"></i></a>
+                           <a href="@Url.Action("EditTask", "Manager", new {id=data.Id})"><i class="fa fa-edit"></i></a>
+                           <a href="@Url.Action("GetTaskDetails", "Employee", new {id=data.Id})"><i class="fa fa-folder-open"></i></a>
                            <a onclick="return confirm('Are you sure you want to delete?')" href="@Url.Action("DeleteTask", "Manager", new {id=data.Id})"><i class="fa fa-trash-o" style="color:red"></i></a>
                             
                         </td>
@@ -75,6 +75,6 @@
             </tbody>
         </table>
 
-        @Html.PagedListPager(Model, page => Url.Action("ViewUserDetails", new { page }))
+        @Html.PagedListPager(Model, page => Url.Action("ListTask", new { page }))
     </div>
 </div>

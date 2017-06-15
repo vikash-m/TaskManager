@@ -38,7 +38,7 @@ namespace TaskDAL.Repository
             return employeeList;
         }
 
-        public bool AddTask(TaskDm taskDm)
+        public TaskDm AddTask(TaskDm taskDm)
         {
 
             var task = new Task
@@ -52,15 +52,17 @@ namespace TaskDAL.Repository
                 CreateDate = taskDm.CreateDate,
                 TaskStatusId = taskDm.TaskStatusId
             };
-            _db.Tasks.Add(task);
+            var data = _db.Tasks.Add(task);
             _db.SaveChanges();
-            return true;
+            taskDm.Id = data.Id;
+            return taskDm;
         }
 
-        public List<TaskDm> GetAllTask()
+        public List<TaskDm> GetAllTask(long managerId)
         {
             var result = from data in _db.Tasks
-                         where data.IsDeleted == false
+                         where data.IsDeleted == false &
+                         data.CreatedBy == managerId
                          select data;
             var taskList = new List<TaskDm>();
 

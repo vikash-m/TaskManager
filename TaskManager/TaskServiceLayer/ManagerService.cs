@@ -20,7 +20,7 @@ namespace TaskServiceLayer
             return employeeList;
         }
 
-        public bool AddTask(TaskDm task, long loginUserId)
+        public TaskDm AddTask(TaskDm task, long loginUserId)
         {
             task.CreateDate = DateTime.Now;
             task.CreatedBy = loginUserId;
@@ -36,9 +36,9 @@ namespace TaskServiceLayer
             return result;
         }
 
-        public List<TaskDm> GetAllTask()
+        public List<TaskDm> GetAllTask(long managerId)
         {
-            var taskList = _managerRepository.GetAllTask();
+            var taskList = _managerRepository.GetAllTask(managerId);
             return taskList.ToList();
         }
 
