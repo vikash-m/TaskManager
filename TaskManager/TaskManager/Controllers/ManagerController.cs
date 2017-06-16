@@ -47,40 +47,63 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTask(TaskDm taskDm)
+        public ActionResult CreateTask(TaskDm taskDm)
         {
             var user = (UserdetailDm)Session["SessionData"];
-
-            if (null == user)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Login");
+                // var taskTitle = _managerService.GetTaskNames();
+
+
+                if (null == user)
+                {
+                    return RedirectToAction("Login", "Login");
+                }
+
+                taskDm.TaskStatusId = (long)Enum.Enum.Status.Pending;
+                var result = _managerService.AddTask(taskDm, user.Id);
+                if (taskDm.Document == null) return RedirectToAction("ListTask");
+                var taskDocument = new TaskDocumentDm
+                {
+                    TaskId = result.Id,
+                    Document = taskDm.Document,
+                    TaskTitle = taskDm.Title
+                };
+                SetDocumentPath(taskDocument, user);
+                return RedirectToAction("ListTask");
             }
-
-            taskDm.TaskStatusId = (long)Enum.Enum.Status.Pending;
-            var result = _managerService.AddTask(taskDm, user.Id);
-            if (taskDm.Document == null) return RedirectToAction("ListTask");
-            var taskDocument = new TaskDocumentDm
-            {
-                TaskId = result.Id,
-                Document = taskDm.Document,
-                TaskTitle = taskDm.Title
-            };
-            SetDocumentPath(taskDocument, user);
-            return RedirectToAction("ListTask");
+            var employeeList = _managerService.GetEmployeesDetailsByManagerId(user.Id);
+            ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+            return View(taskDm);
         }
 
         [HttpPost]
-        public ActionResult UpdateTask(TaskDm taskDm)
+        public ActionResult EditTask(TaskDm taskDm)
         {
             var user = (UserdetailDm)Session["SessionData"];
-
-            if (null == user)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Login", "Login");
-            }
-            var result = _managerService.UpdateTask(taskDm);
 
-            return RedirectToAction("ListTask");
+                if (null == user)
+                {
+                    return RedirectToAction("Login", "Login");
+                }
+
+                taskDm.TaskStatusId = (long)Enum.Enum.Status.Pending;
+                _managerService.UpdateTask(taskDm);
+                if (taskDm.Document == null) return RedirectToAction("ListTask");
+                var taskDocument = new TaskDocumentDm
+                {
+                    TaskId = taskDm.Id,
+                    Document = taskDm.Document,
+                    TaskTitle = taskDm.Title
+                };
+                SetDocumentPath(taskDocument, user);
+                return RedirectToAction("ListTask");
+            }
+            var employeeList = _managerService.GetEmployeesDetailsByManagerId(user.Id);
+            ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+            return View(taskDm);
         }
 
         public ActionResult DeleteTask(int? id)
@@ -180,17 +203,26 @@ namespace TaskManager.Controllers
 
         }
 
-        public ActionResult ViewTaskDetail(int? id)
+        public ActionResult CheckForTaskTitleDuplication(string title)
         {
-            var user = (UserdetailDm)Session["SessionData"];
+            var data = _managerService.GetTaskNames(title);
 
-            if (null == user)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-
-            var taskDetail = _managerService.GetTaskAndTaskDocumentDetailByTaskId((long)id);
-            return View(taskDetail);
+            return data != null ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        //public ActionResult ViewTaskDetail(int? id)
+        //{
+        //    var user = (UserdetailDm)Session["SessionData"];
+
+        //    if (null == user)
+        //    {
+        //        return RedirectToAction("Login", "Login");
+        //    }
+
+        //    var taskDetail = _managerService.GetTaskAndTaskDocumentDetailByTaskId((long)id);
+        //    return View(taskDetail);
+        //}
     }
 }

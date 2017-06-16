@@ -34,6 +34,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,7 +48,6 @@
     <Compile Include="DomainModel\LoginUserDm.cs" />
     <Compile Include="DomainModel\RoleDm.cs" />
     <Compile Include="DomainModel\RoleModel.cs" />
-    <Compile Include="DomainModel\TaskDetail.cs" />
     <Compile Include="DomainModel\TaskDocumentDm.cs" />
     <Compile Include="DomainModel\TaskStatuDm.cs" />
     <Compile Include="DomainModel\TaskStatusCountDm.cs" />

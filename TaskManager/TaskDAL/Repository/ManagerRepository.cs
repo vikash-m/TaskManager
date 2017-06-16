@@ -108,11 +108,6 @@ namespace TaskDAL.Repository
 
         public bool UpdateTask(TaskDm task)
         {
-            //var result = from data in _db.Tasks
-            //                      where data.Id == task.Id
-            //                      select data;
-            //var taskToBeUpdated = result.FirstOrDefault();
-
             try
             {
                 using (var ctx = new TaskManagerEntities())
@@ -249,61 +244,70 @@ namespace TaskDAL.Repository
 
         public TaskStatusCountDm GetTaskCounts(long id)
         {
-            var totalTasks = _db.Tasks.Where(x => x.IsDeleted == false).Count();
+            var totalTasks = _db.Tasks.Where(x => x.IsDeleted == false & x.CreatedBy == id).Count();
             var pending = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Pending & x.CreatedBy == id & x.IsDeleted == false).Count();
             var inprogress = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.InProgress & x.CreatedBy == id & x.IsDeleted == false).Count();
             var completed = _db.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Completed & x.CreatedBy == id & x.IsDeleted == false).Count();
-            TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
-            taskStatusCount.total = totalTasks;
-            taskStatusCount.pending = pending;
-            taskStatusCount.inprogress = inprogress;
-            taskStatusCount.completed = completed;
+            var taskStatusCount = new TaskStatusCountDm
+            {
+                total = totalTasks,
+                pending = pending,
+                inprogress = inprogress,
+                completed = completed
+            };
             return taskStatusCount;
         }
 
-        public TaskDetail GetTaskAndTaskDocumentDetailsByTaskId(long? id)
+        public string GetTaskNames(string title)
         {
-            var taskList = _db.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            var taskDocumentList = _db.TaskDocuments.Where(x => x.TaskId == id).ToList();
-
-
-            var taskDm = new TaskDm
-            {
-                Id = taskList.Id,
-                Title = taskList.Title,
-                CreatedByName = GetEmployeeNameById(taskList.CreatedBy),
-                AssignedToName = GetEmployeeNameById(taskList.AssignedTo),
-                StartDate = taskList.StartDate,
-                EndDate = taskList.EndDate,
-                Description = taskList.Description,
-                CreateDate = taskList.CreateDate,
-                ModifiedDate = taskList.ModifiedDate,
-                TaskStatusId = taskList.TaskStatusId,
-                TaskStatus = GetTaskStatusByTaskStatusId((long)taskList.TaskStatusId)
-            };
-            var taskDetails = new TaskDetail
-            {
-                Task = taskDm,
-                TaskDocumentDm = new List<TaskDocumentDm>()
-
-            };
-
-            foreach (var taskDocument in taskDocumentList)
-            {
-                var list = new TaskDocumentDm()
-                {
-                    Id = (long)taskDocument.Id,
-                    DocumentPath = taskDocument.DocumentPath,
-                    CreateDate = taskDocument.CreateDate,
-                    ModifiedDate = taskDocument.ModifiedDate
-
-                };
-                taskDetails.TaskDocumentDm.Add(list);
-            }
-
-
-            return taskDetails;
+            var task = _db.Tasks.Where(x => x.Title.Equals(title));
+            return task.FirstOrDefault().Title;
         }
+        //public TaskDetail GetTaskAndTaskDocumentDetailsByTaskId(long? id)
+        //{
+        //    var taskList = _db.Tasks.Where(x => x.Id == id).FirstOrDefault();
+        //    var taskDocumentList = _db.TaskDocuments.Where(x => x.TaskId == id).ToList();
+
+
+        //    var taskDm = new TaskDm
+        //    {
+        //        Id = taskList.Id,
+        //        Title = taskList.Title,
+        //        CreatedByName = GetEmployeeNameById(taskList.CreatedBy),
+        //        AssignedToName = GetEmployeeNameById(taskList.AssignedTo),
+        //        StartDate = taskList.StartDate,
+        //        EndDate = taskList.EndDate,
+        //        Description = taskList.Description,
+        //        CreateDate = taskList.CreateDate,
+        //        ModifiedDate = taskList.ModifiedDate,
+        //        TaskStatusId = taskList.TaskStatusId,
+        //        TaskStatus = GetTaskStatusByTaskStatusId((long)taskList.TaskStatusId)
+        //    };
+        //    var taskDetails = new TaskDetail
+        //    {
+        //        Task = taskDm,
+        //        TaskDocumentDm = new List<TaskDocumentDm>()
+
+        //    };
+
+        //    foreach (var taskDocument in taskDocumentList)
+        //    {
+        //        var list = new TaskDocumentDm()
+        //        {
+        //            Id = (long)taskDocument.Id,
+        //            DocumentPath = taskDocument.DocumentPath,
+        //            CreateDate = taskDocument.CreateDate,
+        //            ModifiedDate = taskDocument.ModifiedDate
+
+        //        };
+        //        taskDetails.TaskDocumentDm.Add(list);
+        //    }
+
+
+        //    return taskDetails;
+        //}
+
+
     }
 }
 

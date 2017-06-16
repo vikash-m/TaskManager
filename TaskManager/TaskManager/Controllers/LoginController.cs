@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
 
 namespace TaskManager.Controllers
 {
-   // enum Roles { Admin = 1, Manager, Employee };
+    // enum Roles { Admin = 1, Manager, Employee };
     public class LoginController : Controller
     {
         // GET: Login
@@ -62,7 +59,8 @@ namespace TaskManager.Controllers
                     ViewBag.message = "Invalid UserName/Password";
                     return View();
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     ViewBag.message = "Invalid UserName/Password";
                     return View();
                 }
@@ -71,10 +69,10 @@ namespace TaskManager.Controllers
 
             else
             {
-                
+
                 return View();
             }
-           
+
         }
 
         public UserdetailDm UserDetailsData(int Id)
@@ -88,8 +86,8 @@ namespace TaskManager.Controllers
         {
             Session.Clear();
             Session.Abandon();
-          
-           return RedirectToAction("Login");
+
+            return RedirectToAction("Login");
         }
     }
 }

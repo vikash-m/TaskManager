@@ -79,9 +79,14 @@ namespace TaskServiceLayer
             return taskCounts;
         }
 
-        public TaskDetail GetTaskAndTaskDocumentDetailByTaskId(long? id)
+        public string GetTaskNames(string title)
         {
-            return _managerRepository.GetTaskAndTaskDocumentDetailsByTaskId(id);
+            return _managerRepository.GetTaskNames(title);
         }
+
+        //public TaskDetail GetTaskAndTaskDocumentDetailByTaskId(long? id)
+        //{
+        //    return _managerRepository.GetTaskAndTaskDocumentDetailsByTaskId(id);
+        //}
     }
 }

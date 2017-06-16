@@ -27,7 +27,7 @@
             <div class="ibox-title">
                 <h5>Edit Task</h5>
             </div>
-            @using (Html.BeginForm("UpdateTask", "Manager", FormMethod.Post))
+            @using (Html.BeginForm("EditTask", "Manager", FormMethod.Post))
             {
                 @Html.HiddenFor(model => model.Id)
                 <div class="ibox-content">
@@ -39,7 +39,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Title" })
-
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -48,7 +48,7 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
-
+                                @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div></div>
@@ -63,7 +63,7 @@
                        .Name("StartDate")
                        .Value(Model.StartDate)
                        .HtmlAttributes(new { @class = "form-control", style = "width: 280px" }))
-
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -75,8 +75,8 @@
                                 @(Html.Kendo().DatePickerFor(model => model.EndDate)
                        .Name("EndDate")
                        .Value(Model.EndDate)
-                       .HtmlAttributes(new { @class = "form-control ", style = "width: 280px" })
-                                )
+                                      .HtmlAttributes(new { @class = "form-control ", style = "width: 280px" }))
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -85,11 +85,22 @@
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Description" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Document, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10" style="margin-top: 8px">
+                                @Html.TextBoxFor(model => model.Document, new { type = "file", name = "Document", multiple = "multiple" })
+                                @Html.ValidationMessageFor(model => model.Document, "", new { @class = "text-danger" })
 
-
-                        <div><input type="submit" value="Update" class="btn btn-success " /></div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <div>
+                                <input type="submit" value="Update" class="btn btn-success "/>
+                            </div>
+                        </div>
 
 
                     </form>
