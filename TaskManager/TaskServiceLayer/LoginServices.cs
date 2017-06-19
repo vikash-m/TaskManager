@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskDAL.Repository;
+﻿using TaskDAL.Repository;
 using TaskDomain.DomainModel;
 
 namespace TaskServiceLayer
 {
-   public class LoginServices
+    public class LoginServices
     {
-        LoginRepository loginRepository = new LoginRepository();
-        public LoginUserDm getLogDetails(string Name ,string Password)
+        private readonly LoginRepository _loginRepository = new LoginRepository();
+        public LoginUserDm GetLogDetails(string name, string password)
         {
-            var logDetails = loginRepository.getLogDetails(Name, Password);
+            var logDetails = _loginRepository.GetLogDetails(name, password);
             return logDetails;
         }
-        public UserdetailDm GetUserDetailsData(int Id)
+        public UserdetailDm GetUserDetailsData(int id)
         {
-            var UserData = loginRepository.getUserDetailsData(Id);
-            return UserData;
+            var userData = _loginRepository.GetUserDetailsData(id);
+            return userData;
         }
     }
 }

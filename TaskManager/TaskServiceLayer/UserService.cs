@@ -1,8 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskDAL;
 using TaskDAL.Repository;
 using TaskDomain.DomainModel;
@@ -11,44 +8,43 @@ namespace TaskServiceLayer
 {
     public class UserService
     {
-        UserRepository userRepository = new UserRepository();
-        TaskManagerEntities taskManagerEntities = new TaskManagerEntities();
+        private readonly UserRepository _userRepository = new UserRepository();
 
-        public bool SaveUsers(UserdetailDm udm)
+        public bool SaveUsers(UserdetailDm userdetail)
         {
-           // UserdetailDm udm = new UserdetailDm();
-            bool UserList = userRepository.SaveUser(udm);
-            return UserList;
+            // UserdetailDm udm = new UserdetailDm();
+            var userList = _userRepository.SaveUser(userdetail);
+            return userList;
         }
         public List<RoleModel> DropdownRoles()
         {
-            var dropRolesRes = userRepository.DropdownRoles();
+            var dropRolesRes = _userRepository.DropdownRoles();
             return dropRolesRes;
         }
         public List<Userdetail> DropdownMgr()
         {
-            var dropMgrRes = userRepository.DropdownMgr();
+            var dropMgrRes = _userRepository.DropdownMgr();
             return dropMgrRes;
         }
         public List<UserdetailDm> ViewUser()
         {
-            var viewUsr = userRepository.ViewUser();
+            var viewUsr = _userRepository.ViewUser();
             return viewUsr;
         }
         public UserdetailDm EditUser(int id)
         {
-           var edit= userRepository.EditUser(id);
+            var edit = _userRepository.EditUser(id);
             return edit;
         }
         public bool SaveEditUser(UserdetailDm udm)
         {
-            bool UserList = userRepository.SaveEditUser(udm);
-            return UserList;
+            var userList = _userRepository.SaveEditUser(udm);
+            return userList;
         }
-        public Userdetail DeleteUser(int id)
+        public bool DeleteUser(int id)
         {
-            var del = userRepository.DeleteUser(id);
-            return del;
+            var result = _userRepository.DeleteUser(id);
+            return result;
         }
     }
 

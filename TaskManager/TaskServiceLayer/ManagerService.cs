@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskDomain.DomainModel;
 using TaskDAL.Repository;
 
@@ -39,7 +37,7 @@ namespace TaskServiceLayer
         public List<TaskDm> GetAllTask(long managerId)
         {
             var taskList = _managerRepository.GetAllTask(managerId);
-            return taskList.ToList();
+            return taskList;
         }
 
         public bool UpdateTask(TaskDm task)
@@ -79,7 +77,7 @@ namespace TaskServiceLayer
             return taskCounts;
         }
 
-        public string GetTaskNames(string title)
+        public bool GetTaskNames(string title)
         {
             return _managerRepository.GetTaskNames(title);
         }

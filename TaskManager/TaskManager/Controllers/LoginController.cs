@@ -18,68 +18,52 @@ namespace TaskManager.Controllers
         [HttpPost]
         public ActionResult Login(LoginUserDm log)
         {
-            if (ModelState.IsValid)
+            //To Do: discuss this condition
+            if (!ModelState.IsValid) return View();
+            var logServices = new LoginServices();
+            var name = log.UserName;
+            var password = log.Password;
+            try
             {
+                var result = logServices.GetLogDetails(name, password);
 
+                var id = (int)result.EmpId;
 
-                LoginServices logServices = new LoginServices();
-                string name = log.UserName;
-                string password = log.Password;
-                try
+                var userDetails = UserDetailsData(id);
+                if (userDetails != null)
                 {
-                    var result = logServices.getLogDetails(name, password);
-
-                    int Id = (int)result.EmpId;
-
-                    var UserDetails = UserDetailsData(Id);
-                    if (UserDetails != null)
+                    switch (userDetails.RoleId)
                     {
-                        if (UserDetails.RoleId == (long)EnumClass.Roles.Employee)
-                        {
+                        case (long)EnumClass.Roles.Employee:
 
-                            Session["SessionData"] = UserDetails;
+                            Session["SessionData"] = userDetails;
                             return RedirectToAction("Dashboard", "Employee");
-                        }
-                        else if (UserDetails.RoleId == (long)EnumClass.Roles.Manager)
-                        {
-                            Session["SessionData"] = UserDetails;
+                        case (long)EnumClass.Roles.Manager:
+                            Session["SessionData"] = userDetails;
                             return RedirectToAction("Dashboard", "Manager");
-                        }
-                        else if (UserDetails.RoleId == (long)EnumClass.Roles.Admin)
-                        {
+                        case (long)EnumClass.Roles.Admin:
 
-                            Session["SessionData"] = UserDetails;
+                            Session["SessionData"] = userDetails;
                             return RedirectToAction("ViewUserDetails", "Home");
-                        }
-                        else
-                        {
+                        default:
                             return RedirectToAction("");
-                        }
                     }
-                    ViewBag.message = "Invalid UserName/Password";
-                    return View();
                 }
-                catch (Exception e)
-                {
-                    ViewBag.message = "Invalid UserName/Password";
-                    return View();
-                }
-
-            }
-
-            else
-            {
-
+                ViewBag.message = "Invalid UserName/Password";
                 return View();
             }
-
+            catch (Exception)
+            {
+                ViewBag.message = "Invalid UserName/Password";
+                return View();
+            }
         }
 
-        public UserdetailDm UserDetailsData(int Id)
+        public UserdetailDm UserDetailsData(int id)
         {
-            LoginServices logServices = new LoginServices();
-            var UserDataResult = logServices.GetUserDetailsData(Id);
-            return UserDataResult;
+            var logServices = new LoginServices();
+            var userDataResult = logServices.GetUserDetailsData(id);
+            return userDataResult;
 
         }
         public ActionResult Logout()

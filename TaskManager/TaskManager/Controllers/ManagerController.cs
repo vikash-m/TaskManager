@@ -52,9 +52,6 @@ namespace TaskManager.Controllers
             var user = (UserdetailDm)Session["SessionData"];
             if (ModelState.IsValid)
             {
-                // var taskTitle = _managerService.GetTaskNames();
-
-
                 if (null == user)
                 {
                     return RedirectToAction("Login", "Login");
@@ -128,7 +125,7 @@ namespace TaskManager.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-
+            if (id == null) return View("ListTask");
             var taskName = _managerService.GetTaskNameByTaskId(id);
             var taskDocument = new TaskDocumentDm
             {
@@ -207,22 +204,7 @@ namespace TaskManager.Controllers
         {
             var data = _managerService.GetTaskNames(title);
 
-            return data != null ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
+            return data == false ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
         }
-
-
-
-        //public ActionResult ViewTaskDetail(int? id)
-        //{
-        //    var user = (UserdetailDm)Session["SessionData"];
-
-        //    if (null == user)
-        //    {
-        //        return RedirectToAction("Login", "Login");
-        //    }
-
-        //    var taskDetail = _managerService.GetTaskAndTaskDocumentDetailByTaskId((long)id);
-        //    return View(taskDetail);
-        //}
     }
 }

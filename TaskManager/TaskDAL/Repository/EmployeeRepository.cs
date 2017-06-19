@@ -1,159 +1,143 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using TaskDomain.DomainModel;
 
 namespace TaskDAL.Repository
 {
     public class EmployeeRepository
     {
-        TaskManagerEntities taskManagerEntities = new TaskManagerEntities();
-        public List<EmployeeModelDm> GetEmployee()
+        private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
+        public List<EmployeeModelDm> GetEmployee() => _taskManagerEntities.Userdetails.ToList().Select(e => new EmployeeModelDm
         {
-            var employees = taskManagerEntities.Userdetails.ToList();
-            List <EmployeeModelDm> EmployeeList = new List<EmployeeModelDm>();
-            foreach (var e in employees)
-            {
-                EmployeeModelDm em = new EmployeeModelDm();
-                em.Id = e.Id;
-                em.FirstName = e.FirstName;
-                em.LastName = e.LastName;
-                em.PhoneNumber = e.PhoneNumber;
-                em.EmailId = e.EmailId;
-                em.CreateDate = e.CreateDate;
-                em.ModifiedDate = e.ModifiedDate;
-                em.IsDeleted = e.IsDeleted;
-                em.RoleId = e.RoleId;
-
-                EmployeeList.Add(em);
-
-            }
-            return EmployeeList;
-        }
+            Id = e.Id,
+            FirstName = e.FirstName,
+            LastName = e.LastName,
+            PhoneNumber = e.PhoneNumber,
+            EmailId = e.EmailId,
+            CreateDate = e.CreateDate,
+            ModifiedDate = e.ModifiedDate,
+            IsDeleted = e.IsDeleted,
+            RoleId = e.RoleId
+        }).ToList();
 
 
-        public List<TaskStatuDm> GetStatusList()
+
+        public List<TaskStatuDm> GetStatusList() => _taskManagerEntities.TaskStatus.ToList().Select(st => new TaskStatuDm
         {
-            var statusList = taskManagerEntities.TaskStatus.ToList();
-            List<TaskStatuDm> StatusList = new List<TaskStatuDm>();
-            foreach (var st in statusList)
-            {
-                TaskStatuDm ts = new TaskStatuDm();
-                ts.Id = st.Id;
-                ts.Status = st.Status;
-                StatusList.Add(ts);
+            Id = st.Id,
+            Status = st.Status
+        }).ToList();
 
-            }
-            return StatusList;
-        }
 
-        public bool updatetask(long id, long status)
+        public bool UpdateTaskStatus(long id, long status)
         {
-            var task = taskManagerEntities.Tasks.Where(x => x.Id == id).FirstOrDefault();
-            task.TaskStatusId = status;
-            taskManagerEntities.SaveChanges();
+            var task = _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id == id);
+            if (task != null) task.TaskStatusId = status;
+            else return false;
+            _taskManagerEntities.SaveChanges();
             return true;
         }
 
-        public TaskStatusCountDm GetTaskCounts(long id)
+        public TaskStatusCountDm GetTaskCounts(long id) => new TaskStatusCountDm
         {
-            long totalTasks = taskManagerEntities.Tasks.Where(x=> x.AssignedTo == id).Count();
-            long pending = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Pending & x.AssignedTo == id).Count();
-            long inprogress = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.InProgress & x.AssignedTo == id).Count();
-            long completed = taskManagerEntities.Tasks.Where(x => x.TaskStatusId == (long)EnumClass.Status.Completed & x.AssignedTo == id).Count();
-            TaskStatusCountDm taskStatusCount = new TaskStatusCountDm();
-            taskStatusCount.total = totalTasks;
-            taskStatusCount.pending = pending;
-            taskStatusCount.inprogress = inprogress;
-            taskStatusCount.completed = completed;
-            return taskStatusCount;
-        }
+            total = _taskManagerEntities.Tasks.Count(x => x.AssignedTo == id),
+            pending = _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == (long)EnumClass.Status.Pending & x.AssignedTo == id),
+            inprogress = _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == (long)EnumClass.Status.InProgress & x.AssignedTo == id),
+            completed = _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == (long)EnumClass.Status.Completed & x.AssignedTo == id)
+        };
 
 
         public List<TaskDm> GetEmployeeTasks(long id)
         {
-            var employeeTasks = taskManagerEntities.Tasks.Where(x=> x.AssignedTo==id).ToList();
-            List<TaskDm> EmployeeTaskList = new List<TaskDm>();
+            var employeeTasks = _taskManagerEntities.Tasks.Where(x => x.AssignedTo == id).ToList();
+            var employeeTaskList = new List<TaskDm>();
             foreach (var et in employeeTasks)
             {
-                TaskDm emtask = new TaskDm();
-                emtask.Id = et.Id;
-                emtask.Title = et.Title;
-                emtask.TaskStatusId = et.TaskStatusId;
-                emtask.StartDate = et.StartDate;
-                emtask.EndDate = et.EndDate;
-                emtask.CreatedBy = et.CreatedBy;
-                emtask.AssignedTo = et.AssignedTo;
-                emtask.CreateDate = et.CreateDate;
-                emtask.ModifiedDate = et.ModifiedDate;
-                emtask.IsDeleted = et.IsDeleted;
-                emtask.Description = et.Description;
-                emtask.TaskStatusId = et.TaskStatusId;
-               
-
-                var createdBy = taskManagerEntities.Userdetails.Where(x => x.Id == et.CreatedBy).FirstOrDefault();
-                string createdByName = createdBy.FirstName;
-                if(createdBy.LastName != null)
+                var emtask = new TaskDm
                 {
-                    createdByName = createdByName + " " + createdBy.LastName;
-                }
-                emtask.CreatedByName = createdByName;
+                    Id = et.Id,
+                    Title = et.Title,
+                    TaskStatusId = et.TaskStatusId,
+                    StartDate = et.StartDate,
+                    EndDate = et.EndDate,
+                    CreatedBy = et.CreatedBy,
+                    AssignedTo = et.AssignedTo,
+                    CreateDate = et.CreateDate,
+                    ModifiedDate = et.ModifiedDate,
+                    IsDeleted = et.IsDeleted,
+                    Description = et.Description
 
-                var assignedTo = taskManagerEntities.Userdetails.Where(x => x.Id == et.AssignedTo).FirstOrDefault();
-                string assignedToName = assignedTo.FirstName;
-                if (assignedTo.LastName != null)
+                };
+                //emtask.TaskStatusId = et.TaskStatusId;
+
+
+                //var et1 = et;
+                var createdBy = _taskManagerEntities.Userdetails.FirstOrDefault(x => x.Id == et.CreatedBy);
+
+                if (createdBy?.LastName != null)
                 {
-                    assignedToName = assignedToName + " " + assignedTo.LastName;
+                    emtask.CreatedByName = $"{createdBy.FirstName + " " + createdBy.LastName}";
+                    // createdBy.FirstName + " " + createdBy.LastName;
                 }
 
-                string taskStatus = taskManagerEntities.TaskStatus.Where(x => x.Id == et.TaskStatusId).FirstOrDefault().Status;
-                emtask.TaskStatus = taskStatus;
-                emtask.AssignedToName = assignedToName;
-                EmployeeTaskList.Add(emtask);
 
+                var assignedTo = _taskManagerEntities.Userdetails.FirstOrDefault(x => x.Id == et.AssignedTo);
+                //var assignedToName = assignedTo.FirstName;
+                if (assignedTo?.LastName != null)
+                {
+                    emtask.AssignedToName = $"{assignedTo.FirstName + " " + assignedTo.LastName}";
+                }
+
+                var status = _taskManagerEntities.TaskStatus.FirstOrDefault(x => x.Id == et.TaskStatusId);
+                if (status != null)
+                {
+                    var taskStatus = status.Status;
+                    emtask.TaskStatus = taskStatus;
+                }
+                //emtask.AssignedToName = assignedToName;
+                employeeTaskList.Add(emtask);
             }
-            return EmployeeTaskList;
+            return employeeTaskList;
         }
 
-        public TaskDm GetTaskDetails(long Id)
+        public TaskDm GetTaskDetails(long id)
         {
             try
             {
 
 
-                var TaskResult = taskManagerEntities.Tasks.FirstOrDefault(m => m.Id == Id);
-                var TaskDocumentResult = taskManagerEntities.TaskDocuments.FirstOrDefault(m => m.TaskId == TaskResult.Id);
+                var taskResult = _taskManagerEntities.Tasks.FirstOrDefault(m => m.Id == id);
+                var assignedtoName = _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == taskResult.AssignedTo)?.FirstName;
+                var createdByName = _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == taskResult.CreatedBy)?.FirstName;
                 var taskobj = new TaskDm();
-                taskobj.Id = TaskResult.Id;
-
-
-                var assignedto = TaskResult.AssignedTo;
-                var assignedtoName = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == assignedto).FirstName;
-                taskobj.AssignedToName = assignedtoName;
-                var createdBy = TaskResult.CreatedBy;
-                var createdByName = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == createdBy).FirstName;
-
-                taskobj.CreatedByName = createdByName;
-                taskobj.Description = TaskResult.Description;
-                taskobj.StartDate = TaskResult.StartDate;
-                taskobj.Title = TaskResult.Title;
-                taskobj.EndDate = TaskResult.EndDate;
-                taskobj.TaskStatus = TaskResult.TaskStatu.Status;
-                taskobj.TaskDocuments = TaskResult.TaskDocuments.Select(m => new TaskDocumentDm()
+                if (taskResult == null) return taskobj;
                 {
-                    AddedBy = m.AddedBy,
-                    Id = m.Id,
-                    TaskId = m.TaskId,
-                    CreateDate = m.CreateDate,
-                    DocumentPath = m.DocumentPath
-                }
-                ).ToList();
+                    taskobj.Id = taskResult.Id;
+                    taskobj.AssignedToName = assignedtoName;
+                    taskobj.CreatedByName = createdByName;
+                    taskobj.Description = taskResult.Description;
+                    taskobj.StartDate = taskResult.StartDate;
+                    taskobj.Title = taskResult.Title;
+                    taskobj.EndDate = taskResult.EndDate;
+                    taskobj.TaskStatus = taskResult.TaskStatu.Status;
+                    taskobj.CreateDate = taskResult.CreateDate;
+                    taskobj.TaskDocuments = taskResult.TaskDocuments.Select(m => new TaskDocumentDm()
+                    {
+                        AddedBy = m.AddedBy,
+                        Id = m.Id,
+                        TaskId = m.TaskId,
+                        CreateDate = m.CreateDate,
+                        DocumentPath = m.DocumentPath
+                    }
+                    ).ToList();
 
+
+                }
                 return taskobj;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

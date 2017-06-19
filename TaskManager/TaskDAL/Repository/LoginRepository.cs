@@ -1,67 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskDomain.DomainModel;
 
 namespace TaskDAL.Repository
 {
     public class LoginRepository
     {
-        TaskManagerEntities taskManagerEntities = new TaskManagerEntities();
+        private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
 
-      
-        public LoginUserDm  getLogDetails(string Name ,string Password)
+
+        public LoginUserDm GetLogDetails(string name, string password)
         {
-            LoginUserDm log = new LoginUserDm();
-            var result = taskManagerEntities.LoginUsers.FirstOrDefault(m => m.UserName == Name && m.Password == Password);
-            //  var res= result.Role.RoleName;
-            if (result!=null)
-            {
-                log.UserName = result.UserName;
-                log.Password = result.Password;
-                log.RoleName = result.Role.RoleName;
-                log.EmpId = result.EmpId;
-                log.RoleId = result.RoleId;
-                return log;
-               
-            }
-           
-           
-            return null;
-
+            var log = new LoginUserDm();
+            var result = _taskManagerEntities.LoginUsers.FirstOrDefault(m => m.UserName == name && m.Password == password);
+            if (result == null) return null;
+            log.UserName = result.UserName;
+            log.Password = result.Password;
+            log.RoleName = result.Role.RoleName;
+            log.EmpId = result.EmpId;
+            log.RoleId = result.RoleId;
+            return log;
         }
-        public  UserdetailDm getUserDetailsData(int Id)
+        public UserdetailDm GetUserDetailsData(int id)
         {
-            var result = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == Id);
-            UserdetailDm UserModel = new UserdetailDm();
+            var result = _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == id);
+            var userModel = new UserdetailDm();
             try
             {
-                UserModel.Id = result.Id;
-                UserModel.FirstName = result.FirstName;
-                UserModel.LastName = result.LastName;
-                UserModel.EmailId = result.EmailId;
-                UserModel.CreateDate = result.CreateDate;
-                UserModel.ModifiedDate = result.ModifiedDate;
-                UserModel.RoleId = result.RoleId;
-                UserModel.RoleName = result.Role.RoleName;
-                UserModel.PhoneNumber = result.PhoneNumber;
-                var ManagerName = taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == Id);
-                if(ManagerName!=null)
-                {
-                    UserModel.ManagerName = ManagerName.FirstName + " " + ManagerName.LastName ;
+                if (result == null) return null;
+                userModel.Id = result.Id;
+                userModel.FirstName = result.FirstName;
+                userModel.LastName = result.LastName;
+                userModel.EmailId = result.EmailId;
+                userModel.CreateDate = result.CreateDate;
+                userModel.ModifiedDate = result.ModifiedDate;
+                userModel.RoleId = result.RoleId;
+                userModel.RoleName = result.Role.RoleName;
+                userModel.PhoneNumber = result.PhoneNumber;
+                userModel.ManagerName = _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == id) != null
+                    ? _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == id)?.FirstName + " " + _taskManagerEntities.Userdetails.FirstOrDefault(m => m.Id == id)?.LastName
+                    : "No Manager";
 
-                }
-                else
-                {
-                    UserModel.ManagerName = "No Manager";
-                }
-                return UserModel;
+                return userModel;
             }
-            catch(Exception e)
+            catch (Exception)
             {
-
             }
             return null;
 
