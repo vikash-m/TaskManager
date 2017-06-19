@@ -10,8 +10,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleId" Type="bigint" Nullable="false" />
-          <Property Name="EmpId" Type="bigint" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="EmpId" Type="int" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -22,7 +22,7 @@
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="RoleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
@@ -32,10 +32,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar(max)" Nullable="false" />
-          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
-          <Property Name="AssignedTo" Type="bigint" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="ModifyBy" Type="int" />
+          <Property Name="AssignedTo" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="datetime2" Precision="7" />
           <Property Name="EndDate" Type="datetime2" Precision="7" />
           <Property Name="Description" Type="varchar(max)" />
@@ -48,10 +49,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TaskId" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
           <Property Name="DocumentPath" Type="varchar" MaxLength="256" />
-          <Property Name="AddedBy" Type="bigint" Nullable="false" />
+          <Property Name="AddedBy" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -60,7 +61,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
@@ -70,12 +71,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="256" />
           <Property Name="PhoneNumber" Type="bigint" Nullable="false" />
           <Property Name="EmailId" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="RoleId" Type="bigint" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -106,14 +107,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Task__TaskStatus__31EC6D26">
-          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="0..1" />
+          <End Role="Userdetails" Type="Self.Userdetails" Multiplicity="0..1" />
           <End Role="Task" Type="Self.Task" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TaskStatus">
+            <Principal Role="Userdetails">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Task">
-              <PropertyRef Name="TaskStatusId" />
+              <PropertyRef Name="ModifyBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -169,7 +170,7 @@
             <End Role="LoginUser" EntitySet="LoginUser" />
           </AssociationSet>
           <AssociationSet Name="FK__Task__TaskStatus__31EC6D26" Association="Self.FK__Task__TaskStatus__31EC6D26">
-            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Userdetails" EntitySet="Userdetails" />
             <End Role="Task" EntitySet="Task" />
           </AssociationSet>
           <AssociationSet Name="FK__TaskDocum__Added__36B12243" Association="Self.FK__TaskDocum__Added__36B12243">
@@ -233,6 +234,8 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="TaskStatu" Relationship="Self.FK__Task__TaskStatus__31EC6D26" FromRole="Task" ToRole="TaskStatus" />
           <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__Task___35BCFE0A" FromRole="Task" ToRole="TaskDocument" />
+          <Property Name="ModifyBy" Type="Int32" />
+          <NavigationProperty Name="Userdetail" Relationship="TaskManagerModel.FK__Task__TaskStatus__31EC6D261" FromRole="Task" ToRole="Userdetail" />
         </EntityType>
         <EntityType Name="TaskDocument">
           <Key>
@@ -276,6 +279,7 @@
           <NavigationProperty Name="Role" Relationship="Self.FK__Userdetai__Role___267ABA7A" FromRole="Userdetails" ToRole="Role" />
           <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__Added__36B12243" FromRole="Userdetails" ToRole="TaskDocument" />
           <Property Name="ManagerId" Type="Int64" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagerModel.FK__Task__TaskStatus__31EC6D261" FromRole="Userdetail" ToRole="Task" />
         </EntityType>
         <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
           <End Role="Userdetails" Type="Self.Userdetail" Multiplicity="1" />
@@ -380,7 +384,23 @@
             <End Role="Userdetails" EntitySet="Userdetails" />
             <End Role="TaskDocument" EntitySet="TaskDocuments" />
           </AssociationSet>
+          <AssociationSet Name="FK__Task__TaskStatus__31EC6D261" Association="TaskManagerModel.FK__Task__TaskStatus__31EC6D261">
+            <End Role="Userdetail" EntitySet="Userdetails" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__Task__TaskStatus__31EC6D261">
+          <End Type="TaskManagerModel.Userdetail" Role="Userdetail" Multiplicity="0..1" />
+          <End Type="TaskManagerModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userdetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ModifyBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -415,6 +435,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TaskManagerModel.Task">
               <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
