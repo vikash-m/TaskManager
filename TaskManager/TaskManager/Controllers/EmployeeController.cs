@@ -1,74 +1,176 @@
 ﻿using System.IO;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
-using TaskServiceLayer;
 using PagedList;
-
+using System.Configuration;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System;
+using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace TaskManager.Controllers
 {
     public class EmployeeController : Controller
     {
-        // GET: Employee
-        private readonly EmployeeService _employeeService = new EmployeeService();
+        static HttpClient client = new HttpClient();
+        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/EmployeeService";
+        private string urlParameters;
 
-        public ActionResult Dashboard()
+        public async Task<ActionResult> Dashboard()
         {
-            var user = (UserdetailDm)Session["SessionData"];
-            if (null == user) return RedirectToAction("Login", "Login");
-            var taskStatusCounts = _employeeService.GetTaskCounts(user.Id);
-            return View(taskStatusCounts);
+            try
+            {
+                var user = (UserdetailDm)Session["SessionData"];
+                if (null == user) return RedirectToAction("Login", "Login");
+
+                var id = user.Id;
+                string URL = serviceLayerUrl + "/GetTaskCounts";
+                HttpClient client = new HttpClient();
+                urlParameters = "?id=" + id;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
+                    return View("dataObjects");
+                }
+                return null;
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
 
-        public ActionResult MyTasks(int? page)
+        public async Task<ActionResult> MyTasks(int? page)
         {
-            var user = (UserdetailDm)Session["SessionData"];
-            if (null == user) return RedirectToAction("Login", "Login");
-            var employeeTasks = _employeeService.GetEmployeeTasks(user.Id).ToPagedList(page ?? 1, 5);
-            return View(employeeTasks);
+            try
+            {
+                var user = (UserdetailDm)Session["SessionData"];
+                if (null == user) return RedirectToAction("Login", "Login");
+
+                var id = user.Id;
+                string URL = serviceLayerUrl + "/GetEmployeeTasks";
+                HttpClient client = new HttpClient();
+                urlParameters = "?id=" + id;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5); ;
+                    return View("dataObjects");
+                }
+                return null;
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
         [HttpPost]
-        public JsonResult GetStatusList()
+        public async Task<JsonResult> GetStatusList()
         {
-            var statusList = _employeeService.GetStatusList();
-            return Json(new { data = statusList });
+            try
+            {
+                string URL = serviceLayerUrl + "/GetStatusList";
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(URL);
+                if (response.IsSuccessStatusCode)
+                {
+                    var statusList = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
+                    return Json(new { data = statusList });
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
         [HttpPost]
-        public bool UpdateTask(long id, long status)
+        public async Task<bool> UpdateTask(long id, long status)
         {
-            var result = _employeeService.UpdateTask(id, status);
-            return result;
+            try
+            {
+                string URL = serviceLayerUrl + "/UpdateTask";
+                HttpClient client = new HttpClient();
+                urlParameters = "?id=" + id + "&status=" + status;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         [HttpGet]
-        public ActionResult GetTaskDetails(long id)
+        public async Task<ActionResult> GetTaskDetails(long id)
         {
-            var user = (UserdetailDm)Session["SessionData"];
-            if (null == user) return RedirectToAction("Login", "Login");
-            var singleTaskDetails = _employeeService.GetTaskDetails(id);
-            return View(singleTaskDetails);
-            // var dir = new System.IO.DirectoryInfo(Server.MapPath("~/App_Data/uploads/"));
-            // System.IO.FileInfo[] fileNames = dir.GetFiles("*.*");
-            // List<string> items = new List<string>();
-            // foreach (var file in fileNames)
-            // {
-            //     items.Add(file.Name);
-            // }
-            //// ViewBag.Downloads = items;
-            // List<string> extension = new List<string>();
-            // extension.Add("png");
-            // extension.Add("pdf");
-            // extension.Add("text");
-            // ViewBag.Downloads = extension;
+            try
+            {
+                var user = (UserdetailDm)Session["SessionData"];
+                if (null == user) return RedirectToAction("Login", "Login");
 
+                string URL = serviceLayerUrl + "/GetTaskDetails";
+                HttpClient client = new HttpClient();
+                urlParameters = "?id=" + id;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<TaskDm>().Result;
+                    return View("dataObjects");
+                }
+                return null;
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
 
 
         public FileResult Download(string fileName)
-
-
         {
-            // var FileVirtualPath = "~/App_Data/Uploads/" + FileName;
+            
             return File(fileName, "application/force-download", Path.GetFileName(fileName));
         }
     }

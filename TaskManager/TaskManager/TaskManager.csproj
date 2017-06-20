@@ -67,6 +67,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -118,6 +121,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TaskServiceLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TaskServiceLayer\bin\Debug\TaskServiceLayer.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -510,6 +517,7 @@
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pnotify.custom.min.css" />
     <Content Include="css\animate.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
@@ -1345,6 +1353,7 @@
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-TW.min.js" />
     <Content Include="Scripts\kendo\pako_deflate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\pnotify.custom.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Template\EmailTemplate.html" />
@@ -2017,10 +2026,6 @@
     <ProjectReference Include="..\TaskDomain\TaskDomain.csproj">
       <Project>{333a5c35-6147-4c11-919a-2f6fb7973560}</Project>
       <Name>TaskDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TaskServiceLayer\TaskServiceLayer.csproj">
-      <Project>{91ffcd0c-e309-42df-bf0a-4b7e5e99a95b}</Project>
-      <Name>TaskServiceLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

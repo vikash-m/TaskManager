@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Configuration;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
@@ -8,6 +12,10 @@ namespace TaskManager.Controllers
     // enum Roles { Admin = 1, Manager, Employee };
     public class LoginController : Controller
     {
+        static HttpClient client = new HttpClient();
+        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/LoginService";
+        private string urlParameters;
+
         // GET: Login
         [HttpGet]
         public ActionResult Login()
@@ -16,17 +24,28 @@ namespace TaskManager.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(LoginUserDm log)
+        public async Task<ActionResult> Login(LoginUserDm log)
         {
             //To Do: discuss this condition
             if (!ModelState.IsValid) return View();
-            var logServices = new LoginServices();
-            var name = log.UserName;
-            var password = log.Password;
+
             try
             {
-                var result = logServices.GetLogDetails(name, password);
+                var name = log.UserName;
+                var password = log.Password;
 
+                string URL = serviceLayerUrl + "/GetLogDetails";
+                HttpClient client = new HttpClient();
+                urlParameters = "?name=" + name + "&password=" + password;
+                client.BaseAddress = new Uri(URL);
+
+                // Add an Accept header for JSON format.
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var result = response.Content.ReadAsAsync<LoginUserDm>().Result;
                 var id = (int)result.EmpId;
 
                 var userDetails = UserDetailsData(id);
