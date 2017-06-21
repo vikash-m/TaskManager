@@ -12,9 +12,9 @@ using System.Collections.Generic;
 
 namespace TaskManager.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
-        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/UserService";
+        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/AdminService";
         private string urlParameters;
 
         [HttpGet]

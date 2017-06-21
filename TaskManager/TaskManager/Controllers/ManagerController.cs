@@ -2,7 +2,6 @@
 using System.IO;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
-using TaskServiceLayer;
 using System.Net.Http;
 using System.Configuration;
 using System;

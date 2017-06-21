@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
-using TaskServiceLayer;
 
 namespace TaskManager.Controllers
 {
