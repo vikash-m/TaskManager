@@ -177,9 +177,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\EmployeeServiceController.cs" />
-    <Compile Include="Controllers\LoginSreviceController.cs" />
+    <Compile Include="Controllers\LoginServiceController.cs" />
     <Compile Include="Controllers\ManagerServiceController.cs" />
-    <Compile Include="Controllers\UserServiceController.cs" />
+    <Compile Include="Controllers\AdminServiceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -262,7 +262,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\TaskManager\TaskManager\TaskDomain\TaskDomain.csproj">
+    <ProjectReference Include="..\..\TaskManager\TaskDomain\TaskDomain.csproj">
       <Project>{333a5c35-6147-4c11-919a-2f6fb7973560}</Project>
       <Name>TaskDomain</Name>
     </ProjectReference>

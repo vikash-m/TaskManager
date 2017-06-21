@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using System.IO;
+using System.Net.Http;
 using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using TaskServiceLayer;
@@ -8,6 +9,7 @@ namespace TaskManager.Controllers
     public class ManagerController : Controller
     {
         private readonly ManagerService _managerService = new ManagerService();
+
         // GET: Manager
         public ActionResult ListTask(int? page)
         {
@@ -19,6 +21,7 @@ namespace TaskManager.Controllers
             }
 
             var taskList = _managerService.GetAllTask(user.Id).ToPagedList(page ?? 1, 10);
+
             return View(taskList);
         }
 
@@ -86,7 +89,7 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
-                taskDm.TaskStatusId = (long)Enum.Enum.Status.Pending;
+                taskDm.TaskStatusId = (long)EnumClass.Status.Pending;
                 _managerService.UpdateTask(taskDm);
                 if (taskDm.Document == null) return RedirectToAction("ListTask");
                 var taskDocument = new TaskDocumentDm

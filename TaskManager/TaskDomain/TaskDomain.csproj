@@ -43,11 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainModel\EmployeeModelDm.cs" />
     <Compile Include="DomainModel\EnumClass.cs" />
     <Compile Include="DomainModel\LoginUserDm.cs" />
     <Compile Include="DomainModel\RoleDm.cs" />
-    <Compile Include="DomainModel\RoleModel.cs" />
     <Compile Include="DomainModel\TaskDocumentDm.cs" />
     <Compile Include="DomainModel\TaskStatuDm.cs" />
     <Compile Include="DomainModel\TaskStatusCountDm.cs" />

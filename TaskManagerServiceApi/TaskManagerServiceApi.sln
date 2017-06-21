@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerServiceApi", "TaskManagerServiceApi\TaskManagerServiceApi.csproj", "{F170EB9B-971F-4C1A-A111-4F2D2A2B3797}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskDomain", "..\..\..\TaskManager\TaskManager\TaskDomain\TaskDomain.csproj", "{333A5C35-6147-4C11-919A-2F6FB7973560}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskDomain", "..\TaskManager\TaskDomain\TaskDomain.csproj", "{333A5C35-6147-4C11-919A-2F6FB7973560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

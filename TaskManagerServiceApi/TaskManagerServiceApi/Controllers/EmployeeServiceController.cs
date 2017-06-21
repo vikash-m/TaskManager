@@ -2,196 +2,159 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
 using TaskDomain.DomainModel;
 
 namespace TaskManagerServiceApi.Controllers
 {
+    [RoutePrefix("employees")]
     public class EmployeeServiceController : ApiController
     {
         // GET: EmployeeService
-        static HttpClient client = new HttpClient();
-        private static string dalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"] + "/Employee";
-        private string urlParameters;
+        private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
-        public async Task<List<EmployeeModelDm>> GetEmployees()
+        [HttpGet, Route("")]
+        public async Task<List<UserdetailDm>> GetEmployees()
         {
+            var employee = new List<UserdetailDm>();
             try
             {
-                string URL = dalLayerUrl + "/GetEmployee";
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync("/employees");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(URL);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<EmployeeModelDm>>().Result;
-                    return dataObjects;
-                }
-                
-                return null;
+                    employee = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
+
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return employee;
         }
 
-        public async Task<List<TaskDm>> GetEmployeeTasks(long id)
+        [HttpGet, Route("{employeeId}/tasks")]
+        public async Task<List<TaskDm>> GetEmployeeTasks(int employeeId)
         {
+            var employeeTask = new List<TaskDm>();
             try
             {
-                string URL = dalLayerUrl + "/GetEmployeeTasks";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/employees/{employeeId}/tasks");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                    return dataObjects;
-                }
+                    employeeTask = response.Content.ReadAsAsync<List<TaskDm>>().Result;
 
-                return null;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return employeeTask;
         }
 
+        [HttpGet, Route("status")]
         public async Task<List<TaskStatuDm>> GetStatusList()
         {
+            var taskStatus = new List<TaskStatuDm>();
             try
             {
-                string URL = dalLayerUrl + "/GetStatusList";
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync("/employees/task-status");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(URL);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
-                    return dataObjects;
-                }
+                    taskStatus = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
 
-                return null;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskStatus;
         }
 
-        public async Task<TaskStatusCountDm> GetTaskCounts(long id)
+        [HttpGet, Route("{employeeId}/tasks/count")]
+        public async Task<TaskStatusCountDm> GetTaskCounts(int employeeId)
         {
+            var taskCount = new TaskStatusCountDm();
             try
             {
-                string URL = dalLayerUrl + "/GetTaskCounts";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var pendingCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
+                var inProgressCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
+                var completedCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
+                if (pendingCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
-                    return dataObjects;
-                }
+                    taskCount.Pending = pendingCount.Content.ReadAsAsync<int>().Result;
 
-                return null;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> UpdateTask(long id, long status)
-        {
-            try
-            {
-                string URL = dalLayerUrl + "/UpdateTaskStatus";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id + "&status=" + status;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async  Task<TaskDm> GetTaskDetails(long Id)
-        {
-            try
-            {
-                string URL = dalLayerUrl + "/GetTaskDetails";
-                HttpClient client = new HttpClient();
-                urlParameters = "?Id=" + Id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
+                if (inProgressCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<TaskDm>().Result;
-                    return dataObjects;
-                }
+                    taskCount.Inprogress = inProgressCount.Content.ReadAsAsync<int>().Result;
 
-                return null;
+                if (completedCount.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
+                taskCount.Total = taskCount.Pending + taskCount.Inprogress + taskCount.Completed;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskCount;
         }
-    
-}
+
+        [HttpPost, Route("{employeeId}")]
+        public async Task<bool> UpdateTask(int employeeId, int status)
+        {
+            var updateStatus = new bool();
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.PostAsJsonAsync($"/employees/{employeeId}", status);
+
+                if (response.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    updateStatus = response.Content.ReadAsAsync<bool>().Result;
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return updateStatus;
+        }
+
+        [HttpGet, Route("tasks/{taskId}")]
+        public async Task<TaskDm> GetTaskDetails(int taskId)
+        {
+            var taskDetail = new TaskDm();
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/employees/{taskId}");
+
+                if (response.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    taskDetail = response.Content.ReadAsAsync<TaskDm>().Result;
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return taskDetail;
+
+        }
+    }
 }

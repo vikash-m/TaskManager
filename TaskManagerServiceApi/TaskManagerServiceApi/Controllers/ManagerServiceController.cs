@@ -1,350 +1,268 @@
-﻿using System.Web.Mvc;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Configuration;
 using System.Net.Http;
 using TaskDomain.DomainModel;
-using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
 namespace TaskManagerServiceApi.Controllers
 {
+    [RoutePrefix("manager")]
     public class ManagerServiceController : ApiController
     {
-        static HttpClient client = new HttpClient();
-        private static string dalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"] + "/Manager";
-        private string urlParameters;
+        private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
-        public async Task<List<UserdetailDm>> GetEmployeesDetailsByManagerId(long ManagerId)
+        [HttpGet, Route("{managerId}/employees")]
+        public async Task<List<UserdetailDm>> GetEmployeesDetailsByManagerId(int managerId)
         {
+            var employee = new List<UserdetailDm>();
             try
             {
-                string URL = dalLayerUrl + "/GetEmployeesDetailsByManagerId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?ManagerId=" + ManagerId;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/employees?managerId={managerId}");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
-                    return dataObjects;
-                }
+                    employee = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
 
-                return null;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return employee;
         }
 
-        public async Task<TaskDm> AddTask(TaskDm task, long loginUserId)
+        [HttpPost, Route("")]
+        public async Task<TaskDm> CreateTask(TaskDm task, int loginUserId)
         {
+            var taskResult = new TaskDm();
             try
             {
                 task.CreateDate = DateTime.Now;
                 task.CreatedBy = loginUserId;
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.PostAsJsonAsync($"/manager/task", task);
 
-                string URL = dalLayerUrl + "/AddTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?task=" + task;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URL, task);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<TaskDm>().Result;
-                    return dataObjects;
-                }
+                    taskResult = response.Content.ReadAsAsync<TaskDm>().Result;
 
-                return null;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskResult;
         }
 
-        public async Task<bool> AddTaskDocument(TaskDocumentDm taskDocument, long loginUserId)
+        [HttpPost, Route("document")]
+        public async Task<bool> AddTaskDocument(TaskDocumentDm taskDocument, int loginUserId)
         {
+            var documentUploadStatus = new bool();
             try
             {
                 taskDocument.CreateDate = DateTime.Now;
                 taskDocument.AddedBy = loginUserId;
 
-                string URL = dalLayerUrl + "/AddTaskDocument";
-                HttpClient client = new HttpClient();
-                urlParameters = "?taskDocument=" + taskDocument;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.PostAsJsonAsync($"/manager/document", taskDocument);
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URL, taskDocument);
                 if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                    // Parse the response body. Blocking!
+                    documentUploadStatus = response.Content.ReadAsAsync<bool>().Result;
 
-                return false;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return documentUploadStatus;
         }
 
-        public async Task<List<TaskDm>> GetAllTask(long managerId)
+        [HttpGet, Route("{managerId}/tasks")]
+        public async Task<List<TaskDm>> GetAllTask(int managerId)
         {
+            var tasks = new List<TaskDm>();
             try
             {
-                string URL = dalLayerUrl + "/GetAllTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?managerId=" + managerId;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/{managerId}/tasks");
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                    return dataObjects;
-                }
+                    tasks = response.Content.ReadAsAsync<List<TaskDm>>().Result;
 
-                return null;
+
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return tasks;
         }
 
-        public async Task<bool> UpdateTask(TaskDm task)
+        [HttpPut, Route("{id}")]
+        public async Task<bool> UpdateTask(TaskDm task, LoginUserDm loginUserDm)
         {
+            var taskUpdateStatus = new bool();
             try
             {
                 task.ModifiedDate = DateTime.Now;
-
-                string URL = dalLayerUrl + "/UpdateTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?task=" + task;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URL, task);
+                task.ModifiedBy = loginUserDm.Id;
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.PostAsJsonAsync($"/manager/document", task);
                 if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> DeleteTask(long? id)
-        {
-            try
-            {
-               
-                string URL = dalLayerUrl + "/DeleteTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<string> GetTaskNameByTaskId(long? id)
-        {
-            try
-            {
-                string URL = dalLayerUrl + "/GetTaskNameByTaskId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<string>().Result;
-                    return dataObjects;
-                }
-
-                return null;
+                    taskUpdateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskUpdateStatus;
         }
 
-        public async Task<bool> DeleteTaskDocument(TaskDocumentDm taskDocument)
+        [HttpDelete, Route("{id}")]
+        public async Task<bool> DeleteTask(int? id, LoginUserDm loginUserDm)
         {
+            var taskDeleteStatus = new bool();
             try
             {
-                taskDocument.ModifiedDate = DateTime.Now;
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var taskToBeDeleted = await client.GetAsync($"/manager/task/{id}");
+                var task = taskToBeDeleted.Content.ReadAsAsync<TaskDm>();
+                task.Result.ModifiedDate = DateTime.Now;
+                //task.Result.ModifiedBy = loginUserDm.Id;
 
-                string URL = dalLayerUrl + "/DeleteTaskDocument";
-                HttpClient client = new HttpClient();
-                urlParameters = "?taskDocument=" + taskDocument;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync(URL, taskDocument);
+                var response = await client.PostAsJsonAsync($"/manager/document", task);
                 if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<TaskDm> GetTaskByTaskId(long? id)
-        {
-            try
-            {
-                string URL = dalLayerUrl + "/GetTaskByTaskId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<TaskDm>().Result;
-                    return dataObjects;
-                }
-
-                return null;
+                    taskDeleteStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskDeleteStatus;
         }
 
-        public async Task<TaskStatusCountDm> GetTaskCounts(long id)
+        [HttpGet, Route("tasks/{taskId}/task-name")]
+        public async Task<string> GetTaskNameByTaskId(int taskId)
         {
+            var taskName = string.Empty;
             try
             {
-                string URL = dalLayerUrl + "/GetTaskCounts";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/tasks/{taskId}/task-name");
                 if (response.IsSuccessStatusCode)
-                {
                     // Parse the response body. Blocking!
-                    var dataObjects = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
-                    return dataObjects;
-                }
-
-                return null;
+                    taskName = response.Content.ReadAsAsync<string>().Result;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return taskName;
         }
 
-        public async Task<bool> GetTaskNames(string title)
+
+        //public async Task<bool> DeleteTaskDocument(TaskDocumentDm taskDocument)
+        //{
+        //    var taskDeleteStatus = new bool();
+        //    try
+        //    {
+        //        var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+        //        var taskToBeDeleted = await client.GetAsync($"/manager/task/{id}");
+        //        var task = taskToBeDeleted.Content.ReadAsAsync<TaskDm>();
+        //        task.Result.ModifiedDate = DateTime.Now;
+        //        //task.Result.ModifiedBy = loginUserDm.Id;
+
+        //        var response = await client.PostAsJsonAsync($"/manager/document", task);
+        //        if (response.IsSuccessStatusCode)
+        //            // Parse the response body. Blocking!
+        //            taskDeleteStatus = response.Content.ReadAsAsync<bool>().Result;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    return taskDeleteStatus;
+        //}
+
+        [HttpGet, Route("tasks/{taskId}")]
+        public async Task<TaskDm> GetTaskByTaskId(int? taskId)
         {
+            var task = new TaskDm();
             try
             {
-                string URL = dalLayerUrl + "/GetTaskNames";
-                HttpClient client = new HttpClient();
-                urlParameters = "?title=" + title;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/tasks/{taskId}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    task = response.Content.ReadAsAsync<TaskDm>().Result;
                 }
-
-                return false;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
+            return task;
+        }
+
+        [HttpGet, Route("{employeeId}/tasks/count")]
+        public async Task<TaskStatusCountDm> GetTaskCounts(int employeeId)
+        {
+            var taskCount = new TaskStatusCountDm();
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var pending = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
+                var inProgress = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
+                var completed = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
+                if (pending.IsSuccessStatusCode)
+                {
+                    taskCount.Pending = pending.Content.ReadAsAsync<int>().Result;
+                }
+                if (inProgress.IsSuccessStatusCode)
+                {
+                    taskCount.Inprogress = pending.Content.ReadAsAsync<int>().Result;
+                }
+                if (completed.IsSuccessStatusCode)
+                {
+                    taskCount.Completed = pending.Content.ReadAsAsync<int>().Result;
+                }
+                taskCount.Total = taskCount.Pending + taskCount.Inprogress + taskCount.Completed;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return taskCount;
+        }
+
+        [HttpGet, Route("tasks/task/{title}")]
+        public async Task<bool> CheckForTaskName(string title)
+        {
+            var taskNameExist = new bool();
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/tasks/tasks/{title}");
+                if (response.IsSuccessStatusCode)
+                {
+                    taskNameExist = response.Content.ReadAsAsync<bool>().Result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return taskNameExist;
         }
     }
 }

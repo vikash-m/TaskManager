@@ -5,7 +5,7 @@ namespace TaskDomain.DomainModel
 {
     public class TaskStatuDm
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Status { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
