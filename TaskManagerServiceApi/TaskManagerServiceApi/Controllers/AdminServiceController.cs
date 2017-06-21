@@ -14,7 +14,7 @@ namespace TaskManagerServiceApi.Controllers
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
         [HttpPost, Route("")]
-        public async Task<bool> CreateUsers(UserdetailDm userdetail)
+        public async Task<bool> CreateUsers(UserDetailDm userdetail)
         {
             var createStatus = new bool();
             try
@@ -54,9 +54,9 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("manager")]
-        public async Task<List<UserdetailDm>> GetManagerByRoleId()
+        public async Task<List<UserDetailDm>> GetManagerByRoleId()
         {
-            var managers = new List<UserdetailDm>();
+            var managers = new List<UserDetailDm>();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -64,7 +64,7 @@ namespace TaskManagerServiceApi.Controllers
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    managers = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
+                    managers = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
             }
             catch (Exception)
             {
@@ -74,9 +74,9 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("user-detail")]
-        public async Task<List<UserdetailDm>> GetUserDetail()
+        public async Task<List<UserDetailDm>> GetUserDetail()
         {
-            var users = new List<UserdetailDm>();
+            var users = new List<UserDetailDm>();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -84,7 +84,7 @@ namespace TaskManagerServiceApi.Controllers
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    users = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
+                    users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
             }
             catch (Exception)
             {
@@ -94,9 +94,9 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("{employeeId}")]
-        public async Task<UserdetailDm> EditUser(int employeeId)
+        public async Task<UserDetailDm> EditUser(int employeeId)
         {
-            var user = new UserdetailDm();
+            var user = new UserDetailDm();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -104,7 +104,7 @@ namespace TaskManagerServiceApi.Controllers
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    user = response.Content.ReadAsAsync<UserdetailDm>().Result;
+                    user = response.Content.ReadAsAsync<UserDetailDm>().Result;
             }
             catch (Exception)
             {
@@ -114,7 +114,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public async Task<bool> UpdateUserDetails(UserdetailDm userdetailDm)
+        public async Task<bool> UpdateUserDetails(UserDetailDm userdetailDm)
         {
             var updateStatus = new bool();
             try
@@ -136,7 +136,7 @@ namespace TaskManagerServiceApi.Controllers
         [HttpDelete, Route("{id}")]
         public async Task<bool> DeleteUser(int id)
         {
-            var user = new UserdetailDm();
+            var user = new UserDetailDm();
             var updateStatus = new bool();
             try
             {

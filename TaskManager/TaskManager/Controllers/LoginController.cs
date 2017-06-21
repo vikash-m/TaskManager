@@ -12,8 +12,7 @@ namespace TaskManager.Controllers
     // enum Roles { Admin = 1, Manager, Employee };
     public class LoginController : Controller
     {
-        static HttpClient client = new HttpClient();
-        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/LoginService";
+        private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/LoginService";
         private string urlParameters;
 
         // GET: Login
@@ -34,7 +33,7 @@ namespace TaskManager.Controllers
                 var name = log.UserName;
                 var password = log.Password;
 
-                string URL = serviceLayerUrl + "/GetLogDetails";
+                string URL = ServiceLayerUrl + "/GetLogDetails";
                 HttpClient client = new HttpClient();
                 urlParameters = "?name=" + name + "&password=" + password;
                 client.BaseAddress = new Uri(URL);
@@ -51,16 +50,16 @@ namespace TaskManager.Controllers
                 var userDetails = UserDetailsData(id);
                 if (userDetails != null)
                 {
-                    switch (userDetails.RoleId)
+                    switch (userDetails.Result.RoleId)
                     {
-                        case (long)EnumClass.Roles.Employee:
-
+                        case (int)EnumClass.Roles.Employee:
                             Session["SessionData"] = userDetails;
                             return RedirectToAction("Dashboard", "Employee");
-                        case (long)EnumClass.Roles.Manager:
+
+                        case (int)EnumClass.Roles.Manager:
                             Session["SessionData"] = userDetails;
                             return RedirectToAction("Dashboard", "Manager");
-                        case (long)EnumClass.Roles.Admin:
+                        case (int)EnumClass.Roles.Admin:
 
                             Session["SessionData"] = userDetails;
                             return RedirectToAction("ViewUserDetails", "Home");
@@ -78,11 +77,26 @@ namespace TaskManager.Controllers
             }
         }
 
-        public UserdetailDm UserDetailsData(int id)
+        public async Task<UserDetailDm> UserDetailsData(int id)
         {
-            var logServices = new LoginServices();
-            var userDataResult = logServices.GetUserDetailsData(id);
-            return userDataResult;
+
+            var userDetail = new UserDetailDm();
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+                var response = await client.GetAsync($"/login/{id}");
+
+                if (response.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
+            }
+            catch
+            {
+                throw;
+            }
+
+            return userDetail;
+
 
         }
         public ActionResult Logout()

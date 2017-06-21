@@ -21,7 +21,7 @@ namespace TaskManager.Controllers
         {
             try
             {
-                var user = (UserdetailDm)Session["SessionData"];
+                var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
                 var id = user.Id;
@@ -53,7 +53,7 @@ namespace TaskManager.Controllers
         {
             try
             {
-                var user = (UserdetailDm)Session["SessionData"];
+                var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
                 var id = user.Id;
@@ -140,7 +140,7 @@ namespace TaskManager.Controllers
         {
             try
             {
-                var user = (UserdetailDm)Session["SessionData"];
+                var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
                 string URL = serviceLayerUrl + "/GetTaskDetails";

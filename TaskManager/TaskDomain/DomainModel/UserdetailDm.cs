@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TaskDomain.DomainModel
 {
-    public class UserdetailDm
+    public class UserDetailDm
     {
         public int Id { get; set; }
         [Display(Name = "Name")]

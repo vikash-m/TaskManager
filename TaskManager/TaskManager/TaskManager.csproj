@@ -2019,10 +2019,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskDAL\TaskDAL.csproj">
-      <Project>{025ce417-2963-487a-b248-5144b8684f60}</Project>
-      <Name>TaskDAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaskDomain\TaskDomain.csproj">
       <Project>{333a5c35-6147-4c11-919a-2f6fb7973560}</Project>
       <Name>TaskDomain</Name>

@@ -33,7 +33,7 @@
     </script>
 </head>
 @{
-    var SessionResult = (UserdetailDm)Session["SessionData"];
+    var SessionResult = (UserDetailDm)Session["SessionData"];
     var Name = SessionResult.FirstName + " " + SessionResult.LastName;
     var singleCharacter = Name[0];
     var Role = SessionResult.RoleName;

@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
-using TaskDAL;
+
 
 namespace TaskManager.Controllers
 {
     public class HomeController : Controller
     {
-
-        static HttpClient client = new HttpClient();
         private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/UserService";
         private string urlParameters;
 
@@ -25,7 +23,7 @@ namespace TaskManager.Controllers
 
             try
             {
-                
+
                 string URL = serviceLayerUrl + "/DropdownRoles";
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
@@ -38,7 +36,7 @@ namespace TaskManager.Controllers
                 HttpResponseMessage response = await client.GetAsync(URL);
                 if (response.IsSuccessStatusCode)
                 {
-                    var roleResult = response.Content.ReadAsAsync<List<RoleModel>>().Result;
+                    var roleResult = response.Content.ReadAsAsync<List<RoleDm>>().Result;
                     var roles = new SelectList(roleResult, "RoleId", "RoleName");
                     ViewBag.List = roles;
                 }
@@ -54,7 +52,7 @@ namespace TaskManager.Controllers
                 HttpResponseMessage responseDropdownManager = await client.GetAsync(uRLDropdownManager);
                 if (responseDropdownManager.IsSuccessStatusCode)
                 {
-                    var mgrResult = responseDropdownManager.Content.ReadAsAsync<List<Userdetail>>().Result;
+                    var mgrResult = responseDropdownManager.Content.ReadAsAsync<List<UserDetailDm>>().Result;
                     var mgrRes = new SelectList(mgrResult, "Id", "FirstName");
                     ViewBag.List1 = mgrRes;
                 }
@@ -64,14 +62,14 @@ namespace TaskManager.Controllers
             {
                 return View("Error");
             }
-            
+
         }
         [HttpPost]
-        public async Task<ActionResult> SaveUserDetails(UserdetailDm ud)
+        public async Task<ActionResult> SaveUserDetails(UserDetailDm ud)
         {
             try
             {
-                var user = (UserdetailDm)Session["SessionData"];
+                var user = (UserDetailDm)Session["SessionData"];
                 if (!ModelState.IsValid) return RedirectToAction("SaveUserDetails");
 
                 string URL = serviceLayerUrl + "/SaveUsers";
@@ -101,7 +99,7 @@ namespace TaskManager.Controllers
         {
             try
             {
-                var user = (UserdetailDm)Session["SessionData"];
+                var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
                 var id = user.Id;
@@ -118,8 +116,8 @@ namespace TaskManager.Controllers
                 HttpResponseMessage response = await client.GetAsync(urlParameters);
                 if (response.IsSuccessStatusCode)
                 {
-                    var dataObjects = response.Content.ReadAsAsync<List<UserdetailDm>>().Result.ToPagedList(page ?? 1, 10); ;
-                    return View("dataObjects");
+                    var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10); ;
+                    return View(dataObjects);
                 }
                 return null;
             }
@@ -148,7 +146,7 @@ namespace TaskManager.Controllers
                 HttpResponseMessage response = await client.GetAsync(URL);
                 if (response.IsSuccessStatusCode)
                 {
-                    var roleResult = response.Content.ReadAsAsync<List<RoleModel>>().Result;
+                    var roleResult = response.Content.ReadAsAsync<List<RoleDm>>().Result;
                     var roles = new SelectList(roleResult, "RoleId", "RoleName");
                     ViewBag.List = roles;
                 }
@@ -164,7 +162,7 @@ namespace TaskManager.Controllers
                 HttpResponseMessage responseDropdownManager = await client.GetAsync(uRLDropdownManager);
                 if (responseDropdownManager.IsSuccessStatusCode)
                 {
-                    var mgrResult = responseDropdownManager.Content.ReadAsAsync<List<Userdetail>>().Result;
+                    var mgrResult = responseDropdownManager.Content.ReadAsAsync<List<UserDetailDm>>().Result;
                     var mgrRes = new SelectList(mgrResult, "Id", "FirstName");
                     ViewBag.List1 = mgrRes;
                 }
@@ -181,7 +179,7 @@ namespace TaskManager.Controllers
                 HttpResponseMessage responseEditUser = await client.GetAsync(urlParameters);
                 if (responseEditUser.IsSuccessStatusCode)
                 {
-                    var res = responseEditUser.Content.ReadAsAsync<UserdetailDm>().Result;
+                    var res = responseEditUser.Content.ReadAsAsync<UserDetailDm>().Result;
                     return View(res);
                 }
                 return View();
@@ -192,11 +190,11 @@ namespace TaskManager.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> EditUserDetails(UserdetailDm udm)
+        public async Task<ActionResult> EditUserDetails(UserDetailDm udm)
         {
             try
             {
-                
+
                 string URL = serviceLayerUrl + "/SaveEditUser";
                 HttpClient client = new HttpClient();
                 urlParameters = "?udm=" + udm;

@@ -34,19 +34,17 @@ namespace TaskManagerServiceApi.Controllers
             return loginUser;
         }
         [HttpGet, Route("{id}")]
-        public async Task<UserdetailDm> GetUserDetailsData(int id)
+        public async Task<UserDetailDm> GetUserDetailsData(int id)
         {
-            var userDetail = new UserdetailDm();
+            var userDetail = new UserDetailDm();
             try
             {
-
-                //return costDetail;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/login/{id}");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    userDetail = response.Content.ReadAsAsync<UserdetailDm>().Result;
+                    userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
             }
             catch
             {

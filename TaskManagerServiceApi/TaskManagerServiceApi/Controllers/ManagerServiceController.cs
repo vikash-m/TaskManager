@@ -14,9 +14,9 @@ namespace TaskManagerServiceApi.Controllers
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
         [HttpGet, Route("{managerId}/employees")]
-        public async Task<List<UserdetailDm>> GetEmployeesDetailsByManagerId(int managerId)
+        public async Task<List<UserDetailDm>> GetEmployeesDetailsByManagerId(int managerId)
         {
-            var employee = new List<UserdetailDm>();
+            var employee = new List<UserDetailDm>();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -24,7 +24,7 @@ namespace TaskManagerServiceApi.Controllers
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    employee = response.Content.ReadAsAsync<List<UserdetailDm>>().Result;
+                    employee = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
 
 
             }
