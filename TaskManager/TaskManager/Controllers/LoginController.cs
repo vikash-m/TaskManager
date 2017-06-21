@@ -32,8 +32,8 @@ namespace TaskManager.Controllers
                 var name = log.UserName;
                 var password = log.Password;
 
-                string URL = ServiceLayerUrl + "/GetLogDetails";
-                HttpClient client = new HttpClient();
+                var URL = ServiceLayerUrl + "/GetLogDetails";
+                var client = new HttpClient();
                 urlParameters = "?name=" + name + "&password=" + password;
                 client.BaseAddress = new Uri(URL);
 
@@ -42,7 +42,7 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync(urlParameters);
                 var result = response.Content.ReadAsAsync<LoginUserDm>().Result;
                 var id = (int)result.EmpId;
 
@@ -61,7 +61,7 @@ namespace TaskManager.Controllers
                         case (int)EnumClass.Roles.Admin:
 
                             Session["SessionData"] = userDetails;
-                            return RedirectToAction("ViewUserDetails", "Home");
+                            return RedirectToAction("ViewUserDetails", "Admin");
                         default:
                             return RedirectToAction("");
                     }
