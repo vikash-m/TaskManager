@@ -12,7 +12,7 @@ namespace TaskManager.Controllers
     public class LoginController : Controller
     {
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/LoginService";
-        private string urlParameters;
+        private string _urlParameters;
 
         // GET: Login
         [HttpGet]
@@ -32,22 +32,22 @@ namespace TaskManager.Controllers
                 var name = log.UserName;
                 var password = log.Password;
 
-                var URL = ServiceLayerUrl + "/GetLogDetails";
+                var url = ServiceLayerUrl + "/GetLogDetails";
                 var client = new HttpClient();
-                urlParameters = "?name=" + name + "&password=" + password;
-                client.BaseAddress = new Uri(URL);
+                _urlParameters = "?name=" + name + "&password=" + password;
+                client.BaseAddress = new Uri(url);
 
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                var response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync(_urlParameters);
                 var result = response.Content.ReadAsAsync<LoginUserDm>().Result;
-                var id = (int)result.EmpId;
+                var id = result.EmpId;
 
                 var userDetails = UserDetailsData(id);
-                if (userDetails != null)
+                if (userDetails.Result != null)
                 {
                     switch (userDetails.Result.RoleId)
                     {
