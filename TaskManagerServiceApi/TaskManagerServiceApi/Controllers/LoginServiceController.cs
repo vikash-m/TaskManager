@@ -46,7 +46,7 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
 
-                var roleName = await client.GetAsync($"/login/roles{userDetail.RoleId}");
+                var roleName = await client.GetAsync($"/login/roles/{userDetail.RoleId}");
                 if (roleName.IsSuccessStatusCode)
                     userDetail.RoleName = roleName.Content.ReadAsAsync<string>().Result;
             }
