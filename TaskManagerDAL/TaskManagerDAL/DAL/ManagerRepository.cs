@@ -9,8 +9,8 @@ namespace TaskManagerDAL.DAL
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
 
-        public List<UserDetail> GetEmployeesDetailsByManagerId(int managerId)
-            => _taskManagerEntities.UserDetails.Where(x => x.ManagerId == managerId).ToList();
+        public List<UserDetail> GetEmployeesDetailsByManagerId(string managerId)
+            => _taskManagerEntities.UserDetails.Where(x => x.ManagerId.Equals(managerId)).ToList();
 
         public Task CreateTask(Task task)
         {
@@ -20,13 +20,13 @@ namespace TaskManagerDAL.DAL
             return task;
         }
 
-        public List<Task> GetAllTask(int managerId)
+        public List<Task> GetAllTask(string managerId)
             => _taskManagerEntities.Tasks.Where(x => x.CreatedBy == managerId).ToList();
 
         public string GetTaskStatusByTaskStatusId(int taskId)
             => _taskManagerEntities.TaskStatus.FirstOrDefault(x => x.Id == taskId)?.Status;
 
-        public string GetEmployeeNameById(int id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id == id)?.FirstName;
+       public string GetEmployeeNameById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id.Equals(id))?.FirstName;
 
         public bool UpdateTask(Task task)
         {
@@ -53,7 +53,7 @@ namespace TaskManagerDAL.DAL
             using (var ctx = new TaskManagerEntities())
             {
 
-                var taskToBeUpdated = ctx.Tasks.FirstOrDefault(i => i.Id == id);
+                var taskToBeUpdated = ctx.Tasks.FirstOrDefault(i => i.Id.Equals(id));
                 if (taskToBeUpdated == null)
                 {
                     return false;
@@ -65,7 +65,7 @@ namespace TaskManagerDAL.DAL
             }
         }
 
-        public string GetTaskNameByTaskId(int id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id == id)?.Title;
+        public string GetTaskNameByTaskId(string id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id.Equals(id))?.Title;
 
         public bool AddTaskDocument(TaskDocument taskDocument)
         {
@@ -90,11 +90,11 @@ namespace TaskManagerDAL.DAL
             }
         }
 
-        public Task GetTaskByTaskId(int id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id == id);
+        public Task GetTaskByTaskId(string id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id.Equals(id));
 
         public bool CheckForTaskName(string title) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Title.Equals(title)) == null;
 
-        public int GetTaskCounts(int employeeId, int statusId) => _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == statusId & x.AssignedTo == employeeId);
+        public int GetTaskCounts(string employeeId, int statusId) => _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == statusId & x.AssignedTo.Equals(employeeId));
 
 
 

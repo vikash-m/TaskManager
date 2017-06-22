@@ -130,7 +130,7 @@ namespace TaskManager.Controllers
                     var task = new TaskDm();
                     var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                     // List data response.
-                    var response = await client.PostAsJsonAsync($"/manager/{user.Id}/employees",);
+                    var response = await client.PostAsJsonAsync($"/manager/{user.Id}/employees",taskDm);
                     if (response.IsSuccessStatusCode)
                         task = response.Content.ReadAsAsync<TaskDm>().Result;
                     if (taskDm.Document == null) return RedirectToAction("ListTask");
@@ -299,7 +299,7 @@ namespace TaskManager.Controllers
                     var taskName = response.Content.ReadAsAsync<string>().Result;
                     var taskDocument = new TaskDocumentDm
                     {
-                        TaskId = (int)id,
+                        TaskId = id,
                         TaskTitle = taskName
                     };
                     return PartialView("_AddDocument", taskDocument);

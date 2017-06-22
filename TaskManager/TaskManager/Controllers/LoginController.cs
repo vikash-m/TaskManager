@@ -74,7 +74,7 @@ namespace TaskManager.Controllers
             }
         }
 
-        public async Task<UserDetailDm> UserDetailsData(int id)
+        public async Task<UserDetailDm> UserDetailsData(string id)
         {
 
             var userDetail = new UserDetailDm();
