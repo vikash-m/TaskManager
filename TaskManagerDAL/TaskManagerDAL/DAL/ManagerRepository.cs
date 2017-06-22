@@ -21,7 +21,7 @@ namespace TaskManagerDAL.DAL
         }
 
         public List<Task> GetAllTask(string managerId)
-            => _taskManagerEntities.Tasks.Where(x => x.CreatedBy == managerId).ToList();
+            => _taskManagerEntities.Tasks.Where(x => x.CreateBy == managerId).ToList();
 
         public string GetTaskStatusByTaskStatusId(int taskId)
             => _taskManagerEntities.TaskStatus.FirstOrDefault(x => x.Id == taskId)?.Status;

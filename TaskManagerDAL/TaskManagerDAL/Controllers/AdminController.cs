@@ -73,11 +73,11 @@ namespace TaskManagerDAL.Controllers
         [HttpDelete, Route("{id}")]
         public bool DeleteUser(UserDetail userDetail)
         {
-            return _adminRepository.DeleteUser((int)userDetail.Id);
+            return _adminRepository.DeleteUser(userDetail.Id);
         }
 
         [HttpGet, Route("{employeeId}")]
-        public UserDetail GetUserDetailById(int employeeId)
+        public UserDetail GetUserDetailById(string employeeId)
         {
             return _adminRepository.GetUserDetailById(employeeId);
         }

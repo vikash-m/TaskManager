@@ -32,7 +32,7 @@ namespace TaskManagerDAL.DAL
 
         public List<UserDetail> GetManagerByRoleId(int roleId) => _taskManagerEntities.UserDetails.Where(m => m.RoleId == roleId).ToList();
 
-        public UserDetail GetUserDetailById(int id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id == id);
+        public UserDetail GetUserDetailById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id == id);
 
         public bool UpdateUserDetail(UserDetail userdetail)
         {
@@ -61,7 +61,7 @@ namespace TaskManagerDAL.DAL
 
         }
 
-        public bool DeleteUser(int id)
+        public bool DeleteUser(string id)
         {
             var userDetail = _taskManagerEntities.UserDetails.Find(id);
 

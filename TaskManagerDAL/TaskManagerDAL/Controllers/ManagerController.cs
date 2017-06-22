@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Controllers
         private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         [HttpGet, Route("employees")]
-        public List<UserDetail> GetEmployeesDetailsByManagerId(int managerId)
+        public List<UserDetail> GetEmployeesDetailsByManagerId(string managerId)
         {
             return _managerRepository.GetEmployeesDetailsByManagerId(managerId);
         }
@@ -23,7 +23,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{managerId}/tasks")]
-        public List<Task> GetAllTask(int managerId)
+        public List<Task> GetAllTask(string managerId)
         {
             return _managerRepository.GetAllTask(managerId);
         }
@@ -35,7 +35,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("employeename/{id}")]
-        public string GetEmployeeNameById(int id)
+        public string GetEmployeeNameById(string id)
         {
             return _managerRepository.GetEmployeeNameById(id);
         }
@@ -53,7 +53,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("tasks/{id}/task-name")]
-        public string GetTaskNameByTaskId(int id)
+        public string GetTaskNameByTaskId(string id)
         {
             return _managerRepository.GetTaskNameByTaskId(id);
         }
@@ -71,7 +71,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("tasks/{id}")]
-        public Task GetTaskByTaskId(int id)
+        public Task GetTaskByTaskId(string id)
         {
             return _managerRepository.GetTaskByTaskId(id);
         }
@@ -83,7 +83,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{employeeId}/tasks/count")]
-        public int GetTaskCounts(int employeeId, int statusId)
+        public int GetTaskCounts(string employeeId, int statusId)
         {
             return _managerRepository.GetTaskCounts(employeeId, statusId);
         }

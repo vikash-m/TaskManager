@@ -33,19 +33,19 @@ namespace TaskManagerDAL.Controllers
 
         //[HttpGet, Route("tasks/count/completed/{assignedTo}")]
         [HttpGet, Route("{employeeId}/tasks/count")]
-        public int GetTaskCount(int employeeId, int statusId)
+        public int GetTaskCount(string employeeId, int statusId)
         {
             return _employeeRepository.GetTaskCount(employeeId, statusId);
         }
 
         [HttpGet, Route("{employeeId}/tasks")]
-        public List<Task> GetEmployeeTask(int employeeId)
+        public List<Task> GetEmployeeTask(string employeeId)
         {
             return _employeeRepository.GetEmployeeTask(employeeId);
         }
 
         [HttpGet, Route("{taskId}")]
-        public Task GetTaskDetail(int taskId)
+        public Task GetTaskDetail(string taskId)
         {
             return _employeeRepository.GetTaskDetail(taskId);
         }

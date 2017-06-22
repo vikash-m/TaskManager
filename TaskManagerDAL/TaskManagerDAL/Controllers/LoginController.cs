@@ -19,7 +19,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        public UserDetail GetUserDetailsData(int id)
+        public UserDetail GetUserDetailsData(string id)
         {
             return _loginRepository.GetUserDetailsData(id);
         }
