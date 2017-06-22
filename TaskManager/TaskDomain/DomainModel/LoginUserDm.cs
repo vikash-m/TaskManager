@@ -7,7 +7,7 @@ namespace TaskDomain.DomainModel
     {
         public string Id { get; set; }
         public int RoleId { get; set; }
-        public int EmpId { get; set; }
+        public string EmpId { get; set; }
 
         [Required(ErrorMessage = "Please Enter Email Address")]
         [DataType(DataType.EmailAddress)]
@@ -19,5 +19,7 @@ namespace TaskDomain.DomainModel
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public string RoleName { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

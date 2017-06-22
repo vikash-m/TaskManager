@@ -25,8 +25,10 @@ namespace TaskDomain.DomainModel
         public DateTime CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
         public string RoleName { get; set; }
         public string ManagerName { get; set; }
-        public int? ManagerId { get; set; }
+        public string ManagerId { get; set; }
     }
 }
