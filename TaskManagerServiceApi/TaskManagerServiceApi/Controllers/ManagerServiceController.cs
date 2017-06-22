@@ -36,7 +36,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpPost, Route("")]
-        public async Task<TaskDm> CreateTask(TaskDm task, int loginUserId)
+        public async Task<TaskDm> CreateTask(TaskDm task, string loginUserId)
         {
             var taskResult = new TaskDm();
             try
@@ -60,7 +60,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpPost, Route("document")]
-        public async Task<bool> AddTaskDocument(TaskDocumentDm taskDocument, int loginUserId)
+        public async Task<bool> AddTaskDocument(TaskDocumentDm taskDocument, string loginUserId)
         {
             var documentUploadStatus = new bool();
             try
@@ -85,7 +85,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("{managerId}/tasks")]
-        public async Task<List<TaskDm>> GetAllTask(int managerId)
+        public async Task<List<TaskDm>> GetAllTask(string managerId)
         {
             var tasks = new List<TaskDm>();
             try
@@ -128,7 +128,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<bool> DeleteTask(int? id, LoginUserDm loginUserDm)
+        public async Task<bool> DeleteTask(string id, LoginUserDm loginUserDm)
         {
             var taskDeleteStatus = new bool();
             try

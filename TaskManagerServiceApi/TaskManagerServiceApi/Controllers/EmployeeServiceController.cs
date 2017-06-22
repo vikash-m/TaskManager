@@ -156,27 +156,5 @@ namespace TaskManagerServiceApi.Controllers
             return taskDetail;
 
         }
-
-        [HttpGet, Route("{id}/name")]
-        public async Task<string> GetEmployeeNameById(int id)
-        {
-            var employeeName = string.Empty;
-            try
-            {
-                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/manager/{id}/name");
-
-                if (response.IsSuccessStatusCode)
-                    // Parse the response body. Blocking!
-                    employeeName = response.Content.ReadAsAsync<string>().Result;
-
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return employeeName;
-        }
     }
 }

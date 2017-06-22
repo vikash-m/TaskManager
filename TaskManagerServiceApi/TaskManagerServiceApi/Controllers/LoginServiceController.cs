@@ -45,10 +45,8 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
-
-
             }
-            catch (Exception e)
+            catch
             {
                 throw;
             }
