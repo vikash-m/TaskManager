@@ -18,6 +18,11 @@ namespace TaskManagerDAL.Models
         public UserDetail()
         {
             this.LoginUsers = new HashSet<LoginUser>();
+            this.Tasks = new HashSet<Task>();
+            this.Tasks1 = new HashSet<Task>();
+            this.Tasks2 = new HashSet<Task>();
+            this.TaskDocuments = new HashSet<TaskDocument>();
+            this.TaskDocuments1 = new HashSet<TaskDocument>();
         }
     
         public string Id { get; set; }
@@ -25,16 +30,26 @@ namespace TaskManagerDAL.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailId { get; set; }
-        public int RoleId { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime CreateDate { get; set; }
+        public Nullable<int> RoleId { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
-        public string ManagerId { get; set; }
+        public string CreateBy { get; set; }
         public string ModifiedBy { get; set; }
+        public string ManagerId { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LoginUser> LoginUsers { get; set; }
         public virtual Role Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskDocument> TaskDocuments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskDocument> TaskDocuments1 { get; set; }
     }
 }

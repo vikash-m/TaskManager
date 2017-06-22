@@ -9,86 +9,88 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="EmpId" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="EmpId" Type="varchar" MaxLength="256" />
+          <Property Name="UserName" Type="varchar" MaxLength="256" />
+          <Property Name="Password" Type="varchar(max)" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="256" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="Title" Type="varchar(max)" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="1" />
-          <Property Name="AssignedTo" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="256" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="256" />
+          <Property Name="AssignedTo" Type="varchar" MaxLength="256" />
           <Property Name="StartDate" Type="datetime2" Precision="7" />
           <Property Name="EndDate" Type="datetime2" Precision="7" />
-          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Description" Type="varchar" MaxLength="256" />
           <Property Name="TaskStatusId" Type="int" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="256" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="TaskDocument">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="TaskId" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="DocumentPath" Type="varchar" MaxLength="256" />
-          <Property Name="AddedBy" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="TaskId" Type="varchar" MaxLength="256" />
+          <Property Name="TaskTitle" Type="varchar(max)" />
+          <Property Name="DocumentPath" Type="varchar(max)" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="256" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="256" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="TaskStatus">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Status" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="256" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
-        <EntityType Name="UserDetails">
+        <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="256" />
-          <Property Name="PhoneNumber" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="EmailId" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="1" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" />
+          <Property Name="LastName" Type="varchar(max)" />
+          <Property Name="PhoneNumber" Type="varchar(max)" />
+          <Property Name="EmailId" Type="varchar" MaxLength="256" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="CreateDate" Type="datetime2" Precision="7" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="ManagerId" Type="varchar" MaxLength="1" />
-          <Property Name="ModifiedBy" Type="varchar" MaxLength="1" />
+          <Property Name="CreateBy" Type="varchar" MaxLength="256" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="256" />
+          <Property Name="ManagerId" Type="varchar" MaxLength="256" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
-        <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
-          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+        <Association Name="FK__LoginUser__EmpId__164452B1">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
           <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserDetails">
+            <Principal Role="UserDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="LoginUser">
@@ -96,8 +98,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LoginUser__Role___2A4B4B5E">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+        <Association Name="FK__LoginUser__RoleI__15502E78">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
           <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -108,8 +110,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TaskDocum__Task___35BCFE0A">
-          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+        <Association Name="FK__Task__AssignedTo__1BFD2C07">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__CreateBy__1B0907CE">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__ModifiedBy__1DE57479">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__TaskStatus__1CF15040">
+          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TaskStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskDocum__Added__21B6055D">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskDocument">
+              <PropertyRef Name="AddedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskDocum__Modif__22AA2996">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskDocument">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskDocum__TaskI__20C1E124">
+          <End Role="Task" Type="Self.Task" Multiplicity="0..1" />
           <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Task">
@@ -120,14 +194,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Userdetai__Role___267ABA7A">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="*" />
+        <Association Name="FK__UserDetai__RoleI__1273C1CD">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="RoleId" />
             </Principal>
-            <Dependent Role="UserDetails">
+            <Dependent Role="UserDetail">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
@@ -138,22 +212,46 @@
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskDocument" EntityType="Self.TaskDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__LoginUser__Emp_I__2B3F6F97" Association="Self.FK__LoginUser__Emp_I__2B3F6F97">
-            <End Role="UserDetails" EntitySet="UserDetails" />
+          <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__LoginUser__EmpId__164452B1" Association="Self.FK__LoginUser__EmpId__164452B1">
+            <End Role="UserDetail" EntitySet="UserDetail" />
             <End Role="LoginUser" EntitySet="LoginUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__LoginUser__Role___2A4B4B5E" Association="Self.FK__LoginUser__Role___2A4B4B5E">
+          <AssociationSet Name="FK__LoginUser__RoleI__15502E78" Association="Self.FK__LoginUser__RoleI__15502E78">
             <End Role="Role" EntitySet="Role" />
             <End Role="LoginUser" EntitySet="LoginUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__TaskDocum__Task___35BCFE0A" Association="Self.FK__TaskDocum__Task___35BCFE0A">
+          <AssociationSet Name="FK__Task__AssignedTo__1BFD2C07" Association="Self.FK__Task__AssignedTo__1BFD2C07">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__CreateBy__1B0907CE" Association="Self.FK__Task__CreateBy__1B0907CE">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__ModifiedBy__1DE57479" Association="Self.FK__Task__ModifiedBy__1DE57479">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__TaskStatus__1CF15040" Association="Self.FK__Task__TaskStatus__1CF15040">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__Added__21B6055D" Association="Self.FK__TaskDocum__Added__21B6055D">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="TaskDocument" EntitySet="TaskDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__Modif__22AA2996" Association="Self.FK__TaskDocum__Modif__22AA2996">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="TaskDocument" EntitySet="TaskDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__TaskI__20C1E124" Association="Self.FK__TaskDocum__TaskI__20C1E124">
             <End Role="Task" EntitySet="Task" />
             <End Role="TaskDocument" EntitySet="TaskDocument" />
           </AssociationSet>
-          <AssociationSet Name="FK__Userdetai__Role___267ABA7A" Association="Self.FK__Userdetai__Role___267ABA7A">
+          <AssociationSet Name="FK__UserDetai__RoleI__1273C1CD" Association="Self.FK__UserDetai__RoleI__1273C1CD">
             <End Role="Role" EntitySet="Role" />
-            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="UserDetail" EntitySet="UserDetail" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -165,94 +263,108 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="EmpId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Id" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="EmpId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="UserDetail" Relationship="Self.FK__LoginUser__Emp_I__2B3F6F97" FromRole="LoginUser" ToRole="UserDetails" />
-          <NavigationProperty Name="Role" Relationship="Self.FK__LoginUser__Role___2A4B4B5E" FromRole="LoginUser" ToRole="Role" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="UserDetail" Relationship="Self.FK__LoginUser__EmpId__164452B1" FromRole="LoginUser" ToRole="UserDetail" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__LoginUser__RoleI__15502E78" FromRole="LoginUser" ToRole="Role" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__Role___2A4B4B5E" FromRole="Role" ToRole="LoginUser" />
-          <NavigationProperty Name="UserDetails" Relationship="Self.FK__Userdetai__Role___267ABA7A" FromRole="Role" ToRole="UserDetails" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__RoleI__15502E78" FromRole="Role" ToRole="LoginUser" />
+          <NavigationProperty Name="UserDetails" Relationship="Self.FK__UserDetai__RoleI__1273C1CD" FromRole="Role" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="AssignedTo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreateBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="StartDate" Type="DateTime" Precision="7" />
           <Property Name="EndDate" Type="DateTime" Precision="7" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="TaskStatusId" Type="Int32" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__Task___35BCFE0A" FromRole="Task" ToRole="TaskDocument" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="UserDetail" Relationship="Self.FK__Task__AssignedTo__1BFD2C07" FromRole="Task" ToRole="UserDetail" />
+          <NavigationProperty Name="UserDetail1" Relationship="Self.FK__Task__CreateBy__1B0907CE" FromRole="Task" ToRole="UserDetail" />
+          <NavigationProperty Name="UserDetail2" Relationship="Self.FK__Task__ModifiedBy__1DE57479" FromRole="Task" ToRole="UserDetail" />
+          <NavigationProperty Name="TaskStatu" Relationship="Self.FK__Task__TaskStatus__1CF15040" FromRole="Task" ToRole="TaskStatus" />
+          <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__TaskI__20C1E124" FromRole="Task" ToRole="TaskDocument" />
         </EntityType>
         <EntityType Name="TaskDocument">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TaskId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DocumentPath" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="AddedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Id" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TaskId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="TaskTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AddedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Task" Relationship="Self.FK__TaskDocum__Task___35BCFE0A" FromRole="TaskDocument" ToRole="Task" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Task" Relationship="Self.FK__TaskDocum__TaskI__20C1E124" FromRole="TaskDocument" ToRole="Task" />
+          <NavigationProperty Name="UserDetail" Relationship="Self.FK__TaskDocum__Added__21B6055D" FromRole="TaskDocument" ToRole="UserDetail" />
+          <NavigationProperty Name="UserDetail1" Relationship="Self.FK__TaskDocum__Modif__22AA2996" FromRole="TaskDocument" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="TaskStatu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__TaskStatus__1CF15040" FromRole="TaskStatus" ToRole="Task" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EmailId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Id" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EmailId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="ManagerId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__Emp_I__2B3F6F97" FromRole="UserDetails" ToRole="LoginUser" />
-          <NavigationProperty Name="Role" Relationship="Self.FK__Userdetai__Role___267ABA7A" FromRole="UserDetails" ToRole="Role" />
+          <Property Name="CreateBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__EmpId__164452B1" FromRole="UserDetail" ToRole="LoginUser" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__UserDetai__RoleI__1273C1CD" FromRole="UserDetail" ToRole="Role" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__AssignedTo__1BFD2C07" FromRole="UserDetail" ToRole="Task" />
+          <NavigationProperty Name="Tasks1" Relationship="Self.FK__Task__CreateBy__1B0907CE" FromRole="UserDetail" ToRole="Task" />
+          <NavigationProperty Name="Tasks2" Relationship="Self.FK__Task__ModifiedBy__1DE57479" FromRole="UserDetail" ToRole="Task" />
+          <NavigationProperty Name="TaskDocuments" Relationship="Self.FK__TaskDocum__Added__21B6055D" FromRole="UserDetail" ToRole="TaskDocument" />
+          <NavigationProperty Name="TaskDocuments1" Relationship="Self.FK__TaskDocum__Modif__22AA2996" FromRole="UserDetail" ToRole="TaskDocument" />
         </EntityType>
-        <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
-          <End Role="UserDetails" Type="Self.UserDetail" Multiplicity="1" />
+        <Association Name="FK__LoginUser__EmpId__164452B1">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
           <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserDetails">
+            <Principal Role="UserDetail">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="LoginUser">
@@ -260,8 +372,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LoginUser__Role___2A4B4B5E">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+        <Association Name="FK__LoginUser__RoleI__15502E78">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
           <End Role="LoginUser" Type="Self.LoginUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -272,20 +384,68 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Userdetai__Role___267ABA7A">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="UserDetails" Type="Self.UserDetail" Multiplicity="*" />
+        <Association Name="FK__UserDetai__RoleI__1273C1CD">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="RoleId" />
             </Principal>
-            <Dependent Role="UserDetails">
+            <Dependent Role="UserDetail">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TaskDocum__Task___35BCFE0A">
-          <End Role="Task" Type="Self.Task" Multiplicity="1" />
+        <Association Name="FK__Task__AssignedTo__1BFD2C07">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__CreateBy__1B0907CE">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__ModifiedBy__1DE57479">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__TaskStatus__1CF15040">
+          <End Role="TaskStatus" Type="Self.TaskStatu" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TaskStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskDocum__TaskI__20C1E124">
+          <End Role="Task" Type="Self.Task" Multiplicity="0..1" />
           <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Task">
@@ -296,6 +456,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__TaskDocum__Added__21B6055D">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskDocument">
+              <PropertyRef Name="AddedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TaskDocum__Modif__22AA2996">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="0..1" />
+          <End Role="TaskDocument" Type="Self.TaskDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskDocument">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TaskManagerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="LoginUsers" EntityType="Self.LoginUser" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
@@ -303,20 +487,44 @@
           <EntitySet Name="TaskDocuments" EntityType="Self.TaskDocument" />
           <EntitySet Name="TaskStatus" EntityType="Self.TaskStatu" />
           <EntitySet Name="UserDetails" EntityType="Self.UserDetail" />
-          <AssociationSet Name="FK__LoginUser__Emp_I__2B3F6F97" Association="Self.FK__LoginUser__Emp_I__2B3F6F97">
-            <End Role="UserDetails" EntitySet="UserDetails" />
+          <AssociationSet Name="FK__LoginUser__EmpId__164452B1" Association="Self.FK__LoginUser__EmpId__164452B1">
+            <End Role="UserDetail" EntitySet="UserDetails" />
             <End Role="LoginUser" EntitySet="LoginUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__LoginUser__Role___2A4B4B5E" Association="Self.FK__LoginUser__Role___2A4B4B5E">
+          <AssociationSet Name="FK__LoginUser__RoleI__15502E78" Association="Self.FK__LoginUser__RoleI__15502E78">
             <End Role="Role" EntitySet="Roles" />
             <End Role="LoginUser" EntitySet="LoginUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Userdetai__Role___267ABA7A" Association="Self.FK__Userdetai__Role___267ABA7A">
+          <AssociationSet Name="FK__UserDetai__RoleI__1273C1CD" Association="Self.FK__UserDetai__RoleI__1273C1CD">
             <End Role="Role" EntitySet="Roles" />
-            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__TaskDocum__Task___35BCFE0A" Association="Self.FK__TaskDocum__Task___35BCFE0A">
+          <AssociationSet Name="FK__Task__AssignedTo__1BFD2C07" Association="Self.FK__Task__AssignedTo__1BFD2C07">
+            <End Role="UserDetail" EntitySet="UserDetails" />
             <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__CreateBy__1B0907CE" Association="Self.FK__Task__CreateBy__1B0907CE">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__ModifiedBy__1DE57479" Association="Self.FK__Task__ModifiedBy__1DE57479">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__TaskStatus__1CF15040" Association="Self.FK__Task__TaskStatus__1CF15040">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__TaskI__20C1E124" Association="Self.FK__TaskDocum__TaskI__20C1E124">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="TaskDocument" EntitySet="TaskDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__Added__21B6055D" Association="Self.FK__TaskDocum__Added__21B6055D">
+            <End Role="UserDetail" EntitySet="UserDetails" />
+            <End Role="TaskDocument" EntitySet="TaskDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TaskDocum__Modif__22AA2996" Association="Self.FK__TaskDocum__Modif__22AA2996">
+            <End Role="UserDetail" EntitySet="UserDetails" />
             <End Role="TaskDocument" EntitySet="TaskDocuments" />
           </AssociationSet>
         </EntityContainer>
@@ -356,13 +564,13 @@
               <MappingFragment StoreEntitySet="Task">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="TaskStatusId" ColumnName="TaskStatusId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
@@ -374,8 +582,10 @@
               <MappingFragment StoreEntitySet="TaskDocument">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskTitle" ColumnName="TaskTitle" />
                 <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
                 <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
@@ -395,19 +605,19 @@
           </EntitySetMapping>
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="TaskManagerModel.UserDetail">
-              <MappingFragment StoreEntitySet="UserDetails">
+              <MappingFragment StoreEntitySet="UserDetail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -37,7 +37,7 @@
     var Name = SessionResult.FirstName + " " + SessionResult.LastName;
     var singleCharacter = Name[0];
     var Role = SessionResult.RoleName;
-    var userRoleId = SessionResult.RoleId;
+    string userRoleName = SessionResult.RoleName;
 }
 
 
@@ -102,7 +102,7 @@
                         </div>
 
                     </li>
-                    @if (SessionResult.RoleId == Convert.ToInt32(EnumClass.Roles.Employee))
+                    @if (userRoleName == "Employee")
                     {
                         <li>
                             <a href="@Url.Action("Dashboard", "Employee")"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
@@ -116,7 +116,7 @@
 
                     }
 
-                    @if (SessionResult.RoleId== Convert.ToInt32(EnumClass.Roles.Manager))
+                    @if (userRoleName == "Manager")
                     {
                         <li>
                             <a href="@Url.Action("Dashboard", "Manager")"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span> <span class="fa arrow"></span></a>
@@ -140,17 +140,17 @@
                     }
 
 
-                    @if (SessionResult.RoleId == Convert.ToInt32(EnumClass.Roles.Admin))
+                    @if (SessionResult.RoleName == "Admin")
                     {
                         <li>
                             <a href=""><i class="fa fa-user"></i> <span class="nav-label">Users </span> <span class="fa arrow"></span></a>
 
                             <ul class="nav nav-second-level sidebar-collapse in">
                                 <li>
-                                    <a href="@Url.Action("SaveUserDetails", "Admin")">Add User   <i class="fa fa-plus"></i></a>
+                                    <a href="@Url.Action("SaveUserDetails", "Home")">Add User   <i class="fa fa-plus"></i></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ViewUserDetails", "Admin")">View User  <i class="fa fa-eye"></i></a>
+                                    <a href="@Url.Action("ViewUserDetails", "Home")">View User  <i class="fa fa-eye"></i></a>
                                 </li>
 
                             </ul>

@@ -16,12 +16,16 @@ namespace TaskManagerDAL.Models
     {
         public string Id { get; set; }
         public string TaskId { get; set; }
+        public string TaskTitle { get; set; }
         public string DocumentPath { get; set; }
         public string AddedBy { get; set; }
-        public System.DateTime CreateDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
         public virtual Task Task { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
+        public virtual UserDetail UserDetail1 { get; set; }
     }
 }

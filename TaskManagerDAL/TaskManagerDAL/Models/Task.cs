@@ -22,17 +22,21 @@ namespace TaskManagerDAL.Models
     
         public string Id { get; set; }
         public string Title { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifiedBy { get; set; }
+        public string CreateBy { get; set; }
         public string AssignedTo { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public string Description { get; set; }
         public Nullable<int> TaskStatusId { get; set; }
-        public System.DateTime CreateDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
+        public virtual UserDetail UserDetail { get; set; }
+        public virtual UserDetail UserDetail1 { get; set; }
+        public virtual UserDetail UserDetail2 { get; set; }
+        public virtual TaskStatu TaskStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskDocument> TaskDocuments { get; set; }
     }

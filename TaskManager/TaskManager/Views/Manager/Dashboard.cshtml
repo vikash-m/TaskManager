@@ -15,7 +15,7 @@
                 <h5>Tasks</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">@Model.Total</h1>
+                <h1 class="no-margins">@Model.total</h1>
                 <small>Total Tasks</small>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <h5>Tasks</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">@Model.Pending</h1>
+                <h1 class="no-margins">@Model.pending</h1>
                 <small>Pending Tasks</small>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <h5>Tasks</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">@Model.InProgress</h1>
+                <h1 class="no-margins">@Model.inprogress</h1>
                 <small>Inprogress tasks</small>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <h5>Tasks</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">@Model.Completed</h1>
+                <h1 class="no-margins">@Model.completed</h1>
                 <small>Completed tasks</small>
             </div>
         </div>
@@ -77,7 +77,7 @@
         )
         .Series(series =>
         {
-            series.Column(new double[] { Model.Pending, Model.InProgress, Model.Completed }).Name("Tasks");
+            series.Column(new double[] { Model.pending, Model.inprogress, Model.completed }).Name("Tasks");
         })
         .CategoryAxis(axis => axis
             .Name("series-axis")
@@ -89,14 +89,14 @@
         )
         .ValueAxis(axis => axis
             .Numeric()
-                .Labels(labels => labels.Format("{0}"))
+                .Labels(labels => labels.Format("{0}%"))
 
                 // Move the label-axis all the way down the value axis
                 .AxisCrossingValue(0, int.MinValue)
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            .Format("{0}")
+            .Format("{0}%")
             .Template("#= series.name #: #= value #")
         )
                                     )
@@ -108,7 +108,7 @@
                     <div class="col-lg-6">
                         <div class="demo-section k-content wide">
                             @(Html.Kendo().Chart()
-        .Name("Piechart")
+        .Name("Paichart")
                 .Title(title => title
                     .Text("Task Status Pie chart")
                     .Position(ChartTitlePosition.Top))
@@ -121,9 +121,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category="Pending",value=Model.Pending,color="#9de219"},
-                new {category="InProgress",value=Model.InProgress,color="#90cc38"},
-                new {category="Completed",value=Model.Completed,color="#068c35"}
+                new {category="Pending",value=Model.pending,color="#9de219"},
+                new {category="InProgress",value=Model.inprogress,color="#90cc38"},
+                new {category="Completed",value=Model.completed,color="#068c35"}
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#%")
