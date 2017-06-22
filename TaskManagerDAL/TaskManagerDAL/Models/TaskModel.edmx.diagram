@@ -21,6 +21,7 @@
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__TaskI__20C1E124" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Added__21B6055D" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Modif__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__Task__CreateBy__2E1BDC42" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
