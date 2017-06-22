@@ -167,6 +167,7 @@
     <Compile Include="DAL\AdminRepository.cs" />
     <Compile Include="DAL\LoginRepository.cs" />
     <Compile Include="DAL\ManagerRepository.cs" />
+    <Compile Include="DAL\RolesRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

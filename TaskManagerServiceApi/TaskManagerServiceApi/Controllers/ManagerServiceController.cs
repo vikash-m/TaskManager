@@ -230,13 +230,13 @@ namespace TaskManagerServiceApi.Controllers
                 }
                 if (inProgress.IsSuccessStatusCode)
                 {
-                    taskCount.Inprogress = pending.Content.ReadAsAsync<int>().Result;
+                    taskCount.InProgress = pending.Content.ReadAsAsync<int>().Result;
                 }
                 if (completed.IsSuccessStatusCode)
                 {
                     taskCount.Completed = pending.Content.ReadAsAsync<int>().Result;
                 }
-                taskCount.Total = taskCount.Pending + taskCount.Inprogress + taskCount.Completed;
+                taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
             }
             catch (Exception)
             {

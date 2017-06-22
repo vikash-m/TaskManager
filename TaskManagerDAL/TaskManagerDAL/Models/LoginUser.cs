@@ -14,9 +14,9 @@ namespace TaskManagerDAL.Models
     
     public partial class LoginUser
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int RoleId { get; set; }
-        public int EmpId { get; set; }
+        public string EmpId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public System.DateTime CreateDate { get; set; }

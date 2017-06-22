@@ -9,9 +9,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="EmpId" Type="int" Nullable="false" />
+          <Property Name="EmpId" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -22,7 +22,7 @@
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
@@ -32,11 +32,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="Title" Type="varchar(max)" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
-          <Property Name="ModifiedBy" Type="int" />
-          <Property Name="AssignedTo" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="1" />
+          <Property Name="AssignedTo" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="StartDate" Type="datetime2" Precision="7" />
           <Property Name="EndDate" Type="datetime2" Precision="7" />
           <Property Name="Description" Type="varchar(max)" />
@@ -49,10 +49,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="TaskId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="TaskId" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="DocumentPath" Type="varchar" MaxLength="256" />
-          <Property Name="AddedBy" Type="int" Nullable="false" />
+          <Property Name="AddedBy" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -61,7 +61,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
@@ -71,17 +71,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="256" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="EmailId" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="1" Nullable="false" />
           <Property Name="CreateDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="ManagerId" Type="int" />
-          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ManagerId" Type="varchar" MaxLength="1" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="1" />
         </EntityType>
         <Association Name="FK__LoginUser__Emp_I__2B3F6F97">
           <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
@@ -164,9 +165,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="EmpId" Type="Int32" Nullable="false" />
+          <Property Name="EmpId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
@@ -179,7 +180,7 @@
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
@@ -191,11 +192,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="AssignedTo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Precision="7" />
           <Property Name="EndDate" Type="DateTime" Precision="7" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -209,10 +210,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TaskId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DocumentPath" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="AddedBy" Type="Int32" Nullable="false" />
+          <Property Name="AddedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -222,7 +223,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
@@ -232,17 +233,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EmailId" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="ManagerId" Type="Int32" />
-          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ManagerId" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="LoginUsers" Relationship="Self.FK__LoginUser__Emp_I__2B3F6F97" FromRole="UserDetails" ToRole="LoginUser" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Userdetai__Role___267ABA7A" FromRole="UserDetails" ToRole="Role" />
         </EntityType>
@@ -400,6 +402,7 @@
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />

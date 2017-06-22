@@ -97,12 +97,12 @@ namespace TaskManagerServiceApi.Controllers
 
                 if (inProgressCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
-                    taskCount.Inprogress = inProgressCount.Content.ReadAsAsync<int>().Result;
+                    taskCount.InProgress = inProgressCount.Content.ReadAsAsync<int>().Result;
 
                 if (completedCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
-                taskCount.Total = taskCount.Pending + taskCount.Inprogress + taskCount.Completed;
+                taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
 
             }
             catch (Exception)
@@ -155,6 +155,28 @@ namespace TaskManagerServiceApi.Controllers
             }
             return taskDetail;
 
+        }
+
+        [HttpGet, Route("{id}/name")]
+        public async Task<string> GetEmployeeNameById(int id)
+        {
+            var employeeName = string.Empty;
+            try
+            {
+                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+                var response = await client.GetAsync($"/manager/{id}/name");
+
+                if (response.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    employeeName = response.Content.ReadAsAsync<string>().Result;
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return employeeName;
         }
     }
 }

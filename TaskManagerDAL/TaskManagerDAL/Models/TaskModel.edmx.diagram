@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fe1debdeca46476bacb73a3d2aea28f2" Name="Diagram1">
-        <EntityTypeShape EntityType="TaskManagerModel.LoginUser" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.Role" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.Task" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.TaskDocument" Width="1.5" PointX="10" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagerModel.TaskStatu" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="e09b501e8fdf459c88bae88346240849" Name="Diagram1">
+        <EntityTypeShape EntityType="TaskManagerModel.LoginUser" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerModel.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerModel.Task" Width="1.5" PointX="2.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerModel.TaskDocument" Width="1.5" PointX="5" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagerModel.TaskStatu" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.UserDetail" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="TaskManagerModel.FK__LoginUser__Emp_I__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__LoginUser__Role___2A4B4B5E" ManuallyRouted="false" />

@@ -34,7 +34,7 @@ namespace TaskManagerDAL.Controllers
             return _managerRepository.GetTaskStatusByTaskStatusId(taskId);
         }
 
-        [HttpGet, Route("employeename/{id}")]
+        [HttpGet, Route("{id}/name")]
         public string GetEmployeeNameById(int id)
         {
             return _managerRepository.GetEmployeeNameById(id);

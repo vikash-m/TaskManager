@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Login","Login",FormMethod.Post))
 {
     <div class="form-group">
         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "UserName/EmailID", @required = "required" })

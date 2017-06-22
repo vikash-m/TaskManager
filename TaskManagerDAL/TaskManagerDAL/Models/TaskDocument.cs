@@ -14,10 +14,10 @@ namespace TaskManagerDAL.Models
     
     public partial class TaskDocument
     {
-        public int Id { get; set; }
-        public int TaskId { get; set; }
+        public string Id { get; set; }
+        public string TaskId { get; set; }
         public string DocumentPath { get; set; }
-        public int AddedBy { get; set; }
+        public string AddedBy { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }

@@ -20,17 +20,18 @@ namespace TaskManagerDAL.Models
             this.LoginUsers = new HashSet<LoginUser>();
         }
     
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailId { get; set; }
         public int RoleId { get; set; }
+        public string CreatedBy { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
-        public Nullable<int> ManagerId { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public string ManagerId { get; set; }
+        public string ModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LoginUser> LoginUsers { get; set; }

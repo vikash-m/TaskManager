@@ -20,11 +20,11 @@ namespace TaskManagerDAL.Models
             this.TaskDocuments = new HashSet<TaskDocument>();
         }
     
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
-        public int CreatedBy { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
-        public int AssignedTo { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public string AssignedTo { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public string Description { get; set; }
