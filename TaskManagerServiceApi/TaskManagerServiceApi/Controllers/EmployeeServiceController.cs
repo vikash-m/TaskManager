@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using TaskDomain.DomainModel;
 
+
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("employees")]
@@ -48,8 +49,13 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employeeTask = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-
-
+                foreach(var item in employeeTask)
+                {
+                    ManagerServiceController managerSercviceController = new ManagerServiceController();
+                    item.CreatedByName = await managerSercviceController.GetEmployeeNameById(item.CreatedBy);
+                    item.AssignedToName = await managerSercviceController.GetEmployeeNameById(item.AssignedTo);
+                    item.TaskStatus = await managerSercviceController.GetTaskStatusNameByTaskStatusId(item.TaskStatusId);
+                }
             }
             catch (Exception)
             {

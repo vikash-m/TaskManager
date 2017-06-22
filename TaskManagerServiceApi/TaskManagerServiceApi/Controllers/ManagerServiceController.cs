@@ -264,5 +264,20 @@ namespace TaskManagerServiceApi.Controllers
             }
             return taskNameExist;
         }
+
+        public async Task<string> GetEmployeeNameById(string id)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+            var createdByResponse = await client.GetAsync($"/manager/employeename/{id}");
+            return createdByResponse.Content.ReadAsAsync<string>().Result;
+           
+        }
+
+        public async Task<string> GetTaskStatusNameByTaskStatusId(int id)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+            var statusResponse = await client.GetAsync($"/manager/status/{id}");
+            return statusResponse.Content.ReadAsAsync<string>().Result;
+        }
     }
 }
