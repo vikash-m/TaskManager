@@ -24,10 +24,8 @@ namespace TaskManager.Controllers
                 var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
-                var id = user.Id;
                 string URL = serviceLayerUrl + "/GetTaskCounts";
                 HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(URL);
 
                 // Add an Accept header for JSON format.
@@ -35,13 +33,14 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                HttpResponseMessage response = await client.GetAsync($"/employees/{user.Id}/tasks/count");
+                var taskStatusCountDataModel = new TaskStatusCountDm();
                 if (response.IsSuccessStatusCode)
                 {
-                    var dataObjects = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
-                    return View("dataObjects");
+                    taskStatusCountDataModel = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
+                    
                 }
-                return null;
+                return View(taskStatusCountDataModel);
             }
             catch
             {
@@ -56,10 +55,8 @@ namespace TaskManager.Controllers
                 var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
-                var id = user.Id;
                 string URL = serviceLayerUrl + "/GetEmployeeTasks";
                 HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(URL);
 
                 // Add an Accept header for JSON format.
@@ -67,13 +64,9 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
-                    var dataObjects = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5); ;
-                    return View("dataObjects");
-                }
-                return null;
+                HttpResponseMessage response = await client.GetAsync($"/employees/{user.Id}/tasks");
+                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5); ;
+                return View(taskList);
             }
             catch
             {
