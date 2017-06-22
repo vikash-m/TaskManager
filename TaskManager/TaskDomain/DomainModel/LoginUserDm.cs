@@ -5,7 +5,7 @@ namespace TaskDomain.DomainModel
 {
     public class LoginUserDm
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int RoleId { get; set; }
         public int EmpId { get; set; }
 

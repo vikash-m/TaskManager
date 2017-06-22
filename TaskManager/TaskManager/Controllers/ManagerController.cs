@@ -13,8 +13,7 @@ namespace TaskManager.Controllers
 {
     public class ManagerController : Controller
     {
-        static HttpClient client = new HttpClient();
-        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/ManagerService";
+        private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
         private string urlParameters;
 
         // GET: Manager
@@ -31,7 +30,7 @@ namespace TaskManager.Controllers
                 }
 
                 var id = user.Id;
-                string URL = serviceLayerUrl + "/GetAllTask";
+                string URL = ServiceLayerUrl + "/GetAllTask";
                 HttpClient client = new HttpClient();
                 urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(URL);
@@ -45,7 +44,7 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10); ;
-                    return View("taskList");
+                    return View(taskList);
                 }
                 return null;
             }
@@ -66,24 +65,16 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
-                var id = user.Id;
-                string URL = serviceLayerUrl + "/GetTaskCounts";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
+                var employeeId = user.Id;
+                var taskStatusCounts = new TaskStatusCountDm();
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync($"/manager/{employeeId}/tasks/count");
                 if (response.IsSuccessStatusCode)
-                {
-                    var taskStatusCounts = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
-                    return View("taskStatusCounts");
-                }
-                return null;
+                    taskStatusCounts = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
+                return View(taskStatusCounts);
+
+
             }
             catch
             {
@@ -103,25 +94,17 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
-                var id = user.Id;
-                string URL = serviceLayerUrl + "/GetEmployeesDetailsByManagerId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync($"/manager/{user.Id}/employees");
+                var employeeList = new List<UserDetailDm>();
                 if (response.IsSuccessStatusCode)
-                {
-                    var employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-                    ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
-                    return View();
-                }
-                return null;
+                    employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+                return View();
+
+
             }
             catch
             {
@@ -144,32 +127,25 @@ namespace TaskManager.Controllers
                     }
 
                     taskDm.TaskStatusId = (int)EnumClass.Status.Pending;
-                    string URL = serviceLayerUrl + "/AddTask";
-                    HttpClient client = new HttpClient();
-                    urlParameters = "?taskDm=" + taskDm + "&id=" + user.Id;
-                    client.BaseAddress = new Uri(URL);
-
-                    // Add an Accept header for JSON format.
-                    client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-
+                    var task = new TaskDm();
+                    var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                     // List data response.
-                    HttpResponseMessage response = await client.GetAsync(urlParameters);
+                    var response = await client.PostAsJsonAsync($"/manager/{user.Id}/employees",);
                     if (response.IsSuccessStatusCode)
+                        task = response.Content.ReadAsAsync<TaskDm>().Result;
+                    if (taskDm.Document == null) return RedirectToAction("ListTask");
+                    var taskDocument = new TaskDocumentDm
                     {
-                        var result = response.Content.ReadAsAsync<TaskDm>().Result;
-                        if (taskDm.Document == null) return RedirectToAction("ListTask");
-                        var taskDocument = new TaskDocumentDm
-                        {
-                            TaskId = result.Id,
-                            Document = taskDm.Document,
-                            TaskTitle = taskDm.Title
-                        };
-                        SetDocumentPath(taskDocument, user);
-                        return RedirectToAction("ListTask");
-                    }
+                        TaskId = task.Id,
+                        Document = taskDm.Document,
+                        TaskTitle = taskDm.Title,
+                        AddedBy = user.Id
+                    };
+                    SetDocumentPathAndSaveFile(taskDocument, user);
+                    //return RedirectToAction("ListTask");
 
-                    string uRLEmployeeList = serviceLayerUrl + "/GetEmployeesDetailsByManagerId";
+
+                    string uRLEmployeeList = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
                     urlParameters = "?ManagerId=" + user.Id;
                     client.BaseAddress = new Uri(uRLEmployeeList);
 
@@ -210,7 +186,7 @@ namespace TaskManager.Controllers
                     }
 
                     taskDm.TaskStatusId = (int)Enum.Enum.Status.Pending;
-                    string URL = serviceLayerUrl + "/UpdateTask";
+                    string URL = ServiceLayerUrl + "/UpdateTask";
                     HttpClient client = new HttpClient();
                     urlParameters = "?taskDm=" + taskDm;
                     client.BaseAddress = new Uri(URL);
@@ -231,11 +207,11 @@ namespace TaskManager.Controllers
                             Document = taskDm.Document,
                             TaskTitle = taskDm.Title
                         };
-                        SetDocumentPath(taskDocument, user);
+                        SetDocumentPathAndSaveFile(taskDocument, user);
                         return RedirectToAction("ListTask");
                     }
 
-                    string uRLEmployeeList = serviceLayerUrl + "/GetEmployeesDetailsByManagerId";
+                    string uRLEmployeeList = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
                     urlParameters = "?ManagerId=" + user.Id;
                     client.BaseAddress = new Uri(uRLEmployeeList);
 
@@ -272,7 +248,7 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
-                string URL = serviceLayerUrl + "/DeleteTask";
+                string URL = ServiceLayerUrl + "/DeleteTask";
                 HttpClient client = new HttpClient();
                 urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(URL);
@@ -307,7 +283,7 @@ namespace TaskManager.Controllers
                 }
                 if (id == null) return View("ListTask");
 
-                string URL = serviceLayerUrl + "/GetTaskNameByTaskId";
+                string URL = ServiceLayerUrl + "/GetTaskNameByTaskId";
                 HttpClient client = new HttpClient();
                 urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(URL);
@@ -346,13 +322,13 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            SetDocumentPath(taskDocument, user);
+            SetDocumentPathAndSaveFile(taskDocument, user);
             return user.RoleId == (long)Enum.Enum.Roles.Employee ?
                 RedirectToAction("MyTasks", "Employee")
                 : RedirectToAction("ListTask");
         }
 
-        private async void SetDocumentPath(TaskDocumentDm taskDocument, UserDetailDm user)
+        private void SetDocumentPathAndSaveFile(TaskDocumentDm taskDocument, UserDetailDm user)
         {
             foreach (var file in taskDocument.Document)
             {
@@ -366,17 +342,7 @@ namespace TaskManager.Controllers
                 }
                 file.SaveAs(filePath);
                 taskDocument.DocumentPath = filePath;
-                string URL = serviceLayerUrl + "/AddTaskDocument";
-                HttpClient client = new HttpClient();
-                urlParameters = "?taskDocument=" + taskDocument + "&Id=" + user.Id;
-                client.BaseAddress = new Uri(URL);
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
             }
         }
 
@@ -390,7 +356,7 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            string URL = serviceLayerUrl + "/DeleteTaskDocument";
+            string URL = ServiceLayerUrl + "/DeleteTaskDocument";
             HttpClient client = new HttpClient();
             urlParameters = "?taskDocument=" + taskDocument;
             client.BaseAddress = new Uri(URL);
@@ -419,7 +385,7 @@ namespace TaskManager.Controllers
                 }
 
 
-                string URL = serviceLayerUrl + "/GetEmployeesDetailsByManagerId";
+                string URL = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
                 HttpClient client = new HttpClient();
                 urlParameters = "?ManagerId=" + user.Id;
                 client.BaseAddress = new Uri(URL);
@@ -436,7 +402,7 @@ namespace TaskManager.Controllers
                     ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
                 }
 
-                string uRLTask = serviceLayerUrl + "/GetTaskByTaskId";
+                string uRLTask = ServiceLayerUrl + "/GetTaskByTaskId";
                 urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(uRLTask);
 
@@ -463,7 +429,7 @@ namespace TaskManager.Controllers
         public async Task<ActionResult> CheckForTaskTitleDuplication(string title)
         {
 
-            string URL = serviceLayerUrl + "/GetTaskNames";
+            string URL = ServiceLayerUrl + "/GetTaskNames";
             HttpClient client = new HttpClient();
             urlParameters = "?title=" + title;
             client.BaseAddress = new Uri(URL);

@@ -11,7 +11,7 @@ namespace TaskManager.Controllers
     // enum Roles { Admin = 1, Manager, Employee };
     public class LoginController : Controller
     {
-        private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/LoginService";
+        private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"] }";
         private string _urlParameters;
 
         // GET: Login
@@ -31,25 +31,23 @@ namespace TaskManager.Controllers
             {
                 var name = log.UserName;
                 var password = log.Password;
-
-                var url = ServiceLayerUrl + "/GetLogDetails";
-                var client = new HttpClient();
-                _urlParameters = "?name=" + name + "&password=" + password;
-                client.BaseAddress = new Uri(url);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                var loginUser = new LoginUserDm();
+                // var url = ServiceLayerUrl + "/GetLogDetails";
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.GetAsync(_urlParameters);
-                var result = response.Content.ReadAsAsync<LoginUserDm>().Result;
-                var id = result.EmpId;
-
-                var userDetails = UserDetailsData(id);
-                if (userDetails.Result != null)
+                var response = await client.GetAsync($"/login/login-details/?name={name}&password={password}");
+                if (response.IsSuccessStatusCode)
                 {
-                    switch (userDetails.Result.RoleId)
+                    loginUser = response.Content.ReadAsAsync<LoginUserDm>().Result;
+                }
+
+                var id = loginUser.EmpId;
+
+                var userDetails = await UserDetailsData(id);
+                if (userDetails != null)
+                {
+                    switch (userDetails.RoleId)
                     {
                         case (int)EnumClass.Roles.Employee:
                             Session["SessionData"] = userDetails;
@@ -88,8 +86,9 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
+
             }
-            catch
+            catch (Exception e)
             {
                 throw;
             }

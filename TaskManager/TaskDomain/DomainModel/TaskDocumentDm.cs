@@ -7,8 +7,8 @@ namespace TaskDomain.DomainModel
 {
     public class TaskDocumentDm
     {
-        public int Id { get; set; }
-        public int TaskId { get; set; }
+        public string Id { get; set; }
+        public string TaskId { get; set; }
         public string TaskTitle { get; set; }
         public List<HttpPostedFileBase> Document { get; set; }
         public string DocumentPath { get; set; }
