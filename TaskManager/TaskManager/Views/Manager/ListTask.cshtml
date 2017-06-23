@@ -58,8 +58,25 @@
                         <td> @data.Title </td>
                         <td> @data.CreatedByName </td>
                         <td> @data.AssignedToName </td>
+                       @if (data.StartDate != null)
+                       {
                         <td> @data.StartDate.Value.ToShortDateString() </td>
-                        <td> @data.EndDate.Value.ToShortDateString()  </td>
+                       }
+                       else
+                       {
+                        <td></td>
+                       }
+
+
+                        @if (data.EndDate != null)
+                        {
+                            <td> @data.EndDate.Value.ToShortDateString() </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
                         <td> @data.Description </td>
                         <td> @data.TaskStatus </td>
                         <td> @data.CreateDate.ToShortDateString() </td>

@@ -49,6 +49,7 @@ namespace TaskManagerServiceApi.Controllers
                 var roleName = await client.GetAsync($"/login/roles/{userDetail.RoleId}");
                 if (roleName.IsSuccessStatusCode)
                     userDetail.RoleName = roleName.Content.ReadAsAsync<string>().Result;
+                //userDetail.RoleName = roleName.Content.ReadAsAsync<String>().Result;
             }
             catch
             {
