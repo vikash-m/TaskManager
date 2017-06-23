@@ -33,7 +33,7 @@ namespace TaskManagerDAL.Models
         public Nullable<int> RoleId { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string CreateBy { get; set; }
+        public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public string ManagerId { get; set; }
         public Nullable<bool> IsDeleted { get; set; }

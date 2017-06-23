@@ -13,8 +13,8 @@ namespace TaskManager.Controllers
 {
     public class EmployeeController : Controller
     {
-        static HttpClient client = new HttpClient();
-        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/EmployeeService";
+
+        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
         private string urlParameters;
 
         public async Task<ActionResult> Dashboard()
@@ -38,7 +38,7 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     taskStatusCountDataModel = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
-                    
+
                 }
                 return View(taskStatusCountDataModel);
             }
@@ -129,28 +129,22 @@ namespace TaskManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetTaskDetails(long id)
+        public async Task<ActionResult> GetTaskDetails(string id)
         {
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
 
-                string URL = serviceLayerUrl + "/GetTaskDetails";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                var client = new HttpClient { BaseAddress = new Uri(serviceLayerUrl) };
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync($"employees/tasks/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    var dataObjects = response.Content.ReadAsAsync<TaskDm>().Result;
-                    return View("dataObjects");
+                    var task = response.Content.ReadAsAsync<TaskDm>().Result;
+                    return View(task);
                 }
                 return null;
             }
@@ -163,7 +157,7 @@ namespace TaskManager.Controllers
 
         public FileResult Download(string fileName)
         {
-            
+
             return File(fileName, "application/force-download", Path.GetFileName(fileName));
         }
     }

@@ -5,7 +5,6 @@ using TaskDomain.DomainModel;
 using System.Net.Http;
 using System.Configuration;
 using System;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -14,14 +13,15 @@ namespace TaskManager.Controllers
     public class ManagerController : Controller
     {
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
-        private string urlParameters;
-
-        // GET: Manager
         public async Task<ActionResult> ListTask(int? page)
         {
 
             try
             {
+
+                if (!ModelState.IsValid)
+                    return RedirectToAction("Login", "Login");
+
                 var user = (UserDetailDm)Session["SessionData"];
 
                 if (null == user)
@@ -29,29 +29,20 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
-                var id = user.Id;
-                string URL = ServiceLayerUrl + "/GetAllTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
-                    var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10); ;
-                    return View(taskList);
-                }
-                return null;
+                var response = await client.GetAsync($"/manager/{user.Id}/tasks");
+
+                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10); ;
+
+                return View(taskList);
             }
             catch
             {
                 return View("Error");
             }
+
+
 
         }
 
@@ -118,7 +109,7 @@ namespace TaskManager.Controllers
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
-
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 if (ModelState.IsValid)
                 {
                     if (null == user)
@@ -127,42 +118,34 @@ namespace TaskManager.Controllers
                     }
 
                     taskDm.TaskStatusId = (int)EnumClass.Status.Pending;
-                    var task = new TaskDm();
-                    var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+
                     // List data response.
-                    var response = await client.PostAsJsonAsync($"/manager/{user.Id}/employees",taskDm);
+                    var response = await client.PostAsJsonAsync($"/manager/?loginUserId={user.Id}", taskDm);
                     if (response.IsSuccessStatusCode)
-                        task = response.Content.ReadAsAsync<TaskDm>().Result;
-                    if (taskDm.Document == null) return RedirectToAction("ListTask");
-                    var taskDocument = new TaskDocumentDm
                     {
-                        TaskId = task.Id,
-                        Document = taskDm.Document,
-                        TaskTitle = taskDm.Title,
-                        AddedBy = user.Id
-                    };
-                    SetDocumentPathAndSaveFile(taskDocument, user);
-                    //return RedirectToAction("ListTask");
-
-
-                    string uRLEmployeeList = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
-                    urlParameters = "?ManagerId=" + user.Id;
-                    client.BaseAddress = new Uri(uRLEmployeeList);
-
-                    // Add an Accept header for JSON format.
-                    client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // List data response.
-                    HttpResponseMessage responseEmployeeList = await client.GetAsync(urlParameters);
-                    if (responseEmployeeList.IsSuccessStatusCode)
-                    {
-                        var employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-                        ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
-                        return View(taskDm);
+                        var task = response.Content.ReadAsAsync<TaskDm>().Result;
+                        if (taskDm.Document == null) return RedirectToAction("ListTask");
+                        var taskDocument = new TaskDocumentDm
+                        {
+                            TaskId = task.Id,
+                            Document = taskDm.Document,
+                            TaskTitle = taskDm.Title,
+                            AddedBy = user.Id
+                        };
+                        await SetDocumentPathAndSaveFile(taskDocument, user);
+                        return RedirectToAction("ListTask");
                     }
                 }
-                return null;
+                // List data response.
+                var employeeList = new List<UserDetailDm>();
+                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                if (responseEmployeeList.IsSuccessStatusCode)
+
+                    employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+
+                return View(taskDm);
             }
             catch
             {
@@ -177,7 +160,7 @@ namespace TaskManager.Controllers
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
-
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 if (ModelState.IsValid)
                 {
                     if (null == user)
@@ -186,20 +169,12 @@ namespace TaskManager.Controllers
                     }
 
                     taskDm.TaskStatusId = (int)Enum.Enum.Status.Pending;
-                    string URL = ServiceLayerUrl + "/UpdateTask";
-                    HttpClient client = new HttpClient();
-                    urlParameters = "?taskDm=" + taskDm;
-                    client.BaseAddress = new Uri(URL);
 
-                    // Add an Accept header for JSON format.
-                    client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // List data response.
-                    HttpResponseMessage response = await client.GetAsync(urlParameters);
+                    var response = await client.PutAsJsonAsync($"manager/{taskDm.Id}", taskDm);
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = response.Content.ReadAsAsync<TaskDm>().Result;
                         if (taskDm.Document == null) return RedirectToAction("ListTask");
                         var taskDocument = new TaskDocumentDm
                         {
@@ -207,28 +182,23 @@ namespace TaskManager.Controllers
                             Document = taskDm.Document,
                             TaskTitle = taskDm.Title
                         };
-                        SetDocumentPathAndSaveFile(taskDocument, user);
+                        await SetDocumentPathAndSaveFile(taskDocument, user);
                         return RedirectToAction("ListTask");
                     }
-
-                    string uRLEmployeeList = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
-                    urlParameters = "?ManagerId=" + user.Id;
-                    client.BaseAddress = new Uri(uRLEmployeeList);
-
-                    // Add an Accept header for JSON format.
-                    client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // List data response.
-                    HttpResponseMessage responseEmployeeList = await client.GetAsync(urlParameters);
-                    if (responseEmployeeList.IsSuccessStatusCode)
-                    {
-                        var employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-                        ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
-                        return View(taskDm);
-                    }
                 }
-                return null;
+
+                // List data response.
+                var employeeList = new List<UserDetailDm>();
+                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                if (responseEmployeeList.IsSuccessStatusCode)
+
+                    employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+
+                return View(taskDm);
+
+
             }
             catch
             {
@@ -237,41 +207,37 @@ namespace TaskManager.Controllers
         }
 
 
-        public async Task<ActionResult> DeleteTask(int? id)
+        public async Task<ActionResult> DeleteTask(string id)
         {
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
+                var task = new TaskDm
+                {
+                    Id = id
+                };
 
                 if (null == user)
                 {
                     return RedirectToAction("Login", "Login");
                 }
 
-                string URL = ServiceLayerUrl + "/DeleteTask";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
+                var client = new HttpClient();
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("ListTask");
-                }
-                return null;
+                var response = await client.DeleteAsync($"manager/{id}");
+
             }
             catch
             {
                 return View("Error");
             }
+
+            return RedirectToAction("ListTask");
         }
 
-        public async Task<ActionResult> DocumentPartialView(int? id)
+        public async Task<ActionResult> DocumentPartialView(string id)
         {
             try
             {
@@ -283,28 +249,19 @@ namespace TaskManager.Controllers
                 }
                 if (id == null) return View("ListTask");
 
-                string URL = ServiceLayerUrl + "/GetTaskNameByTaskId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(URL);
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
-                if (response.IsSuccessStatusCode)
+                var response = await client.GetAsync($"manager/tasks/{id}/task-name");
+                if (!response.IsSuccessStatusCode) return View("Error");
+                var taskName = response.Content.ReadAsAsync<string>().Result;
+                var taskDocument = new TaskDocumentDm
                 {
-                    var taskName = response.Content.ReadAsAsync<string>().Result;
-                    var taskDocument = new TaskDocumentDm
-                    {
-                        TaskId = id,
-                        TaskTitle = taskName
-                    };
-                    return PartialView("_AddDocument", taskDocument);
-                }
-                return null;
+                    TaskId = id,
+                    TaskTitle = taskName
+                };
+                return PartialView("_AddDocument", taskDocument);
             }
             catch
             {
@@ -322,14 +279,16 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            SetDocumentPathAndSaveFile(taskDocument, user);
-            return user.RoleId == (long)Enum.Enum.Roles.Employee ?
+            var response = SetDocumentPathAndSaveFile(taskDocument, user);
+
+            return response.IsCompleted && user.RoleId == (int)Enum.Enum.Roles.Employee ?
                 RedirectToAction("MyTasks", "Employee")
-                : RedirectToAction("ListTask");
+              : RedirectToAction("ListTask", "Manager");
         }
 
-        private void SetDocumentPathAndSaveFile(TaskDocumentDm taskDocument, UserDetailDm user)
+        private async Task<bool> SetDocumentPathAndSaveFile(TaskDocumentDm taskDocument, UserDetailDm user)
         {
+            var uploadStatus = new bool();
             foreach (var file in taskDocument.Document)
             {
                 if (file == null) continue;
@@ -342,41 +301,57 @@ namespace TaskManager.Controllers
                 }
                 file.SaveAs(filePath);
                 taskDocument.DocumentPath = filePath;
+                taskDocument.Id = Guid.NewGuid().ToString();
+                taskDocument.CreateDate = DateTime.Now;
+                taskDocument.AddedBy = user.Id;
+                uploadStatus = await AddDocument(taskDocument);
 
             }
+            return uploadStatus;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> DeleteTaskDocument(TaskDocumentDm taskDocument)
+        private async Task<bool> AddDocument(TaskDocumentDm taskDocumentDm)
         {
-            var user = (UserDetailDm)Session["SessionData"];
-
-            if (null == user)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-
-            string URL = ServiceLayerUrl + "/DeleteTaskDocument";
-            HttpClient client = new HttpClient();
-            urlParameters = "?taskDocument=" + taskDocument;
-            client.BaseAddress = new Uri(URL);
-
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
+            var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+            var documentUploadStatus = new bool(); ;
             // List data response.
-            HttpResponseMessage response = await client.GetAsync(urlParameters);
+            var response = await client.PostAsJsonAsync($"/manager/document", taskDocumentDm);
+            if (response.IsSuccessStatusCode)
+                documentUploadStatus = response.Content.ReadAsAsync<bool>().Result;
+            return documentUploadStatus;
 
-            return RedirectToAction("ListTask");
         }
 
-        public async Task<ActionResult> EditTask(int? id)
+        //[HttpPost]
+        //public async Task<ActionResult> DeleteTaskDocument(TaskDocumentDm taskDocument)
+        //{
+        //    var user = (UserDetailDm)Session["SessionData"];
+
+        //    if (null == user)
+        //    {
+        //        return RedirectToAction("Login", "Login");
+        //    }
+
+        //    string URL = ServiceLayerUrl + "/DeleteTaskDocument";
+        //    HttpClient client = new HttpClient();
+        //    urlParameters = "?taskDocument=" + taskDocument;
+        //    client.BaseAddress = new Uri(URL);
+
+        //    // Add an Accept header for JSON format.
+        //    client.DefaultRequestHeaders.Accept.Add(
+        //    new MediaTypeWithQualityHeaderValue("application/json"));
+
+        //    // List data response.
+        //    HttpResponseMessage response = await client.GetAsync(urlParameters);
+
+        //    return RedirectToAction("ListTask");
+        //}
+
+        public async Task<ActionResult> EditTask(string id)
         {
 
             try
             {
-
                 var user = (UserDetailDm)Session["SessionData"];
 
                 if (null == user)
@@ -384,41 +359,24 @@ namespace TaskManager.Controllers
                     return RedirectToAction("Login", "Login");
                 }
 
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
-                string URL = ServiceLayerUrl + "/GetEmployeesDetailsByManagerId";
-                HttpClient client = new HttpClient();
-                urlParameters = "?ManagerId=" + user.Id;
-                client.BaseAddress = new Uri(URL);
-
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                var response = await client.GetAsync($"/manager/tasks/{id}");
+                var task = new TaskDm();
+                // List data response.
                 if (response.IsSuccessStatusCode)
-                {
-                    var employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-                    ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
-                }
+                    task = response.Content.ReadAsAsync<TaskDm>().Result;
+                var employeeList = new List<UserDetailDm>();
+                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                if (responseEmployeeList.IsSuccessStatusCode)
 
-                string uRLTask = ServiceLayerUrl + "/GetTaskByTaskId";
-                urlParameters = "?id=" + id;
-                client.BaseAddress = new Uri(uRLTask);
+                    employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
 
-                // Add an Accept header for JSON format.
-                client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
 
-                // List data response.
-                HttpResponseMessage responseTask = await client.GetAsync(urlParameters);
-                if (responseTask.IsSuccessStatusCode)
-                {
-                    var task = responseTask.Content.ReadAsAsync<TaskDm>().Result;
-                    return View(task);
-                }
-
-                return null;
+                return View(task);
             }
             catch
             {
@@ -426,20 +384,13 @@ namespace TaskManager.Controllers
             }
         }
 
-        public async Task<ActionResult> CheckForTaskTitleDuplication(string title)
+        public async Task<ActionResult> CheckForTaskName(string title)
         {
+            var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
-            string URL = ServiceLayerUrl + "/GetTaskNames";
-            HttpClient client = new HttpClient();
-            urlParameters = "?title=" + title;
-            client.BaseAddress = new Uri(URL);
-
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
 
             // List data response.
-            HttpResponseMessage response = await client.GetAsync(urlParameters);
+            var response = await client.GetAsync($"manager/tasks/task/{title}");
 
             var data = response.Content.ReadAsAsync<bool>().Result;
 

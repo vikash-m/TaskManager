@@ -22,7 +22,7 @@ namespace TaskManagerDAL.Models
     
         public string Id { get; set; }
         public string Title { get; set; }
-        public string CreateBy { get; set; }
+        public string CreatedBy { get; set; }
         public string AssignedTo { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }

@@ -10,7 +10,7 @@ namespace TaskDomain.DomainModel
     {
         public string Id { get; set; }
         [Required(ErrorMessage = "Title For the Task is required")]
-        [Remote("CheckForTaskTitleDuplication", "Manager", ErrorMessage = "Task Title already exists. Please enter a different Task Title.")]
+        [Remote("CheckForTaskName", "Manager", ErrorMessage = "Task Title already exists. Please enter a different Task Title.")]
         public string Title { get; set; }
         public string CreatedBy { get; set; }
         [Required(ErrorMessage = "Assign To is required")]

@@ -14,6 +14,7 @@ namespace TaskManagerServiceApi.Controllers
     {
         // GET: EmployeeService
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        private readonly ManagerServiceController _managerServiceController = new ManagerServiceController();
 
         [HttpGet, Route("")]
         public async Task<List<UserDetailDm>> GetEmployees()
@@ -49,7 +50,7 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employeeTask = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                foreach(var item in employeeTask)
+                foreach (var item in employeeTask)
                 {
                     ManagerServiceController managerSercviceController = new ManagerServiceController();
                     item.CreatedByName = await managerSercviceController.GetEmployeeNameById(item.CreatedBy);
@@ -141,7 +142,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("tasks/{taskId}")]
-        public async Task<TaskDm> GetTaskDetails(int taskId)
+        public async Task<TaskDm> GetTaskDetails(string taskId)
         {
             var taskDetail = new TaskDm();
             try
@@ -152,7 +153,10 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskDetail = response.Content.ReadAsAsync<TaskDm>().Result;
-
+                taskDetail.AssignedToName = await _managerServiceController.GetEmployeeNameById(taskDetail.AssignedTo);
+                taskDetail.CreatedByName = await _managerServiceController.GetEmployeeNameById(taskDetail.CreatedBy);
+                taskDetail.TaskStatus =
+                    await _managerServiceController.GetTaskStatusNameByTaskStatusId(taskDetail.TaskStatusId);
 
             }
             catch (Exception)

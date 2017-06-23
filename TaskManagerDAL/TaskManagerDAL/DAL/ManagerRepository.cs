@@ -21,12 +21,12 @@ namespace TaskManagerDAL.DAL
         }
 
         public List<Task> GetAllTask(string managerId)
-            => _taskManagerEntities.Tasks.Where(x => x.CreateBy == managerId).ToList();
+            => _taskManagerEntities.Tasks.Where(x => x.CreatedBy == managerId).ToList();
 
         public string GetTaskStatusByTaskStatusId(int taskId)
             => _taskManagerEntities.TaskStatus.FirstOrDefault(x => x.Id == taskId)?.Status;
 
-       public string GetEmployeeNameById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id.Equals(id))?.FirstName;
+        public string GetEmployeeNameById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id.Equals(id))?.FirstName;
 
         public bool UpdateTask(Task task)
         {
