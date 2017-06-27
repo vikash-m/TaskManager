@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class UserDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +24,7 @@ namespace TaskManagerDAL.Models
             this.TaskDocuments = new HashSet<TaskDocument>();
             this.TaskDocuments1 = new HashSet<TaskDocument>();
         }
-    
+
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -37,7 +37,7 @@ namespace TaskManagerDAL.Models
         public string ModifiedBy { get; set; }
         public string ManagerId { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LoginUser> LoginUsers { get; set; }
         public virtual Role Role { get; set; }
@@ -53,3 +53,4 @@ namespace TaskManagerDAL.Models
         public virtual ICollection<TaskDocument> TaskDocuments1 { get; set; }
     }
 }
+
