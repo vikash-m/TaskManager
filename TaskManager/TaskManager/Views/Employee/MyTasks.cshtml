@@ -6,10 +6,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     }
-    <script src="~/Scripts/kendo/jquery.min.js"></script>
+    @*<script src="~/Scripts/kendo/jquery.min.js"></script>
     <script src="~/Scripts/kendo/kendo.all.min.js"></script>
-    <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+    <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>*@
     
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <div class="row border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>My Tasks</h2>
@@ -98,14 +99,7 @@
                         .PageSize(20)
                         )
                         )*@
-                        @(Html.Kendo().Window().Name("Details")
-                        .Title("Task Details")
-                        .Visible(false)
-                        .Modal(true)
-                        .Draggable(true)
-                        .Width(500)
-                        .Height(400)
-                        )
+                        
                         <div style="align-content:center" class="modal bs-add-leave-modal" id="AddLeaveModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                             <div class="modal-dialog" style="margin: 50px -300px" role="document">
                                 <div class="modal-content border-radius-modalBottom">
@@ -254,33 +248,27 @@
                             );
 
 
-                            var detailsTemplate = kendo.template($("#template").html());
+                            //var detailsTemplate = kendo.template($("#template").html());
 
-                            //function showDetails(e) {
-                            //    e.preventDefault();
-
-                            //    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                            //    var wnd = $("#Details").data("kendoWindow");
-
-                            //    wnd.content(detailsTemplate(dataItem));
-                            //    wnd.center().open();
-                            //    GetStatus(dataItem.TaskStatusId);
-                            //}
+                           
 
                             function GetStatus(TaskStatusId) {
-                                debugger;
                                 $.ajax({
                                     cache: false,
-                                    type: 'post',
+                                    type: 'get',
                                     url: '/Employee/GetStatusList',
                                     contentType: "application/json",
                                     dataType: "json",
                                     success: function (data) {
+                                        debugger;
                                         $("#ddlstatus").empty();
                                         for (var i = 0; i < data.data.length; i++) {
                                             $("#ddlstatus").append($('<option></option>').attr("value", data.data[i].Id).text(data.data[i].Status));
                                         }
                                         $("#ddlstatus").val(TaskStatusId);
+                                    },
+                                    error: function (error) {
+                                        debugger;
                                     }
                                 });
                             }
@@ -305,5 +293,5 @@
                             })
                            
                         </script>
-                        @Scripts.Render("~/bundles/jquery")
-                        @Scripts.Render("~/bundles/kendo")
+                        @*@Scripts.Render("~/bundles/jquery")
+                        @Scripts.Render("~/bundles/kendo")*@

@@ -13,7 +13,5 @@ namespace TaskDomain.DomainModel
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
         public virtual ICollection<TaskDm> Tasks { get; set; }
-
-
     }
 }
