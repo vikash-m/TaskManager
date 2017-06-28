@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TaskManagerUtility
 {
-    class EncryptionDecryption
+  public class EncryptionDecryption
     {
         public string Encrypt(string str)
         {

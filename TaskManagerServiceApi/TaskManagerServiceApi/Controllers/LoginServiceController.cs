@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System;
 using TaskDomain.DomainModel;
-
+using TaskManagerUtility;
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("login")]
@@ -15,11 +15,15 @@ namespace TaskManagerServiceApi.Controllers
         [HttpGet, Route("login-details")]
         public async Task<LoginUserDm> GetLoginDetails(string name, string password)
         {
+            //var password=encr
+            EncryptionDecryption encryptionDecryption = new EncryptionDecryption();
+            var encryptedPassword = encryptionDecryption.Encrypt(password);
+
             var loginUser = new LoginUserDm();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/login/?name={name}&password={password}");
+                var response = await client.GetAsync($"/login/?name={name}&password={encryptedPassword}");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
