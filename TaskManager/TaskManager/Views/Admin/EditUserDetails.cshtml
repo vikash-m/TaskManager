@@ -1,4 +1,4 @@
-﻿@model TaskDomain.DomainModel.UserdetailDm
+﻿@model TaskDomain.DomainModel.UserDetailDm
 @{
     ViewBag.Title = "EditUserDetails";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
@@ -16,7 +16,7 @@
     <h5>Add User</h5>
 </div>
 
-@using (Html.BeginForm("EditUserDetails", "Home", FormMethod.Post))
+@using (Html.BeginForm("EditUserDetails", "Admin", FormMethod.Post))
 {
 
     <div class="ibox-content">

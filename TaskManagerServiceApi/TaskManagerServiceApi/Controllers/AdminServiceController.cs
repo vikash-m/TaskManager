@@ -13,14 +13,18 @@ namespace TaskManagerServiceApi.Controllers
     {
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
-        [HttpPost, Route("")]
-        public async Task<bool> CreateUsers(UserDetailDm userdetail)
+        [HttpPost, Route("create-user")]
+        public async Task<bool> CreateUsers(string loginUser, UserDetailDm userDetail)
         {
             var createStatus = new bool();
             try
             {
+                userDetail.Id = Guid.NewGuid().ToString();
+                userDetail.CreatedBy = loginUser;
+                userDetail.CreateDate = DateTime.Now;
+
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PostAsJsonAsync("/admin", userdetail);
+                var response = await client.PostAsJsonAsync("/admin/create-user", userDetail);
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -85,8 +89,20 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+                foreach (var item in users)
+                {
+                    if(item!=null)
+                    {
+                     var id= item.Id;
+                     var roleResponse= await client.GetAsync($"/admin/roles/{item.RoleId}");
+                    if(roleResponse.IsSuccessStatusCode)
+                    {
+                        item.RoleName = roleResponse.Content.ReadAsAsync<string>().Result;
+                    }
+                    }
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -94,11 +110,12 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("{employeeId}")]
-        public async Task<UserDetailDm> EditUser(int employeeId)
+        public async Task<UserDetailDm> EditUser(string employeeId)
         {
             var user = new UserDetailDm();
             try
             {
+
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/admin/{employeeId}");
 
@@ -113,14 +130,17 @@ namespace TaskManagerServiceApi.Controllers
             return user;
         }
 
-        [HttpPut, Route("{id}")]
-        public async Task<bool> UpdateUserDetails(UserDetailDm userdetailDm)
+        [HttpPut,Route("{id}")]
+        public async Task<bool> EditUserDetails(string id,string loginUser,UserDetailDm userDetail)
         {
             var updateStatus = new bool();
             try
             {
+                //userDetail.Id = Guid.NewGuid().ToString();
+                userDetail.ModifiedBy = loginUser;
+                userDetail.ModifiedDate= DateTime.Now;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PutAsJsonAsync($"/admin/{userdetailDm.Id}", userdetailDm);
+                var response = await client.PutAsJsonAsync($"/admin/{userDetail.Id}", userDetail);
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -134,14 +154,15 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUser(string id,string loginUser)
         {
             var user = new UserDetailDm();
+            
             var updateStatus = new bool();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PutAsJsonAsync($"/admin/{id}", user);
+                var response = await client.DeleteAsync($"/admin/{id}/?loginUser={loginUser}");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
