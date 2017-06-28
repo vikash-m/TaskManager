@@ -88,14 +88,8 @@ namespace TaskManager.Controllers
 
                 // List data response.
                 HttpResponseMessage response = await client.GetAsync("/employees/status");
-                if (response.IsSuccessStatusCode)
-                {
-                    var statusList = response.Content.ReadAsAsync<List<TaskStatusModel>>().Result;
-                    var js =  Json(new { data = statusList }, JsonRequestBehavior.AllowGet);
-                    return js;
-                    
-                }
-                return null;
+                var statusList = response.Content.ReadAsAsync<List<TaskStatusModel>>().Result;
+                return Json(new { data = statusList }, JsonRequestBehavior.AllowGet);
             }
             catch
             {
@@ -143,12 +137,9 @@ namespace TaskManager.Controllers
 
                 // List data response.
                 var response = await client.GetAsync($"employees/tasks/{id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var task = response.Content.ReadAsAsync<TaskDm>().Result;
-                    return View(task);
-                }
-                return null;
+                var task = response.Content.ReadAsAsync<TaskDm>().Result;
+                return View(task);
+               
             }
             catch
             {
