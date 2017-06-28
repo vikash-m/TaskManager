@@ -27,7 +27,7 @@
             <div class="ibox-title">
                 <h5>Edit Task</h5>
             </div>
-            @using (Html.BeginForm("EditTask", "Manager", FormMethod.Post))
+            @using (Html.BeginForm("EditTask", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(model => model.Id)
                 <div class="ibox-content">

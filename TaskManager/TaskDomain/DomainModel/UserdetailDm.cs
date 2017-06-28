@@ -21,7 +21,7 @@ namespace TaskDomain.DomainModel
         [Required(ErrorMessage = "Enter Email Id")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid email id")]
         public string EmailId { get; set; }
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }

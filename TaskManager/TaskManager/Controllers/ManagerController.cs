@@ -121,7 +121,7 @@ namespace TaskManager.Controllers
                     }
                     var taskDocument = new TaskDocumentDm();
                     taskDm.TaskStatusId = (int)EnumClass.Status.Pending;
-                    if (taskDm.Document.Count > 0)
+                    if (taskDm.Document.Count > 0 || taskDocument.Document.Contains(null))
                     {
                         taskDocument.Document = new List<HttpPostedFileBase>(taskDm.Document);
                         taskDocument.TaskTitle = taskDm.Title;
@@ -136,7 +136,8 @@ namespace TaskManager.Controllers
                     {
                         var task = response.Content.ReadAsAsync<TaskDm>().Result;
                         taskDocument.TaskId = task.Id;
-                        await SetDocumentPathAndSaveFile(taskDocument);
+                        if (!taskDocument.Document.Contains(null))
+                            await SetDocumentPathAndSaveFile(taskDocument);
                         return RedirectToAction("ListTask");
                     }
                 }
@@ -177,7 +178,7 @@ namespace TaskManager.Controllers
                     }
                     var taskDocument = new TaskDocumentDm();
 
-                    if (taskDm.Document.Count > 0)
+                    if (taskDm.Document.Count > 0 || taskDocument.Document.Contains(null))
                     {
                         taskDocument.Document = new List<HttpPostedFileBase>(taskDm.Document);
                         taskDocument.TaskTitle = taskDm.Title;
@@ -187,13 +188,13 @@ namespace TaskManager.Controllers
                         taskDocument.AddedBy = user.Id;
 
                     }
+                    taskDm.Document.Clear();
                     // List data response.
                     var response = await client.PutAsJsonAsync($"manager/{taskDm.Id}/?loginUser={user.Id}", taskDm);
                     if (response.IsSuccessStatusCode)
                     {
-                        if (taskDm.Document == null) return RedirectToAction("ListTask");
-
-                        await SetDocumentPathAndSaveFile(taskDocument);
+                        if (!taskDocument.Document.Contains(null))
+                            await SetDocumentPathAndSaveFile(taskDocument);
                         return RedirectToAction("ListTask");
                     }
                 }
@@ -211,7 +212,7 @@ namespace TaskManager.Controllers
 
 
             }
-            catch
+            catch (Exception ex)
             {
                 return View("Error");
             }
@@ -297,8 +298,11 @@ namespace TaskManager.Controllers
         {
             var user = (UserDetailDm)Session["SessionData"];
             var uploadStatus = new bool();
-            foreach (var file in taskDocument.Document)
+            var document = new List<HttpPostedFileBase>(taskDocument.Document);
+            taskDocument.Document.Clear();
+            foreach (var file in document)
             {
+                if (file == null) return true;
                 var folderPath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle);
                 var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle, file.FileName);
                 if (!Directory.Exists(folderPath))
@@ -310,12 +314,10 @@ namespace TaskManager.Controllers
                 taskDocument.Id = Guid.NewGuid().ToString();
                 taskDocument.CreateDate = DateTime.Now;
                 taskDocument.AddedBy = user.Id;
-
-
-
+                uploadStatus = await AddDocument(taskDocument);
             }
-            taskDocument.Document.Clear();
-            uploadStatus = await AddDocument(taskDocument);
+
+
             return uploadStatus;
         }
 

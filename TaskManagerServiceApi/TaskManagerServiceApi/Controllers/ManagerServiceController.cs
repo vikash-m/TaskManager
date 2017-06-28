@@ -66,10 +66,6 @@ namespace TaskManagerServiceApi.Controllers
             var documentUploadStatus = new bool();
             try
             {
-                //taskDocument.Id = Guid.NewGuid().ToString();
-                //taskDocument.CreateDate = DateTime.Now;
-                //taskDocument.AddedBy = loginUserId;
-
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.PostAsJsonAsync("/manager/document", taskDocument);
 
@@ -98,14 +94,9 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     tasks = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                //foreach (var task in tasks)
-                //{
-                //    task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
-                //    task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
-                //    task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
-                //}
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -211,12 +202,9 @@ namespace TaskManagerServiceApi.Controllers
                 var response = await client.GetAsync($"/manager/tasks/{taskId}");
                 if (response.IsSuccessStatusCode)
                     task = response.Content.ReadAsAsync<TaskDm>().Result;
-                //task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
-                //task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
-                //task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -230,21 +218,21 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var pending = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
-                var inProgress = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
-                var completed = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
-                if (pending.IsSuccessStatusCode)
-                {
-                    taskCount.Pending = pending.Content.ReadAsAsync<int>().Result;
-                }
-                if (inProgress.IsSuccessStatusCode)
-                {
-                    taskCount.InProgress = pending.Content.ReadAsAsync<int>().Result;
-                }
-                if (completed.IsSuccessStatusCode)
-                {
-                    taskCount.Completed = pending.Content.ReadAsAsync<int>().Result;
-                }
+                var pendingCount = await client.GetAsync($"/manager/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
+                var inProgressCount = await client.GetAsync($"/manager/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
+                var completedCount = await client.GetAsync($"/manager/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
+
+                if (pendingCount.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    taskCount.Pending = pendingCount.Content.ReadAsAsync<int>().Result;
+
+                if (inProgressCount.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    taskCount.InProgress = inProgressCount.Content.ReadAsAsync<int>().Result;
+
+                if (completedCount.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
             }
             catch (Exception ex)

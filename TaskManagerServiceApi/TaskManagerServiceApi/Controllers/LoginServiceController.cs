@@ -16,7 +16,7 @@ namespace TaskManagerServiceApi.Controllers
         public async Task<LoginUserDm> GetLoginDetails(string name, string password)
         {
             //var password=encr
-            EncryptionDecryption encryptionDecryption = new EncryptionDecryption();
+            var encryptionDecryption = new EncryptionDecryption();
             var encryptedPassword = encryptionDecryption.Encrypt(password);
 
             var loginUser = new LoginUserDm();

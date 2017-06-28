@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
 
@@ -109,11 +110,12 @@ namespace TaskManagerDAL.DAL
             }
         }
 
-        public TaskDm GetTaskByTaskId(string id) => _taskManagerEntities.Tasks.Where(x => x.Id.Equals(id)).Select(task => new TaskDm
+        public TaskDm GetTaskByTaskId(string id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id.Equals(id)).IfNotNull(task => new TaskDm
         {
             Id = task.Id,
             Title = task.Title,
             AssignedToName = GetEmployeeNameById(task.AssignedTo),
+            AssignedTo = task.AssignedTo,
             CreatedByName = GetEmployeeNameById(task.CreatedBy),
             Description = task.Description,
             StartDate = task.StartDate,
@@ -121,7 +123,7 @@ namespace TaskManagerDAL.DAL
             TaskStatus = GetTaskStatusByTaskStatusId(task.TaskStatusId),
             CreateDate = task.CreateDate,
             ModifiedDate = task.ModifiedDate
-        }).FirstOrDefault();
+        });
 
         public bool CheckForTaskName(string title) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Title.Equals(title) && x.IsDeleted == false) == null;
 

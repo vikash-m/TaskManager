@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
 
 namespace TaskManagerDAL.DAL
@@ -9,6 +10,7 @@ namespace TaskManagerDAL.DAL
     public class AdminRepository
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
+        private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         public bool CreateUser(UserDetail userDetail)
         {
@@ -18,12 +20,18 @@ namespace TaskManagerDAL.DAL
 
         }
 
-        public List<UserDetail> GetUser()
-        {
-            var res= _taskManagerEntities.UserDetails.Where(m => m.IsDeleted != true)
-                .ToList() ;
-            return res;
-        }
+        public List<UserDetailDm> GetUser() => _taskManagerEntities.UserDetails.Where(m => m.IsDeleted != true)
+            .ToList().Select(user => new UserDetailDm
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                EmailId = user.EmailId,
+                ManagerName = _managerRepository.GetEmployeeNameById(user.ManagerId),
+                ManagerId = user.ManagerId,
+                RoleName = GetRoleById(user.RoleId),
+                RoleId = user.RoleId
+            }).ToList();
 
         public bool CreateLoginUser(LoginUser loginUser)
         {
@@ -35,7 +43,7 @@ namespace TaskManagerDAL.DAL
 
         public List<Role> GetRoles() => _taskManagerEntities.Roles.ToList();
 
-        public string GetRolesById(int roleId)
+        public string GetRoleById(int? roleId)
         {
             return _taskManagerEntities.Roles.FirstOrDefault(m => m.RoleId == roleId).RoleName;
         }

@@ -91,18 +91,17 @@ namespace TaskManagerServiceApi.Controllers
                     users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
                 foreach (var item in users)
                 {
-                    if(item!=null)
-                    {
-                     var id= item.Id;
-                     var roleResponse= await client.GetAsync($"/admin/roles/{item.RoleId}");
-                    if(roleResponse.IsSuccessStatusCode)
+
+                    var id = item.Id;
+                    var roleResponse = await client.GetAsync($"/admin/roles/{item.RoleId}");
+                    if (roleResponse.IsSuccessStatusCode)
                     {
                         item.RoleName = roleResponse.Content.ReadAsAsync<string>().Result;
                     }
-                    }
+
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -130,15 +129,15 @@ namespace TaskManagerServiceApi.Controllers
             return user;
         }
 
-        [HttpPut,Route("{id}")]
-        public async Task<bool> EditUserDetails(string id,string loginUser,UserDetailDm userDetail)
+        [HttpPut, Route("{id}")]
+        public async Task<bool> EditUserDetails(string id, string loginUser, UserDetailDm userDetail)
         {
             var updateStatus = new bool();
             try
             {
                 //userDetail.Id = Guid.NewGuid().ToString();
                 userDetail.ModifiedBy = loginUser;
-                userDetail.ModifiedDate= DateTime.Now;
+                userDetail.ModifiedDate = DateTime.Now;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.PutAsJsonAsync($"/admin/{userDetail.Id}", userDetail);
 
@@ -154,10 +153,10 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<bool> DeleteUser(string id,string loginUser)
+        public async Task<bool> DeleteUser(string id, string loginUser)
         {
             var user = new UserDetailDm();
-            
+
             var updateStatus = new bool();
             try
             {
