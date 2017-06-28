@@ -13,7 +13,7 @@ namespace TaskManagerDAL.DAL
         public List<TaskStatu> GetStatusList() => _taskManagerEntities.TaskStatus.ToList();
         public bool UpdateTaskStatus(int id, int status)
         {
-            var task = _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id.Equals(id));
+            var task = _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id == id.ToString());
             if (task != null) task.TaskStatusId = status;
             else return false;
             _taskManagerEntities.SaveChanges();

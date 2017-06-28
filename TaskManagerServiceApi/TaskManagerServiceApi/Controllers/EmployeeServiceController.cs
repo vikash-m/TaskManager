@@ -127,14 +127,19 @@ namespace TaskManagerServiceApi.Controllers
             return taskCount;
         }
 
-        [HttpPost, Route("{employeeId}")]
-        public async Task<bool> UpdateTask(int employeeId, int status)
+        [HttpGet, Route("UpdateTask")]
+        public async Task<bool> UpdateTask(int Id, int status)
         {
             var updateStatus = new bool();
             try
             {
-                var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PostAsJsonAsync($"/employees/{employeeId}", status);
+                
+                string URL = DalLayerUrl + "/employees/UpdateTask";
+                HttpClient client = new HttpClient();
+                string urlParameters = "?Id=" + Id + "&status=" + status;
+                client.BaseAddress = new Uri(URL);
+                // List data response.
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!

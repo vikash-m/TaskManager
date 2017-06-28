@@ -107,10 +107,9 @@ namespace TaskManager.Controllers
         {
             try
             {
-                string URL = serviceLayerUrl;
+                string URL = serviceLayerUrl + "/employees/UpdateTask";
                 HttpClient client = new HttpClient();
-               // urlParameters = "?id=" + id + "&status=" + status;
-                var employeeId = id;
+                urlParameters = "?id=" + id + "&status=" + status;
                 client.BaseAddress = new Uri(URL);
 
                 // Add an Accept header for JSON format.
@@ -118,7 +117,7 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.PostAsJsonAsync($"/employees/{employeeId}", status);
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;

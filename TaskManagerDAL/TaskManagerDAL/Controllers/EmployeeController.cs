@@ -24,7 +24,7 @@ namespace TaskManagerDAL.Controllers
             return _employeeRepository.GetStatusList();
         }
 
-        [HttpPut, Route("task/{id}")]
+        [HttpGet, Route("UpdateTask")]
         public bool UpdateTaskStatus(int id, int status)
         {
             return _employeeRepository.UpdateTaskStatus(id, status);
