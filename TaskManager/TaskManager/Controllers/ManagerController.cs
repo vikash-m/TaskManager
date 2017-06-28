@@ -7,12 +7,14 @@ using System.Configuration;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Web;
 
 namespace TaskManager.Controllers
 {
     public class ManagerController : Controller
     {
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
+
         public async Task<ActionResult> ListTask(int? page)
         {
 
@@ -33,7 +35,8 @@ namespace TaskManager.Controllers
                 // List data response.
                 var response = await client.GetAsync($"/manager/{user.Id}/tasks");
 
-                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10); ;
+                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10);
+                ;
 
                 return View(taskList);
             }
@@ -116,23 +119,24 @@ namespace TaskManager.Controllers
                     {
                         return RedirectToAction("Login", "Login");
                     }
-
+                    var taskDocument = new TaskDocumentDm();
                     taskDm.TaskStatusId = (int)EnumClass.Status.Pending;
+                    if (taskDm.Document.Count > 0)
+                    {
+                        taskDocument.Document = new List<HttpPostedFileBase>(taskDm.Document);
+                        taskDocument.TaskTitle = taskDm.Title;
 
-                    // List data response.
+                    }
+
+                    // foreach (var document in taskDm.)
+                    taskDm.Document.Clear(); // List data response.
                     var response = await client.PostAsJsonAsync($"/manager/?loginUserId={user.Id}", taskDm);
+
                     if (response.IsSuccessStatusCode)
                     {
                         var task = response.Content.ReadAsAsync<TaskDm>().Result;
-                        if (taskDm.Document == null) return RedirectToAction("ListTask");
-                        var taskDocument = new TaskDocumentDm
-                        {
-                            TaskId = task.Id,
-                            Document = taskDm.Document,
-                            TaskTitle = taskDm.Title,
-                            AddedBy = user.Id
-                        };
-                        await SetDocumentPathAndSaveFile(taskDocument, user);
+                        taskDocument.TaskId = task.Id;
+                        await SetDocumentPathAndSaveFile(taskDocument);
                         return RedirectToAction("ListTask");
                     }
                 }
@@ -146,15 +150,19 @@ namespace TaskManager.Controllers
                 ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
 
                 return View(taskDm);
+
             }
             catch
+
+                (Exception ex)
             {
                 return View("Error");
             }
 
         }
 
-        [HttpPost]
+        [
+            HttpPost]
         public async Task<ActionResult> EditTask(TaskDm taskDm)
         {
             try
@@ -167,22 +175,25 @@ namespace TaskManager.Controllers
                     {
                         return RedirectToAction("Login", "Login");
                     }
+                    var taskDocument = new TaskDocumentDm();
 
-                    taskDm.TaskStatusId = (int)Enum.Enum.Status.Pending;
+                    if (taskDm.Document.Count > 0)
+                    {
+                        taskDocument.Document = new List<HttpPostedFileBase>(taskDm.Document);
+                        taskDocument.TaskTitle = taskDm.Title;
+                        taskDocument.ModifiedBy = user.Id;
+                        taskDocument.Id = Guid.NewGuid().ToString();
+                        taskDocument.ModifiedDate = DateTime.Now;
+                        taskDocument.AddedBy = user.Id;
 
-
+                    }
                     // List data response.
-                    var response = await client.PutAsJsonAsync($"manager/{taskDm.Id}", taskDm);
+                    var response = await client.PutAsJsonAsync($"manager/{taskDm.Id}/?loginUser={user.Id}", taskDm);
                     if (response.IsSuccessStatusCode)
                     {
                         if (taskDm.Document == null) return RedirectToAction("ListTask");
-                        var taskDocument = new TaskDocumentDm
-                        {
-                            TaskId = taskDm.Id,
-                            Document = taskDm.Document,
-                            TaskTitle = taskDm.Title
-                        };
-                        await SetDocumentPathAndSaveFile(taskDocument, user);
+
+                        await SetDocumentPathAndSaveFile(taskDocument);
                         return RedirectToAction("ListTask");
                     }
                 }
@@ -204,32 +215,28 @@ namespace TaskManager.Controllers
             {
                 return View("Error");
             }
-        }
 
+        }
 
         public async Task<ActionResult> DeleteTask(string id)
         {
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
-                var task = new TaskDm
-                {
-                    Id = id
-                };
+
 
                 if (null == user)
                 {
                     return RedirectToAction("Login", "Login");
                 }
 
-                var client = new HttpClient();
-
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.DeleteAsync($"manager/{id}");
+                var response = await client.DeleteAsync($"manager/{id}/?loginUser={user.Id}");
 
             }
-            catch
+            catch (Exception ex)
             {
                 return View("Error");
             }
@@ -270,7 +277,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddDocumentDetails(TaskDocumentDm taskDocument)
+        public async Task<ActionResult> AddDocumentDetails(TaskDocumentDm taskDocument)
         {
             var user = (UserDetailDm)Session["SessionData"];
 
@@ -279,20 +286,19 @@ namespace TaskManager.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            var response = SetDocumentPathAndSaveFile(taskDocument, user);
+            var response = await SetDocumentPathAndSaveFile(taskDocument);
 
-            return response.IsCompleted && user.RoleId == (int)Enum.Enum.Roles.Employee ?
+            return response && user.RoleId == (int)Enum.Enum.Roles.Employee ?
                 RedirectToAction("MyTasks", "Employee")
               : RedirectToAction("ListTask", "Manager");
         }
 
-        private async Task<bool> SetDocumentPathAndSaveFile(TaskDocumentDm taskDocument, UserDetailDm user)
+        private async Task<bool> SetDocumentPathAndSaveFile(TaskDocumentDm taskDocument)
         {
+            var user = (UserDetailDm)Session["SessionData"];
             var uploadStatus = new bool();
             foreach (var file in taskDocument.Document)
             {
-                if (file == null) continue;
-
                 var folderPath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle);
                 var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle, file.FileName);
                 if (!Directory.Exists(folderPath))
@@ -304,9 +310,12 @@ namespace TaskManager.Controllers
                 taskDocument.Id = Guid.NewGuid().ToString();
                 taskDocument.CreateDate = DateTime.Now;
                 taskDocument.AddedBy = user.Id;
-                uploadStatus = await AddDocument(taskDocument);
+
+
 
             }
+            taskDocument.Document.Clear();
+            uploadStatus = await AddDocument(taskDocument);
             return uploadStatus;
         }
 

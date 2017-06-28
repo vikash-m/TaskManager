@@ -25,7 +25,7 @@ namespace TaskDomain.DomainModel
         public string Description { get; set; }
         public int TaskStatusId { get; set; }
         public string TaskStatus { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public List<HttpPostedFileBase> Document { get; set; }

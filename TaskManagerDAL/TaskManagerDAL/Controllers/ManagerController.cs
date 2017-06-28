@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using TaskDomain.DomainModel;
 using TaskManagerDAL.DAL;
 using TaskManagerDAL.Models;
 
@@ -11,7 +12,7 @@ namespace TaskManagerDAL.Controllers
         private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         [HttpGet, Route("employees")]
-        public List<UserDetail> GetEmployeesDetailsByManagerId(string managerId)
+        public List<UserDetailDm> GetEmployeesDetailsByManagerId(string managerId)
         {
             return _managerRepository.GetEmployeesDetailsByManagerId(managerId);
         }
@@ -23,7 +24,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{managerId}/tasks")]
-        public List<Task> GetAllTask(string managerId)
+        public List<TaskDm> GetAllTask(string managerId)
         {
             return _managerRepository.GetAllTask(managerId);
         }
@@ -47,9 +48,9 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public bool DeleteTask(int id)
+        public bool DeleteTask(string id, string loginUser)
         {
-            return _managerRepository.DeleteTask(id);
+            return _managerRepository.DeleteTask(id, loginUser);
         }
 
         [HttpGet, Route("tasks/{id}/task-name")]
@@ -88,6 +89,11 @@ namespace TaskManagerDAL.Controllers
             return _managerRepository.GetTaskCounts(employeeId, statusId);
         }
 
+        [HttpGet, Route("tasks/{taskId}/task-document")]
+        public List<TaskDocumentDm> GetTaskDocumentBytaskId(string taskId)
+        {
+            return _managerRepository.GetTaskDocumentBytaskId(taskId);
+        }
 
 
 

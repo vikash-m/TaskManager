@@ -79,7 +79,7 @@
 
                         <td> @data.Description </td>
                         <td> @data.TaskStatus </td>
-                        <td> @data.CreateDate.ToShortDateString() </td>
+                        <td> @data.CreateDate.Value.ToShortDateString() </td>
                         @if (data.ModifiedDate != null)
                         {
                             <td> @data.ModifiedDate.Value.ToShortDateString() </td>

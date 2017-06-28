@@ -47,7 +47,7 @@
                                 @Html.Label("Assign To")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
+                                @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, new { @class = "form-control", style = "160%" })
                                 @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
                             </div>
                         </div>

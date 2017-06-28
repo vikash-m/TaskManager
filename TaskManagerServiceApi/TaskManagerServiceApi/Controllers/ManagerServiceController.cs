@@ -98,12 +98,12 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     tasks = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                foreach (var task in tasks)
-                {
-                    task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
-                    task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
-                    task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
-                }
+                //foreach (var task in tasks)
+                //{
+                //    task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
+                //    task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
+                //    task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
+                //}
             }
             catch (Exception ex)
             {
@@ -113,15 +113,15 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public async Task<bool> UpdateTask(string loginUserDm, TaskDm task)
+        public async Task<bool> UpdateTask(string id, string loginUser, TaskDm task)
         {
             var taskUpdateStatus = new bool();
             try
             {
                 task.ModifiedDate = DateTime.Now;
-                task.ModifiedBy = loginUserDm;
+                task.ModifiedBy = id;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PostAsJsonAsync($"/manager/document", task);
+                var response = await client.PutAsJsonAsync("/manager/task", task);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskUpdateStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -134,18 +134,19 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<bool> DeleteTask(string id, LoginUserDm loginUserDm)
+        public async Task<bool> DeleteTask(string id, string loginUser)
         {
             var taskDeleteStatus = new bool();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var taskToBeDeleted = await client.GetAsync($"/manager/task/{id}");
-                var task = taskToBeDeleted.Content.ReadAsAsync<TaskDm>();
-                task.Result.ModifiedDate = DateTime.Now;
-                //task.Result.ModifiedBy = loginUserDm.Id;
+                //var taskToBeDeleted = await client.GetAsync($"/manager/task/{id}");
+                //var task = taskToBeDeleted.Content.ReadAsAsync<TaskDm>();
+                //task.Result.ModifiedDate = DateTime.Now;
+                //task.Result.ModifiedBy = loginUserDm;
+                //task.Result.IsDeleted = true;
 
-                var response = await client.PostAsJsonAsync($"/manager/document", task);
+                var response = await client.DeleteAsync($"/manager/{id}/?loginUser={loginUser}");
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskDeleteStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -158,7 +159,7 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("tasks/{taskId}/task-name")]
-        public async Task<string> GetTaskNameByTaskId(int taskId)
+        public async Task<string> GetTaskNameByTaskId(string taskId)
         {
             var taskName = string.Empty;
             try
@@ -210,9 +211,9 @@ namespace TaskManagerServiceApi.Controllers
                 var response = await client.GetAsync($"/manager/tasks/{taskId}");
                 if (response.IsSuccessStatusCode)
                     task = response.Content.ReadAsAsync<TaskDm>().Result;
-                task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
-                task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
-                task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
+                //task.AssignedToName = await GetEmployeeNameById(task.AssignedTo);
+                //task.CreatedByName = await GetEmployeeNameById(task.CreatedBy);
+                //task.TaskStatus = await GetTaskStatusNameByTaskStatusId(task.TaskStatusId);
 
             }
             catch (Exception ex)
@@ -246,7 +247,7 @@ namespace TaskManagerServiceApi.Controllers
                 }
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -273,6 +274,7 @@ namespace TaskManagerServiceApi.Controllers
             return taskNameExist;
         }
 
+        [HttpGet, Route("tasks/{id}/name")]
         public async Task<string> GetEmployeeNameById(string id)
         {
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -286,6 +288,19 @@ namespace TaskManagerServiceApi.Controllers
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
             var statusResponse = await client.GetAsync($"/manager/status/{id}");
             return statusResponse.Content.ReadAsAsync<string>().Result;
+        }
+
+        [HttpGet, Route("tasks/{taskId}/task-document")]
+        public async Task<List<TaskDocumentDm>> GetTaskDocumentBytaskId(string taskId)
+        {
+            var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+            var taskDocumentList = await client.GetAsync($"/manager/tasks/{taskId}/task-document");
+
+            return taskDocumentList.Content.ReadAsAsync<List<TaskDocumentDm>>().Result;
+
+
+
+
         }
     }
 }

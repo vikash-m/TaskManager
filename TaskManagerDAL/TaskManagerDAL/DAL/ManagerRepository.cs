@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
 
 namespace TaskManagerDAL.DAL
@@ -9,8 +10,13 @@ namespace TaskManagerDAL.DAL
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
 
-        public List<UserDetail> GetEmployeesDetailsByManagerId(string managerId)
-            => _taskManagerEntities.UserDetails.Where(x => x.ManagerId.Equals(managerId)).ToList();
+        public List<UserDetailDm> GetEmployeesDetailsByManagerId(string managerId)
+            => _taskManagerEntities.UserDetails.Where(x => x.ManagerId.Equals(managerId) && x.IsDeleted == false).ToList().Select(employee => new UserDetailDm
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Id = employee.Id
+            }).ToList();
 
         public Task CreateTask(Task task)
         {
@@ -20,10 +26,22 @@ namespace TaskManagerDAL.DAL
             return task;
         }
 
-        public List<Task> GetAllTask(string managerId)
-            => _taskManagerEntities.Tasks.Where(x => x.CreatedBy == managerId).ToList();
+        public List<TaskDm> GetAllTask(string managerId)
+            => _taskManagerEntities.Tasks.Where(x => x.CreatedBy == managerId && x.IsDeleted == false).ToList().Select(task => new TaskDm
+            {
+                Id = task.Id,
+                Title = task.Title,
+                AssignedToName = GetEmployeeNameById(task.AssignedTo),
+                CreatedByName = GetEmployeeNameById(task.CreatedBy),
+                Description = task.Description,
+                StartDate = task.StartDate,
+                EndDate = task.EndDate,
+                TaskStatus = GetTaskStatusByTaskStatusId(task.TaskStatusId),
+                CreateDate = task.CreateDate,
+                ModifiedDate = task.ModifiedDate
+            }).ToList();
 
-        public string GetTaskStatusByTaskStatusId(int taskId)
+        public string GetTaskStatusByTaskStatusId(int? taskId)
             => _taskManagerEntities.TaskStatus.FirstOrDefault(x => x.Id == taskId)?.Status;
 
         public string GetEmployeeNameById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id.Equals(id))?.FirstName;
@@ -48,7 +66,7 @@ namespace TaskManagerDAL.DAL
             }
         }
 
-        public bool DeleteTask(int id)
+        public bool DeleteTask(string id, string loginUser)
         {
             using (var ctx = new TaskManagerEntities())
             {
@@ -60,6 +78,7 @@ namespace TaskManagerDAL.DAL
                 }
                 taskToBeUpdated.IsDeleted = true;
                 taskToBeUpdated.ModifiedDate = DateTime.Now;
+                taskToBeUpdated.ModifiedBy = loginUser;
                 ctx.SaveChanges();
                 return true;
             }
@@ -90,11 +109,35 @@ namespace TaskManagerDAL.DAL
             }
         }
 
-        public Task GetTaskByTaskId(string id) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Id.Equals(id));
+        public TaskDm GetTaskByTaskId(string id) => _taskManagerEntities.Tasks.Where(x => x.Id.Equals(id)).Select(task => new TaskDm
+        {
+            Id = task.Id,
+            Title = task.Title,
+            AssignedToName = GetEmployeeNameById(task.AssignedTo),
+            CreatedByName = GetEmployeeNameById(task.CreatedBy),
+            Description = task.Description,
+            StartDate = task.StartDate,
+            EndDate = task.EndDate,
+            TaskStatus = GetTaskStatusByTaskStatusId(task.TaskStatusId),
+            CreateDate = task.CreateDate,
+            ModifiedDate = task.ModifiedDate
+        }).FirstOrDefault();
 
-        public bool CheckForTaskName(string title) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Title.Equals(title)) == null;
+        public bool CheckForTaskName(string title) => _taskManagerEntities.Tasks.FirstOrDefault(x => x.Title.Equals(title) && x.IsDeleted == false) == null;
 
-        public int GetTaskCounts(string employeeId, int statusId) => _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == statusId & x.AssignedTo.Equals(employeeId));
+        public int GetTaskCounts(string employeeId, int statusId) => _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == statusId & x.CreatedBy.Equals(employeeId) && x.IsDeleted == false);
+
+        public List<TaskDocumentDm> GetTaskDocumentBytaskId(string taskId)
+            => _taskManagerEntities.TaskDocuments.Where(x => x.TaskId.Equals(taskId)).ToList().Select(taskDocument => new TaskDocumentDm
+            {
+                Id = taskDocument.Id,
+                TaskTitle = GetTaskNameByTaskId(taskDocument.TaskId),
+                AddedBy = GetEmployeeNameById(taskDocument.AddedBy),
+                CreateDate = taskDocument.CreateDate,
+                DocumentPath = taskDocument.DocumentPath,
+                ModifiedDate = taskDocument.ModifiedDate
+
+            }).ToList();
 
 
 

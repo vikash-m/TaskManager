@@ -13,7 +13,8 @@ namespace TaskDomain.DomainModel
         public List<HttpPostedFileBase> Document { get; set; }
         public string DocumentPath { get; set; }
         public string AddedBy { get; set; }
-        public DateTime CreateDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
 
