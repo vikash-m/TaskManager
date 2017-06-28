@@ -18,7 +18,12 @@ namespace TaskManagerDAL.DAL
 
         }
 
-        public List<UserDetail> GetUser() => _taskManagerEntities.UserDetails.ToList();
+        public List<UserDetail> GetUser()
+        {
+            var res= _taskManagerEntities.UserDetails.Where(m => m.IsDeleted != true)
+                .ToList() ;
+            return res;
+        }
 
         public bool CreateLoginUser(LoginUser loginUser)
         {
@@ -29,6 +34,11 @@ namespace TaskManagerDAL.DAL
         }
 
         public List<Role> GetRoles() => _taskManagerEntities.Roles.ToList();
+
+        public string GetRolesById(int roleId)
+        {
+            return _taskManagerEntities.Roles.FirstOrDefault(m => m.RoleId == roleId).RoleName;
+        }
 
         public List<UserDetail> GetManagerByRoleId(int roleId) => _taskManagerEntities.UserDetails.Where(m => m.RoleId == roleId).ToList();
 

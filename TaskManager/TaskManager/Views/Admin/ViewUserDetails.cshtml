@@ -50,7 +50,7 @@
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("SaveUserDetails","Home") + "'");" />Add User <i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="@("window.location.href='" + @Url.Action("SaveUserDetails","Admin") + "'");" />Add User <i class="fa fa-plus"></i>
                         </span>
                     </div>
                 </div>
@@ -72,6 +72,8 @@
             @foreach (var item in Model)
             {
                 <tr>
+                   @if (item != null)
+                   {
                     <td>@item.Id</td>
                     <td>@item.FirstName</td>
                     <td>@item.LastName</td>
@@ -80,10 +82,12 @@
                     <td>@item.RoleName</td>
                     <td>@item.ManagerName</td>
                     <td>
-                        <a onclick="return confirm('Are you sure you want to delete?')" href="@Url.Action("DeleteUser", "Home", new {id=item.Id})"><i class="fa fa-trash-o" style="color:red"></i></a>
+                       
+                        <a onclick="return confirm('Are you sure you want to delete?')" href="@Url.Action("DeleteUser", "Admin", new { id = item.Id })"><i class="fa fa-trash-o" style="color:red"></i></a>
                         |
-                        <a href="@Url.Action("EditUserDetails", "Home", new {id=item.Id})"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Action("EditUserDetails", "Admin", new { id = item.Id })"><i class="fa fa-edit"></i></a>
                     </td>
+                   }
                 </tr>
             }
 

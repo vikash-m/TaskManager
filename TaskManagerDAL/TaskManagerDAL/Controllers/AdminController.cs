@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Controllers
     {
         private readonly AdminRepository _adminRepository = new AdminRepository();
 
-        [HttpPost, Route("")]
+        [HttpPost, Route("create-user")]
         public bool CreateUser(UserDetail userDetail)
         {
             return _adminRepository.CreateUser(userDetail);
@@ -22,8 +22,12 @@ namespace TaskManagerDAL.Controllers
         public List<UserDetail> GetUserDetail()
         {
             return _adminRepository.GetUser();
+        }        
+        [HttpGet,Route("roles/{roleId}")]
+        public string GetRolesById(int roleId)
+        {
+            return _adminRepository.GetRolesById(roleId);
         }
-
         [HttpPost, Route("login-user")]
         public bool CreateLoginUser(UserDetail UserDetail, string password)
         {
@@ -71,9 +75,9 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public bool DeleteUser(UserDetail userDetail)
+        public bool DeleteUser(string id,string loginUser)
         {
-            return _adminRepository.DeleteUser(userDetail.Id);
+            return _adminRepository.DeleteUser(id);
         }
 
         [HttpGet, Route("{employeeId}")]
