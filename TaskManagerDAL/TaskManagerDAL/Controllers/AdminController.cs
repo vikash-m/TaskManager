@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using TaskDomain.DomainModel;
 using TaskManagerDAL.DAL;
 using TaskManagerDAL.Models;
 
@@ -19,14 +20,14 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("user-detail")]
-        public List<UserDetail> GetUserDetail()
+        public List<UserDetailDm> GetUserDetail()
         {
             return _adminRepository.GetUser();
         }        
         [HttpGet,Route("roles/{roleId}")]
-        public string GetRolesById(int roleId)
+        public string GetRoleById(int roleId)
         {
-            return _adminRepository.GetRolesById(roleId);
+            return _adminRepository.GetRoleById(roleId);
         }
         [HttpPost, Route("login-user")]
         public bool CreateLoginUser(UserDetail UserDetail, string password)

@@ -72,7 +72,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("tasks/{id}")]
-        public Task GetTaskByTaskId(string id)
+        public TaskDm GetTaskByTaskId(string id)
         {
             return _managerRepository.GetTaskByTaskId(id);
         }

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TaskDomain.DomainModel;
+using TaskManagerUtility;
 
 namespace TaskManagerServiceApi.Controllers
 {
@@ -29,6 +30,12 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     createStatus = response.Content.ReadAsAsync<bool>().Result;
+
+                if (createStatus == true)
+                {
+                    EmailUtility emailUtility = new EmailUtility();
+                    emailUtility.SendMail(userDetail);
+                }
             }
             catch (Exception)
             {
