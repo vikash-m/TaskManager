@@ -73,12 +73,12 @@ namespace TaskManager.Controllers
                 return View("Error");
             }
         }
-        [HttpPost]
+        
         public async Task<JsonResult> GetStatusList()
         {
             try
             {
-                string URL = serviceLayerUrl + "/GetStatusList";
+                string URL = serviceLayerUrl;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
 
@@ -87,11 +87,13 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(URL);
+                HttpResponseMessage response = await client.GetAsync("/employees/status");
                 if (response.IsSuccessStatusCode)
                 {
-                    var statusList = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
-                    return Json(new { data = statusList });
+                    var statusList = response.Content.ReadAsAsync<List<TaskStatusModel>>().Result;
+                    var js =  Json(new { data = statusList }, JsonRequestBehavior.AllowGet);
+                    return js;
+                    
                 }
                 return null;
             }
@@ -101,13 +103,14 @@ namespace TaskManager.Controllers
             }
         }
         [HttpPost]
-        public async Task<bool> UpdateTask(long id, long status)
+        public async Task<bool> UpdateTask(int id, int status)
         {
             try
             {
-                string URL = serviceLayerUrl + "/UpdateTask";
+                string URL = serviceLayerUrl;
                 HttpClient client = new HttpClient();
-                urlParameters = "?id=" + id + "&status=" + status;
+               // urlParameters = "?id=" + id + "&status=" + status;
+                var employeeId = id;
                 client.BaseAddress = new Uri(URL);
 
                 // Add an Accept header for JSON format.
@@ -115,7 +118,7 @@ namespace TaskManager.Controllers
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // List data response.
-                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                HttpResponseMessage response = await client.PostAsJsonAsync($"/employees/{employeeId}", status);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
