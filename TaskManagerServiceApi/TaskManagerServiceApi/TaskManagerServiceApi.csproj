@@ -222,7 +222,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -239,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="HelperClass\" />
     <Folder Include="Models\" />
     <Folder Include="Views\EmployeeService\" />
     <Folder Include="Views\Employee\" />
@@ -263,8 +266,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TaskManager\TaskDomain\TaskDomain.csproj">
-      <Project>{333a5c35-6147-4c11-919a-2f6fb7973560}</Project>
+      <Project>{333A5C35-6147-4C11-919A-2F6FB7973560}</Project>
       <Name>TaskDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskManagerUtility\TaskManagerUtility.csproj">
+      <Project>{f0260bc4-3864-4ab7-b386-cb9096c85952}</Project>
+      <Name>TaskManagerUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
