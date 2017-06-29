@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TaskManagerDAL.Models;
 
 namespace TaskManagerDAL.DAL
@@ -8,8 +9,11 @@ namespace TaskManagerDAL.DAL
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
 
 
-        public LoginUser GetLoginUserDetails(string name, string password) => _taskManagerEntities.LoginUsers.FirstOrDefault(m => m.UserName == name && m.Password == password);
-
+        public LoginUser GetLoginUserDetails(string name, string password)
+        {
+        return  _taskManagerEntities.LoginUsers.FirstOrDefault(m => m.UserName.Equals(name, StringComparison.CurrentCultureIgnoreCase) && m.Password.Equals(password, StringComparison.CurrentCultureIgnoreCase));
+           
+        }
 
         public UserDetail GetUserDetailsData(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(m => m.Id.Equals(id));
 

@@ -7,7 +7,7 @@ using TaskDomain.DomainModel;
 
 namespace TaskManager.Controllers
 {
-    // enum Roles { Admin = 1, Manager, Employee };
+   
     public class LoginController : Controller
     {
         private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"] }";
@@ -31,7 +31,6 @@ namespace TaskManager.Controllers
                 var name = log.UserName;
                 var password = log.Password;
                 var loginUser = new LoginUserDm();
-                // var url = ServiceLayerUrl + "/GetLogDetails";
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
@@ -87,7 +86,7 @@ namespace TaskManager.Controllers
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw;
             }
