@@ -26,7 +26,7 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("roles/{roleId}")]
         public string GetRoleById(int roleId)
         {
-            return _adminRepository.GetRoleById(roleId);
+            return _adminRepository.GetRoleNameById(roleId);
         }
         [HttpPost, Route("login-user")]
         public bool CreateLoginUser(UserLoginDetails loginDetails)
@@ -57,15 +57,19 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("roles")]
-        public List<Role> GetRoles()
+        public List<RoleDm> GetRoles()
         {
             return _adminRepository.GetRoles();
         }
 
         [HttpGet, Route("manager")]
-        public List<UserDetail> GetManagerByRoleId(int roleId)
+        public List<UserDetailDm> GetManagerByRoleId()
         {
-            return _adminRepository.GetManagerByRoleId(roleId);
+            return _adminRepository.GetManagerByRoleId();
+        }
+        public string GetManagerNameById(string managerId)
+        {
+            return _adminRepository.GetManagerNameById(managerId);
         }
 
         [HttpPut, Route("{id}")]

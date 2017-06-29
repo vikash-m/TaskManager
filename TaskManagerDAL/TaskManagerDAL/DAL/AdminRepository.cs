@@ -2,36 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
+using TaskDomain.DomainModel;
 
 namespace TaskManagerDAL.DAL
 {
     public class AdminRepository
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
-        private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         public bool CreateUser(UserDetail userDetail)
         {
+
             _taskManagerEntities.UserDetails.Add(userDetail);
             var num = _taskManagerEntities.SaveChanges();
             return num > 0;
 
         }
 
-        public List<UserDetailDm> GetUser() => _taskManagerEntities.UserDetails.Where(m => m.IsDeleted != true)
-            .ToList().Select(user => new UserDetailDm
+        public List<UserDetailDm> GetUser()
+        {
+            return _taskManagerEntities.UserDetails.Where(m => m.IsDeleted != true).ToList().Select(userDetailDm => new UserDetailDm
+
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                EmailId = user.EmailId,
-                ManagerName = _managerRepository.GetEmployeeNameById(user.ManagerId),
-                ManagerId = user.ManagerId,
-                RoleName = GetRoleById(user.RoleId),
-                RoleId = user.RoleId
+                Id = userDetailDm.Id,
+                FirstName = userDetailDm.FirstName,
+                LastName = userDetailDm.LastName,
+                EmailId = userDetailDm.EmailId,
+                PhoneNumber = userDetailDm.PhoneNumber,
+                RoleId = userDetailDm.Role.RoleId,
+                ManagerId = userDetailDm.ManagerId,
+                CreatedBy = userDetailDm.CreatedBy,
+                ModifiedBy = userDetailDm.ModifiedBy,
+                CreateDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                ManagerName = GetManagerNameById(userDetailDm.ManagerId)
+
             }).ToList();
+        }
 
         public bool CreateLoginUser(LoginUser loginUser)
         {
@@ -41,14 +49,69 @@ namespace TaskManagerDAL.DAL
 
         }
 
-        public List<Role> GetRoles() => _taskManagerEntities.Roles.ToList();
+        public List<RoleDm> GetRoles() => _taskManagerEntities.Roles.ToList().Select(roles => new RoleDm
+        {
+            RoleId = roles.RoleId,
+            RoleName = roles.RoleName
+        }).ToList();
 
-        public string GetRoleById(int? roleId)
+        public string GetRoleNameById(int roleId)
         {
             return _taskManagerEntities.Roles.FirstOrDefault(m => m.RoleId == roleId)?.RoleName;
         }
 
-        public List<UserDetail> GetManagerByRoleId(int roleId) => _taskManagerEntities.UserDetails.Where(m => m.RoleId == roleId).ToList();
+
+        public List<UserDetailDm> GetManagerByRoleId()
+        {
+            var result=_taskManagerEntities.UserDetails.Where(m => m.RoleId == 2).ToList();
+            List<UserDetailDm> userDetailList = new List<UserDetailDm>();
+            foreach (var item in result)
+            {
+                UserDetailDm userDetailDm = new UserDetailDm();
+                userDetailDm.FirstName = item.FirstName;
+                userDetailDm.Id = item.Id;
+                userDetailList.Add(userDetailDm);
+            }
+           return userDetailList;
+            
+        }
+        public string GetManagerNameById(string managerId)
+        {
+           // string name = null;
+            var result = _taskManagerEntities.UserDetails.FirstOrDefault(m => m.Id == managerId)?.FirstName;
+            //if (result != null)
+            //{
+            //    name = result.FirstName;
+            //}
+
+            //return name;
+            return result;
+        }
+
+        public List<UserDetailDm> Search(string searchText)
+        {
+            var searchName = _taskManagerEntities.UserDetails.Where(m => m.FirstName.Contains(searchText)).ToList().Select(userDetailDm => new UserDetailDm
+
+            {
+                Id = userDetailDm.Id,
+                FirstName = userDetailDm.FirstName,
+                LastName = userDetailDm.LastName,
+                EmailId = userDetailDm.EmailId,
+                PhoneNumber = userDetailDm.PhoneNumber,
+                RoleId = userDetailDm.Role.RoleId,
+                ManagerId = userDetailDm.ManagerId,
+                CreatedBy = userDetailDm.CreatedBy,
+                ModifiedBy = userDetailDm.ModifiedBy,
+                CreateDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                ManagerName = GetManagerNameById(userDetailDm.ManagerId)
+
+            }).ToList();
+
+
+            return searchName;
+        }
+
 
         public UserDetail GetUserDetailById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id == id);
 

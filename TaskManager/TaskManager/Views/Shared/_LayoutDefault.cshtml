@@ -140,10 +140,10 @@
 
                             <ul class="nav nav-second-level sidebar-collapse in">
                                 <li>
-                                    <a href="@Url.Action("SaveUserDetails", "Home")">Add User   <i class="fa fa-plus"></i></a>
+                                    <a href="@Url.Action("SaveUserDetails", "Admin")">Add User   <i class="fa fa-plus"></i></a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ViewUserDetails", "Home")">View User  <i class="fa fa-eye"></i></a>
+                                    <a href="@Url.Action("ViewUserDetails", "Admin")">View User  <i class="fa fa-eye"></i></a>
                                 </li>
 
                             </ul>
@@ -158,9 +158,9 @@
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                        <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                        <form role="search" class="navbar-form-custom" method="post" action="#">
                             <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" onkeyup="myFunction()">
                             </div>
                         </form>
                     </div>
@@ -212,3 +212,40 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    function myFunction() {
+        
+        // Declare variables
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("top-search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    //$('#top-search').change(function () {
+    //        var searchtext = $(this).val();
+    //        $.ajax({
+    //            cache: false,
+    //            type: "get",
+    //            url: "/Admin/Search/",
+    //            data: { SearchText : searchtext },
+    //            success: function (response) {
+    //            }
+    //        })
+    //    })
+    
+
+</script>

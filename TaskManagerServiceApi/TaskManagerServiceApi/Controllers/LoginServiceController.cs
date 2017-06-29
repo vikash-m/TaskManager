@@ -15,8 +15,8 @@ namespace TaskManagerServiceApi.Controllers
         [HttpGet, Route("login-details")]
         public async Task<LoginUserDm> GetLoginDetails(string name, string password)
         {
-            //var password=encr
             var encryptionDecryption = new EncryptionDecryption();
+            //Password will encrypted.
             var encryptedPassword = encryptionDecryption.Encrypt(password);
 
             var loginUser = new LoginUserDm();
@@ -53,7 +53,6 @@ namespace TaskManagerServiceApi.Controllers
                 var roleName = await client.GetAsync($"/login/roles/{userDetail.RoleId}");
                 if (roleName.IsSuccessStatusCode)
                     userDetail.RoleName = roleName.Content.ReadAsAsync<string>().Result;
-                //userDetail.RoleName = roleName.Content.ReadAsAsync<String>().Result;
             }
             catch
             {
