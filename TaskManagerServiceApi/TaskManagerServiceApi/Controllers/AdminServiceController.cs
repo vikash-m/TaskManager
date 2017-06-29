@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TaskDomain.DomainModel;
-using TaskManagerUtility;
 
 namespace TaskManagerServiceApi.Controllers
 {
@@ -30,12 +29,6 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     createStatus = response.Content.ReadAsAsync<bool>().Result;
-
-                if (createStatus == true)
-                {
-                    EmailUtility emailUtility = new EmailUtility();
-                    emailUtility.SendMail(userDetail);
-                }
             }
             catch (Exception)
             {
@@ -71,7 +64,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/manager?roleId={EnumClass.Roles.Manager}");
+                var response = await client.GetAsync($"/admin/manager");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -91,28 +84,69 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/user-detail");
+                var response = await client.GetAsync($"/admin/user-detail/");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
                 foreach (var item in users)
                 {
-
-                    var id = item.Id;
-                    var roleResponse = await client.GetAsync($"/admin/roles/{item.RoleId}");
-                    if (roleResponse.IsSuccessStatusCode)
+                    if (item != null)
                     {
-                        item.RoleName = roleResponse.Content.ReadAsAsync<string>().Result;
+                        var id = item.Id;
+                        var roleResponse = await client.GetAsync($"/admin/roles/{item.RoleId}");
+                        if (roleResponse.IsSuccessStatusCode)
+                        {
+                            item.RoleName = roleResponse.Content.ReadAsAsync<string>().Result;
+                        }
                     }
-
+                    if (item.ManagerName == null)
+                    {
+                        item.ManagerName = "No Manager";
+                    }
                 }
+                // }
+                //foreach(var item in users)
+                //{
+                //    if(item!=null)
+                ////    {
+                //        var mgrResponse = await client.GetAsync($"/admin/manager/{item.ManagerId}");
+                //        if(mgrResponse.IsSuccessStatusCode)
+                //        {
+                //            item.ManagerName = mgrResponse.Content.ReadAsAsync<string>().Result;
+                //        }
+                //   }
+                // }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
             return users;
+        }
+
+        [HttpGet, Route("search")]
+        public async Task<List<UserDetailDm>> Search(string SearchText)
+        {
+            var user = new List<UserDetailDm>();
+            try
+            {
+                string URL = DalLayerUrl + "/admin/Search";
+                HttpClient client = new HttpClient();
+                string urlParameters = "?SearchText=" + SearchText;
+                client.BaseAddress = new Uri(URL);
+
+                var response = await client.GetAsync(urlParameters);
+
+                if (response.IsSuccessStatusCode)
+                    // Parse the response body. Blocking!
+                    user = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return user;
         }
 
         [HttpGet, Route("{employeeId}")]
@@ -182,3 +216,4 @@ namespace TaskManagerServiceApi.Controllers
         }
     }
 }
+

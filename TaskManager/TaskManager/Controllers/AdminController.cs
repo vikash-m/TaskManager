@@ -122,7 +122,6 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10);
-
                     return View(dataObjects);
                 }
                 return null;
@@ -132,6 +131,37 @@ namespace TaskManager.Controllers
                 return View("Error");
             }
         }
+        [HttpGet]
+        public async Task<ActionResult> Search(String SearchText, int? page)
+        {
+            try
+            {
+                string URL = serviceLayerUrl + "/search";
+                HttpClient client = new HttpClient();
+                urlParameters = "?SearchText=" + SearchText;
+                client.BaseAddress = new Uri(URL);
+
+                //Add an Accept header for JSON format.
+
+                client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //List data response.
+
+                HttpResponseMessage response = await client.GetAsync(urlParameters);
+                if (response.IsSuccessStatusCode)
+                {
+                    var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10);
+                    return View("ViewUserDetails", dataObjects);
+                }
+                return View("ViewUserDetails");
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
 
 
         [HttpGet]
@@ -236,7 +266,7 @@ namespace TaskManager.Controllers
                 var user = (UserDetailDm)Session["SessionData"];
                 // var url = serviceLayerUrl + "/DeleteUser";
                 var client = new HttpClient();
-               // urlParameters = "?id=" + id;
+                // urlParameters = "?id=" + id;
                 client.BaseAddress = new Uri(serviceLayerUrl);
 
                 // Add an Accept header for JSON format.
@@ -259,3 +289,4 @@ namespace TaskManager.Controllers
         }
     }
 }
+
