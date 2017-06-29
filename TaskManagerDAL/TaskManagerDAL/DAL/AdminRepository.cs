@@ -45,7 +45,7 @@ namespace TaskManagerDAL.DAL
 
         public string GetRoleById(int? roleId)
         {
-            return _taskManagerEntities.Roles.FirstOrDefault(m => m.RoleId == roleId).RoleName;
+            return _taskManagerEntities.Roles.FirstOrDefault(m => m.RoleId == roleId)?.RoleName;
         }
 
         public List<UserDetail> GetManagerByRoleId(int roleId) => _taskManagerEntities.UserDetails.Where(m => m.RoleId == roleId).ToList();

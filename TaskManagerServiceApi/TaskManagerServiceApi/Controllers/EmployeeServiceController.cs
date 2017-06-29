@@ -14,7 +14,7 @@ namespace TaskManagerServiceApi.Controllers
     {
         // GET: EmployeeService
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
-        private readonly ManagerServiceController _managerServiceController = new ManagerServiceController();
+        private readonly ManagerController _managerServiceController = new ManagerController();
 
         [HttpGet, Route("")]
         public async Task<List<UserDetailDm>> GetEmployees()
@@ -52,7 +52,7 @@ namespace TaskManagerServiceApi.Controllers
                     employeeTask = response.Content.ReadAsAsync<List<TaskDm>>().Result;
                 foreach (var item in employeeTask)
                 {
-                    ManagerServiceController managerSercviceController = new ManagerServiceController();
+                    ManagerController managerSercviceController = new ManagerController();
                     item.CreatedByName = await managerSercviceController.GetEmployeeNameById(item.CreatedBy);
                     item.AssignedToName = await managerSercviceController.GetEmployeeNameById(item.AssignedTo);
                     item.TaskStatus = await managerSercviceController.GetTaskStatusNameByTaskStatusId(item.TaskStatusId);
