@@ -17,5 +17,10 @@ namespace TaskManagerDAL.DAL
 
         public UserDetail GetUserDetailsData(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(m => m.Id.Equals(id));
 
+        public string GetEmailIfExist(string emailId)
+            =>
+                _taskManagerEntities.UserDetails.FirstOrDefault(x => x.EmailId.Equals(emailId) && x.IsDeleted == false)?
+                    .EmailId;
+
     }
 }

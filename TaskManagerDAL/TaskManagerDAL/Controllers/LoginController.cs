@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Routing;
+﻿using System.Web.Http;
 using TaskManagerDAL.DAL;
 using TaskManagerDAL.Models;
 
@@ -18,7 +16,7 @@ namespace TaskManagerDAL.Controllers
             return _loginRepository.GetLoginUserDetails(name, password);
         }
 
-        [HttpGet, Route("{id}")]
+        [HttpGet, Route("user/{id}")]
         public UserDetail GetUserDetailsData(string id)
         {
             return _loginRepository.GetUserDetailsData(id);
@@ -29,5 +27,9 @@ namespace TaskManagerDAL.Controllers
         {
             return _rolesRepository.GetRoleNameById(id);
         }
+
+        [HttpGet, Route("verify")]
+        public string GetEmailIfExist(string emailId) => _loginRepository.GetEmailIfExist(emailId);
     }
+
 }

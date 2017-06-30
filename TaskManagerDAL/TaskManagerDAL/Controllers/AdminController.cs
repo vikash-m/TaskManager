@@ -16,36 +16,35 @@ namespace TaskManagerDAL.Controllers
         public bool CreateUser(UserDetail userDetail)
         {
             return _adminRepository.CreateUser(userDetail);
-
         }
 
         [HttpGet, Route("user-detail")]
         public List<UserDetailDm> GetUserDetail()
         {
             return _adminRepository.GetUser();
-        }        
-        [HttpGet,Route("roles/{roleId}")]
+        }
+        [HttpGet, Route("roles/{roleId}")]
         public string GetRoleById(int roleId)
         {
             return _adminRepository.GetRoleNameById(roleId);
         }
         [HttpPost, Route("login-user")]
-        public bool CreateLoginUser(UserDetail UserDetail, string password)
+        public bool CreateLoginUser(UserLoginDetails loginDetails)
         {
             //fetch emp id based on udm.EmailId
-            var employee = _adminRepository.GetUserDetailByEmailId(UserDetail.EmailId);
+            var employee = _adminRepository.GetUserDetailByEmailId(loginDetails.EmailId);
 
             try
             {
                 var loginUserDetails = new LoginUser
                 {
-                    RoleId = UserDetail.RoleId,
+                    Id = Guid.NewGuid().ToString(),
+                    RoleId = employee.RoleId,
                     EmpId = employee.Id,
-                    UserName = UserDetail.EmailId,
-                    Password = password,
-                    CreateDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    IsDeleted = false
+                    UserName = employee.EmailId,
+                    Password = loginDetails.Password,
+                    CreateDate = DateTime.Now
+
                 };
                 var result = _adminRepository.CreateLoginUser(loginUserDetails);
                 return result;
@@ -80,7 +79,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        public bool DeleteUser(string id,string loginUser)
+        public bool DeleteUser(string id, string loginUser)
         {
             return _adminRepository.DeleteUser(id);
         }

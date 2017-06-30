@@ -78,7 +78,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("tasks/tasks/{title}")]
-        public bool CheckTaskNames(string title)
+        public bool CheckForTaskName(string title)
         {
             return _managerRepository.CheckForTaskName(title);
         }

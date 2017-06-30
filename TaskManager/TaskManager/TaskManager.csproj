@@ -165,6 +165,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1995,6 +1996,7 @@
     <Content Include="Views\Manager\ListTask.cshtml" />
     <Content Include="Views\Manager\_AddDocument.cshtml" />
     <Content Include="Views\Manager\EditTask.cshtml" />
+    <Content Include="Views\Email\Verify.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

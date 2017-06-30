@@ -44,7 +44,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/login/{id}");
+                var response = await client.GetAsync($"/login/user/{id}");
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -61,6 +61,22 @@ namespace TaskManagerServiceApi.Controllers
 
             return userDetail;
 
+        }
+
+        [HttpPost, Route("")]
+        public async Task<bool> AddLoginUserDetails(UserLoginDetails loginDetails)
+        {
+            var encryptDecryt = new EncryptionDecryption();
+            var encryptedPassword = encryptDecryt.Encrypt(loginDetails.Password);
+            loginDetails.Password = encryptedPassword;
+            var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
+            var response = await client.PostAsJsonAsync("admin/login-user", loginDetails);
+            var status = new bool();
+            if (response.IsSuccessStatusCode)
+            {
+                status = response.Content.ReadAsAsync<bool>().Result;
+            }
+            return status;
         }
 
     }
