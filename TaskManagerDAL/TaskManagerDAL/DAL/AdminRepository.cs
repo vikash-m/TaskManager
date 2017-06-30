@@ -63,7 +63,9 @@ namespace TaskManagerDAL.DAL
 
         public List<UserDetailDm> GetManagerByRoleId()
         {
-            var result=_taskManagerEntities.UserDetails.Where(m => m.RoleId == 2).ToList();
+           
+            var roleId = Convert.ToInt32( EnumClass.Roles.Manager);
+            var result=_taskManagerEntities.UserDetails.Where(m => m.RoleId == roleId).ToList();
             List<UserDetailDm> userDetailList = new List<UserDetailDm>();
             foreach (var item in result)
             {
@@ -77,41 +79,10 @@ namespace TaskManagerDAL.DAL
         }
         public string GetManagerNameById(string managerId)
         {
-           // string name = null;
             var result = _taskManagerEntities.UserDetails.FirstOrDefault(m => m.Id == managerId)?.FirstName;
-            //if (result != null)
-            //{
-            //    name = result.FirstName;
-            //}
-
-            //return name;
             return result;
         }
-
-        public List<UserDetailDm> Search(string searchText)
-        {
-            var searchName = _taskManagerEntities.UserDetails.Where(m => m.FirstName.Contains(searchText)).ToList().Select(userDetailDm => new UserDetailDm
-
-            {
-                Id = userDetailDm.Id,
-                FirstName = userDetailDm.FirstName,
-                LastName = userDetailDm.LastName,
-                EmailId = userDetailDm.EmailId,
-                PhoneNumber = userDetailDm.PhoneNumber,
-                RoleId = userDetailDm.Role.RoleId,
-                ManagerId = userDetailDm.ManagerId,
-                CreatedBy = userDetailDm.CreatedBy,
-                ModifiedBy = userDetailDm.ModifiedBy,
-                CreateDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                ManagerName = GetManagerNameById(userDetailDm.ManagerId)
-
-            }).ToList();
-
-
-            return searchName;
-        }
-
+        
 
         public UserDetail GetUserDetailById(string id) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.Id == id);
 

@@ -63,6 +63,7 @@ namespace TaskManagerServiceApi.Controllers
             var managers = new List<UserDetailDm>();
             try
             {
+               
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/admin/manager");
 
@@ -125,30 +126,7 @@ namespace TaskManagerServiceApi.Controllers
             return users;
         }
 
-        [HttpGet, Route("search")]
-        public async Task<List<UserDetailDm>> Search(string SearchText)
-        {
-            var user = new List<UserDetailDm>();
-            try
-            {
-                string URL = DalLayerUrl + "/admin/Search";
-                HttpClient client = new HttpClient();
-                string urlParameters = "?SearchText=" + SearchText;
-                client.BaseAddress = new Uri(URL);
-
-                var response = await client.GetAsync(urlParameters);
-
-                if (response.IsSuccessStatusCode)
-                    // Parse the response body. Blocking!
-                    user = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return user;
-        }
-
+       
         [HttpGet, Route("{employeeId}")]
         public async Task<UserDetailDm> EditUser(string employeeId)
         {
