@@ -12,25 +12,25 @@ namespace TaskManagerDAL.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class TaskManagerEntities : DbContext
     {
         public TaskManagerEntities()
             : base("name=TaskManagerEntities")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
         public virtual DbSet<LoginUser> LoginUsers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskDocument> TaskDocuments { get; set; }
         public virtual DbSet<TaskStatu> TaskStatus { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<TaskAssignment> TaskAssignments { get; set; }
     }
 }
-
