@@ -18,7 +18,7 @@ namespace TaskManagerUtility
                 EncryptionDecryption encrypter = new EncryptionDecryption();
                 var encryptedReceiver = encrypter.Encrypt(receiver);
 
-                var callbackUrl = new Uri("http://localhost:52914/Email/Verify" + "?username=" + HttpContext.Current.Server.UrlEncode(encryptedReceiver));
+                var callbackUrl = new Uri(ConfigurationManager.AppSettings["EmailVerifyUrl"] + "?username=" + HttpContext.Current.Server.UrlEncode(encryptedReceiver));
                 var str = HttpContext.Current.Request.QueryString["url"];
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
@@ -29,7 +29,7 @@ namespace TaskManagerUtility
                 mail.Body = body;
                 mail.IsBodyHtml = true;
 
-                SmtpServer.Port = 25;
+                SmtpServer.Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
                 SmtpServer.Credentials = new System.Net.NetworkCredential(sender, senderPassword);
                 SmtpServer.EnableSsl = true;
 
