@@ -56,8 +56,8 @@
                                 @Html.Label("Phone no")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Phone No" })
-                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error",style="color:red" })
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "XX XXXXXXXXXX" })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -74,20 +74,26 @@
                             <label class="col-lg-2 control-label">
                                 @Html.Label("Role Name")
                             </label>
-                            <div class="col-lg-10" style="margin-bottom:10px;" >
-                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new { @class = "form-control", @*@id="rolename",*@ style = "160%" })
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new
+                           {
+                               @class = "form-control", @*@id="rolename",*@ style = "160%"
+                           })
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">
                                 @Html.Label("Manager Name")
                             </label>
-                            <div class="col-lg-10" style="margin-bottom:10px;" >
-                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new { @class = "form-control", @*@id = "manager",*@ style = "160%" })
+                            <div class="col-lg-10" style="margin-bottom:10px;">
+                                @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new
+                           {
+                               @class = "form-control", @*@id = "manager",*@ style = "160%"
+                           })
                             </div>
                         </div>
 
-                        <button type="submit"  class="btn btn-sm btn-success" id="btn" onclick="notify()"@*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
+                        <button type="submit" class="btn btn-sm btn-success" id="btn" onclick="notify()" @*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
 
                     </form>
                 </div>
@@ -98,22 +104,21 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="~/Scripts/pnotify.custom.min.js"></script>
 <link href="~/Content/pnotify.custom.min.css" rel="stylesheet" media="all" type="text/css" />
- <script type="text/javascript">
-     
-     function notify() {
-         debugger
-         if (($('#FirstName').val() != "") && ($('#LastName').val() != "") && ($('#PhoneNumber').val() != "") && ($('#EmailId').val() != "") && ($('#RoleId').val() != "")) {
-             new PNotify({
-                 title: 'Success!',
-                 text: 'New user is added successfully.'
-
-             });
-         }
-
-     }
-     
-     
-
+<script type="text/javascript">
+    function notify() {
+        if (($('#FirstName').val() != "") && ($('#LastName').val() != "") && ($('#PhoneNumber').val() != "") && ($('#EmailId').val() != "") && ($('#RoleId').val() != "")) {
+            new PNotify({
+                title: 'Success!',
+                text: 'New user is added successfully.'
+            });
+        }
+    }
 </script>
-
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.maskedinput.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#PhoneNumber').mask('+91 9999999999');
+    });
+</script>
 

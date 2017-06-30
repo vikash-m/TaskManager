@@ -15,7 +15,8 @@ namespace TaskDomain.DomainModel
         [Display(Name = "Phone no")]
         [Required(ErrorMessage = "Enter the Phone no")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+
         public string PhoneNumber { get; set; }
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Enter Email Id")]
