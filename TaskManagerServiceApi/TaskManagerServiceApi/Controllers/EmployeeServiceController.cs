@@ -66,10 +66,9 @@ namespace TaskManagerServiceApi.Controllers
         }
 
         [HttpGet, Route("status")]
-        public async Task<List<TaskStatusModel>> GetStatusList()
+        public async Task<List<TaskStatuDm>> GetStatusList()
         {
             var taskStatus = new List<TaskStatuDm>();
-            var taskStatusList = new List<TaskStatusModel>();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
@@ -78,21 +77,12 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskStatus = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
-                
-                foreach (var st in taskStatus)
-                {
-                    TaskStatusModel ts = new TaskStatusModel();
-                    ts.Id = st.Id;
-                    ts.Status = st.Status;
-                    taskStatusList.Add(ts);
-                }
-
             }
             catch (Exception)
             {
                 throw;
             }
-            return taskStatusList;
+            return taskStatus;
         }
 
         [HttpGet, Route("{employeeId}/tasks/count")]
