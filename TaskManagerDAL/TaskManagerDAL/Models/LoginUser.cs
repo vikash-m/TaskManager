@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class LoginUser
     {
         public string Id { get; set; }
@@ -22,9 +22,8 @@ namespace TaskManagerDAL.Models
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-
+    
         public virtual UserDetail UserDetail { get; set; }
         public virtual Role Role { get; set; }
     }
-
 }

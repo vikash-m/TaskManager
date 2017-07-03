@@ -31,6 +31,5 @@ namespace TaskManagerDAL.Models
         public virtual DbSet<TaskDocument> TaskDocuments { get; set; }
         public virtual DbSet<TaskStatu> TaskStatus { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
-        public virtual DbSet<TaskAssignment> TaskAssignments { get; set; }
     }
 }

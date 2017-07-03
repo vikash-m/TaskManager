@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class TaskDocument
     {
         public string Id { get; set; }
@@ -23,11 +23,9 @@ namespace TaskManagerDAL.Models
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-
+    
         public virtual Task Task { get; set; }
         public virtual UserDetail UserDetail { get; set; }
         public virtual UserDetail UserDetail1 { get; set; }
     }
 }
-
-
