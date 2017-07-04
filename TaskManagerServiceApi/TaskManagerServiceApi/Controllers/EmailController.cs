@@ -26,7 +26,6 @@ namespace TaskManagerServiceApi.Controllers
             if (response.IsSuccessStatusCode)
                 status = response.Content.ReadAsAsync<string>().Result;
             return status;
-
         }
     }
 }

@@ -11,27 +11,22 @@ namespace TaskManagerServiceApi.Controllers
     public class LoginServiceController : ApiController
     {
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
-
         [HttpGet, Route("login-details")]
         public async Task<LoginUserDm> GetLoginDetails(string name, string password)
         {
             var encryptionDecryption = new EncryptionDecryption();
             //Password will encrypted.
             var encryptedPassword = encryptionDecryption.Encrypt(password);
-
             var loginUser = new LoginUserDm();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/login/?name={name}&password={encryptedPassword}");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     loginUser = response.Content.ReadAsAsync<LoginUserDm>().Result;
-
-
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -45,11 +40,9 @@ namespace TaskManagerServiceApi.Controllers
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/login/user/{id}");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
-
                 var roleName = await client.GetAsync($"/login/roles/{userDetail.RoleId}");
                 if (roleName.IsSuccessStatusCode)
                     userDetail.RoleName = roleName.Content.ReadAsAsync<string>().Result;
@@ -58,11 +51,8 @@ namespace TaskManagerServiceApi.Controllers
             {
                 throw;
             }
-
             return userDetail;
-
         }
-
         [HttpPost, Route("")]
         public async Task<bool> AddLoginUserDetails(UserLoginDetails loginDetails)
         {
@@ -78,6 +68,5 @@ namespace TaskManagerServiceApi.Controllers
             }
             return status;
         }
-
     }
 }

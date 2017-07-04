@@ -65,15 +65,13 @@ namespace TaskManagerServiceApi.Controllers
             var managers = new List<UserDetailDm>();
             try
             {
-               
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/admin/manager");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     managers = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -87,7 +85,6 @@ namespace TaskManagerServiceApi.Controllers
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/admin/user-detail/");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -120,15 +117,13 @@ namespace TaskManagerServiceApi.Controllers
             var user = new UserDetailDm();
             try
             {
-
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync($"/admin/{employeeId}");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     user = response.Content.ReadAsAsync<UserDetailDm>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -140,17 +135,15 @@ namespace TaskManagerServiceApi.Controllers
             var updateStatus = new bool();
             try
             {
-                //userDetail.Id = Guid.NewGuid().ToString();
                 userDetail.ModifiedBy = loginUser;
                 userDetail.ModifiedDate = DateTime.Now;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.PutAsJsonAsync($"/admin/{userDetail.Id}", userDetail);
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     updateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -160,18 +153,15 @@ namespace TaskManagerServiceApi.Controllers
         public async Task<bool> DeleteUser(string id, string loginUser)
         {
             var user = new UserDetailDm();
-
             var updateStatus = new bool();
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.DeleteAsync($"/admin/{id}/?loginUser={loginUser}");
-
-                if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     updateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }

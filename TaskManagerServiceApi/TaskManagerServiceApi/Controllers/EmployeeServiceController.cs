@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using TaskDomain.DomainModel;
 
-
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("employees")]
@@ -15,7 +14,6 @@ namespace TaskManagerServiceApi.Controllers
         // GET: EmployeeService
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
         private readonly ManagerController _managerServiceController = new ManagerController();
-
         [HttpGet, Route("")]
         public async Task<List<UserDetailDm>> GetEmployees()
         {
@@ -24,20 +22,16 @@ namespace TaskManagerServiceApi.Controllers
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.GetAsync("/employees");
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employee = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-
-
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
             return employee;
         }
-
         [HttpGet, Route("{employeeId}/tasks")]
         public async Task<List<TaskDm>> GetEmployeeTasks(int employeeId)
         {
@@ -64,7 +58,6 @@ namespace TaskManagerServiceApi.Controllers
             }
             return employeeTask;
         }
-
         [HttpGet, Route("status")]
         public async Task<List<TaskStatuDm>> GetStatusList()
         {
@@ -78,13 +71,12 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskStatus = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
             return taskStatus;
         }
-
         [HttpGet, Route("{employeeId}/tasks/count")]
         public async Task<TaskStatusCountDm> GetTaskCounts(int employeeId)
         {
@@ -95,55 +87,45 @@ namespace TaskManagerServiceApi.Controllers
                 var pendingCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
                 var inProgressCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
                 var completedCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
-
                 if (pendingCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskCount.Pending = pendingCount.Content.ReadAsAsync<int>().Result;
-
                 if (inProgressCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskCount.InProgress = inProgressCount.Content.ReadAsAsync<int>().Result;
-
                 if (completedCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
-
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
             return taskCount;
         }
-
         [HttpGet, Route("UpdateTask")]
         public async Task<bool> UpdateTask(int Id, int status)
         {
             var updateStatus = new bool();
             try
-            {
-                
+            { 
                 string URL = DalLayerUrl + "/employees/UpdateTask";
                 HttpClient client = new HttpClient();
                 string urlParameters = "?Id=" + Id + "&status=" + status;
                 client.BaseAddress = new Uri(URL);
                 // List data response.
                 HttpResponseMessage response = await client.GetAsync(urlParameters);
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     updateStatus = response.Content.ReadAsAsync<bool>().Result;
-
-
             }
-            catch (Exception)
+            catch 
             {
                 throw;
             }
             return updateStatus;
         }
-
         [HttpGet, Route("tasks/{taskId}")]
         public async Task<TaskDm> GetTaskDetails(string taskId)
         {
