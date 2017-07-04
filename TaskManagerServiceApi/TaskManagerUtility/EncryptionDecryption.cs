@@ -12,6 +12,9 @@ namespace TaskManagerUtility
     {
         public string Encrypt(string str)
         {
+            try
+            {
+
             string EncrptKey = "2017;[pnuLIT)TaskMAnager";
             byte[] byKey = { };
             byte[] IV = { 18, 52, 86, 120, 144, 171, 205, 239 };
@@ -23,10 +26,20 @@ namespace TaskManagerUtility
             cs.Write(inputByteArray, 0, inputByteArray.Length);
             cs.FlushFinalBlock();
             return Convert.ToBase64String(ms.ToArray());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public string Decrypt(string str)
         {
+            try
+            {
+
+        
             str = str.Replace(" ", "+");
             string DecryptKey = "2017;[pnuLIT)TaskMAnager";
             byte[] byKey = { };
@@ -42,6 +55,12 @@ namespace TaskManagerUtility
             cs.FlushFinalBlock();
             System.Text.Encoding encoding = System.Text.Encoding.UTF8;
             return encoding.GetString(ms.ToArray());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
     }
