@@ -52,7 +52,7 @@ namespace TaskManagerServiceApi.Controllers
                     item.TaskStatus = await managerSercviceController.GetTaskStatusNameByTaskStatusId(item.TaskStatusId);
                 }
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -138,13 +138,10 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskDetail = response.Content.ReadAsAsync<TaskDm>().Result;
-                taskDetail.AssignedToName = await _managerServiceController.GetEmployeeNameById(taskDetail.AssignedTo);
-                taskDetail.CreatedByName = await _managerServiceController.GetEmployeeNameById(taskDetail.CreatedBy);
-                taskDetail.TaskStatus =
-                    await _managerServiceController.GetTaskStatusNameByTaskStatusId(taskDetail.TaskStatusId);
+               
 
             }
-            catch (Exception)
+            catch 
             {
                 throw;
             }
