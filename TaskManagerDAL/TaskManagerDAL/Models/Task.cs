@@ -11,7 +11,7 @@ namespace TaskManagerDAL.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Task
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,7 @@ namespace TaskManagerDAL.Models
         {
             this.TaskDocuments = new HashSet<TaskDocument>();
         }
-
+    
         public string Id { get; set; }
         public string Title { get; set; }
         public string CreatedBy { get; set; }
@@ -32,7 +32,7 @@ namespace TaskManagerDAL.Models
         public Nullable<System.DateTime> CreateDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
-
+    
         public virtual UserDetail UserDetail { get; set; }
         public virtual UserDetail UserDetail1 { get; set; }
         public virtual UserDetail UserDetail2 { get; set; }
@@ -41,5 +41,3 @@ namespace TaskManagerDAL.Models
         public virtual ICollection<TaskDocument> TaskDocuments { get; set; }
     }
 }
-
-

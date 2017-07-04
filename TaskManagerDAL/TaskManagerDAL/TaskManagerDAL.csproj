@@ -189,9 +189,6 @@
     <Compile Include="Models\Task.cs">
       <DependentUpon>TaskModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TaskAssignment.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaskDocument.cs">
       <DependentUpon>TaskModel.tt</DependentUpon>
     </Compile>

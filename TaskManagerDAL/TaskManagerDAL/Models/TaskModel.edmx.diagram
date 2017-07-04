@@ -4,31 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7739753baaf34a74a755ec8c2ac4cf71" Name="Diagram1">
+      <Diagram DiagramId="8b9d1f906a224511a4ce95828ec7e09b" Name="Diagram1">
         <EntityTypeShape EntityType="TaskManagerModel.LoginUser" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.Role" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.Task" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.TaskDocument" Width="1.5" PointX="10.5" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.TaskStatu" Width="1.5" PointX="6" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagerModel.UserDetail" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
-        <AssociationConnector Association="TaskManagerModel.FK__LoginUser__EmpId__164452B1" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__LoginUser__RoleI__15502E78" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__LoginUser__EmpId__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__LoginUser__RoleI__36B12243" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__UserDetai__RoleI__1273C1CD" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Task__AssignedTo__1BFD2C07" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Task__CreateBy__1B0907CE" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Task__ModifiedBy__1DE57479" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Task__TaskStatus__1CF15040" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__TaskI__20C1E124" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Added__21B6055D" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Modif__22AA2996" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagerModel.FK__Task__CreateBy__2E1BDC42" />
-        <EntityTypeShape EntityType="TaskManagerModel.TaskAssignment" Width="1.5" PointX="13.5" PointY="7.75" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskAssig__TaskI__49C3F6B7" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskAssig__Assig__4AB81AF0" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskAssig__Creat__4BAC3F29" />
-        <AssociationConnector Association="TaskManagerModel.FK__TaskAssig__modif__4CA06362" />
+        <AssociationConnector Association="TaskManagerModel.FK__Task__AssignedTo__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__Task__CreateBy__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__Task__ModifiedBy__1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__Task__TaskStatus__1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__TaskI__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Added__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Modif__21B6055D" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
-
