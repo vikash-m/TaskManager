@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using TaskDomain.DomainModel;
 using TaskManagerDAL.DAL;
 using TaskManagerDAL.Models;
 
@@ -11,13 +12,13 @@ namespace TaskManagerDAL.Controllers
         private readonly RolesRepository _rolesRepository = new RolesRepository();
 
         [HttpGet, Route("")]
-        public LoginUser GetLoginUserDetail(string name, string password)
+        public LoginUserDm GetLoginUserDetail(string name, string password)
         {
             return _loginRepository.GetLoginUserDetails(name, password);
         }
 
         [HttpGet, Route("user/{id}")]
-        public UserDetail GetUserDetailsData(string id)
+        public UserDetailDm GetUserDetailsData(string id)
         {
             return _loginRepository.GetUserDetailsData(id);
         }

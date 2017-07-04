@@ -2,7 +2,7 @@
     
 @{
     ViewBag.Title = "GetUserDetails";
-    Layout = "null";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
 
 <h2>GetUserDetails</h2>
@@ -23,7 +23,7 @@
     <tr>
         <td>
             @Html.Label("Phone no")
-            @Html.TextBox(Model.PhoneNumber.ToString())
+            @Html.TextBox(Model.PhoneNumber)
         </td>
     </tr>
     <tr>

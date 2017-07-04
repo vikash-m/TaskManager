@@ -1,4 +1,4 @@
-﻿@model TaskDomain.DomainModel.TaskDm
+﻿ @model TaskDomain.DomainModel.TaskDm
 
 @{
     ViewBag.Title = "CreateTask";
@@ -47,7 +47,7 @@
                                 @Html.Label("Title")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @placeholder = "Title" })
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Title" })
                                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                 @Html.Label("Description")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @placeholder = "Description" })
+                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Description" })
                                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>

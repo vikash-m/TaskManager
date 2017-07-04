@@ -7,11 +7,11 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "UserName/EmailID", @required = "required" })
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "UserName/EmailID" })
         @Html.ValidationMessageFor(m => m.UserName)
     </div>
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @type = "Password", @required = "required" })
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", placeholder = "Password", type = "Password" })
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
                 if (ViewBag.message != null)

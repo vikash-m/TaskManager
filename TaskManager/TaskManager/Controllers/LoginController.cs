@@ -7,12 +7,10 @@ using TaskDomain.DomainModel;
 
 namespace TaskManager.Controllers
 {
-   
+
     public class LoginController : Controller
     {
-        private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"] }";
-        private string _urlParameters;
-
+        private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"]}";
         // GET: Login
         [HttpGet]
         public ActionResult Login()
@@ -20,6 +18,7 @@ namespace TaskManager.Controllers
 
             return View();
         }
+
         [HttpPost]
         public async Task<ActionResult> Login(LoginUserDm log)
         {
@@ -65,7 +64,7 @@ namespace TaskManager.Controllers
                 ViewBag.message = "Invalid UserName/Password";
                 return View();
             }
-            catch (Exception)
+            catch
             {
                 ViewBag.message = "Invalid UserName/Password";
                 return View();
@@ -86,7 +85,7 @@ namespace TaskManager.Controllers
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
 
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw;
             }
@@ -95,6 +94,7 @@ namespace TaskManager.Controllers
 
 
         }
+
         public ActionResult Logout()
         {
             Session.Clear();

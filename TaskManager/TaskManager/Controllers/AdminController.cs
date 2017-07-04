@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TaskDomain.DomainModel;
 using PagedList;
 using System.Configuration;
@@ -14,15 +13,15 @@ namespace TaskManager.Controllers
 {
     public class AdminController : Controller
     {
-        private static string serviceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/admin";
-        private string urlParameters;
+        private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/admin";
+
         [HttpGet]
         public async Task<ActionResult> SaveUserDetails()
         {
             try
             {
-                var url = serviceLayerUrl + "/roles";
-                var client = new HttpClient { BaseAddress = new Uri(serviceLayerUrl) };
+                var url = ServiceLayerUrl + "/roles";
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -34,9 +33,9 @@ namespace TaskManager.Controllers
                     var roles = new SelectList(roleResult, "RoleId", "RoleName");
                     ViewBag.List = roles;
                 }
-                var uRlDropdownManager = serviceLayerUrl + "/manager";
-                 // List data response.
-                HttpResponseMessage responseDropdownManager = await client.GetAsync(uRlDropdownManager);
+                var uRlDropdownManager = ServiceLayerUrl + "/manager";
+                // List data response.
+                var responseDropdownManager = await client.GetAsync(uRlDropdownManager);
                 if (responseDropdownManager.IsSuccessStatusCode)
                 {
                     var mgrResult = responseDropdownManager.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -58,9 +57,8 @@ namespace TaskManager.Controllers
                 var user = (UserDetailDm)Session["SessionData"];
                 var name = user.Id;
                 if (!ModelState.IsValid) return RedirectToAction("SaveUserDetails");
-                var url = serviceLayerUrl + "/create-user";
-                var client = new HttpClient();
-                client.BaseAddress = new Uri(url);
+                var url = ServiceLayerUrl + "/create-user";
+                var client = new HttpClient { BaseAddress = new Uri(url) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -85,21 +83,16 @@ namespace TaskManager.Controllers
             {
                 var user = (UserDetailDm)Session["SessionData"];
                 if (null == user) return RedirectToAction("Login", "Login");
-                var id = user.Id;
-                var url = serviceLayerUrl + "/user-detail";
-                var client = new HttpClient();
-                client.BaseAddress = new Uri(url);
+                var url = ServiceLayerUrl + "/user-detail";
+                var client = new HttpClient { BaseAddress = new Uri(url) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 // List data response.
                 var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10);
-                    return View(dataObjects);
-                }
-                return View();
+                if (!response.IsSuccessStatusCode) return View();
+                var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10);
+                return View(dataObjects);
             }
             catch
             {
@@ -111,20 +104,20 @@ namespace TaskManager.Controllers
         {
             try
             {
-                var URL = serviceLayerUrl + "/roles";
-                var client = new HttpClient { BaseAddress = new Uri(serviceLayerUrl) };
+                var url = ServiceLayerUrl + "/roles";
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 // List data response.
-                var response = await client.GetAsync(URL);
+                var response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     var roleResult = response.Content.ReadAsAsync<List<RoleDm>>().Result;
                     var roles = new SelectList(roleResult, "RoleId", "RoleName");
                     ViewBag.List = roles;
                 }
-                var uRlDropdownManager = serviceLayerUrl + "/manager";
+                var uRlDropdownManager = ServiceLayerUrl + "/manager";
                 // List data response.
                 var responseDropdownManager = await client.GetAsync(uRlDropdownManager);
                 if (responseDropdownManager.IsSuccessStatusCode)
@@ -133,18 +126,15 @@ namespace TaskManager.Controllers
                     var mgrRes = new SelectList(mgrResult, "Id", "FirstName");
                     ViewBag.List1 = mgrRes;
                 }
-                var uRlEditUser = serviceLayerUrl + $"/{id}";
+                var uRlEditUser = ServiceLayerUrl + $"/{id}";
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 // List data response.
                 var responseEditUser = await client.GetAsync(uRlEditUser);
-                if (responseEditUser.IsSuccessStatusCode)
-                {
-                    var res = responseEditUser.Content.ReadAsAsync<UserDetailDm>().Result;
-                    return View(res);
-                }
-                return View();
+                if (!responseEditUser.IsSuccessStatusCode) return View();
+                var res = responseEditUser.Content.ReadAsAsync<UserDetailDm>().Result;
+                return View(res);
             }
             catch
             {
@@ -157,21 +147,14 @@ namespace TaskManager.Controllers
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
-                var client = new HttpClient()
-                {
-                    BaseAddress = new Uri(serviceLayerUrl)
-                };
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 // List data response.
                 var response = await client.PutAsJsonAsync($"admin/{userDetailDm.Id}/?loginUser={user.Id}", userDetailDm);
-                if (response.IsSuccessStatusCode)
-                {
-                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
-                    return RedirectToAction("ViewUserDetails");
-                }
-                return View();
+                if (!response.IsSuccessStatusCode) return View();
+                return RedirectToAction("ViewUserDetails");
             }
             catch
             {
@@ -183,19 +166,14 @@ namespace TaskManager.Controllers
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
-                var client = new HttpClient();
-                client.BaseAddress = new Uri(serviceLayerUrl);
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
                 // List data response.
                 var response = await client.DeleteAsync($"admin/{id}/?loginUser={user.Id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var dataObjects = response.Content.ReadAsAsync<bool>().Result;
-                    return RedirectToAction("ViewUserDetails");
-                }
-                return View();
+                if (!response.IsSuccessStatusCode) return View();
+                return RedirectToAction("ViewUserDetails");
             }
             catch
             {

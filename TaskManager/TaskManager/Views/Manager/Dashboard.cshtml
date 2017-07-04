@@ -66,40 +66,44 @@
                         <div class="flot-chart">
                             <div class="flot-chart-content" id="flot-dashboard-chart">
                                 <div class="demo-section k-content wide">
+                                   
                                     @(Html.Kendo().Chart()
-        .Name("chart")
-        .Title("Task Status Column chart")
-        .Legend(legend => legend
-            .Position(ChartLegendPosition.Top)
-        )
-        .ChartArea(chartArea => chartArea
-            .Background("transparent")
-        )
-        .Series(series =>
-        {
-            series.Column(new double[] { Model.Pending, Model.InProgress, Model.Completed }).Name("Tasks");
-        })
-        .CategoryAxis(axis => axis
-            .Name("series-axis")
-            .Line(line => line.Visible(false))
-        )
-        .CategoryAxis(axis => axis
-            .Name("label-axis")
-            .Categories("Pending", "InProgress", "Completed")
-        )
-        .ValueAxis(axis => axis
-            .Numeric()
-                .Labels(labels => labels.Format("{0}%"))
+                                          .Name("chart")
+                                          .Title("Task Status Column chart")
+                                          .Legend(legend => legend
+                                              .Position(ChartLegendPosition.Top)
+                                          )
+                                          .ChartArea(chartArea => chartArea
+                                              .Background("transparent")
+                                          )
+                                          .Series(series =>
+                                          {
+                                          //series.Column(new double[] {Model.Pending, Model.InProgress, Model.Completed}).Name("Tasks");
+                                          
 
-                // Move the label-axis all the way down the value axis
-                .AxisCrossingValue(0, int.MinValue)
-        )
-        .Tooltip(tooltip => tooltip
-            .Visible(true)
-            .Format("{0}%")
-            .Template("#= series.name #: #= value #")
-        )
-                                    )
+
+                                          })
+                                          .CategoryAxis(axis => axis
+                                              .Name("series-axis")
+                                              .Line(line => line.Visible(false))
+                                          )
+                                          .CategoryAxis(axis => axis
+                                              .Name("label-axis")
+                                              .Categories("Pending", "InProgress", "Completed")
+                                          )
+                                          .ValueAxis(axis => axis
+                                              .Numeric()
+                                              .Labels(labels => labels.Format("{0}"))
+
+                                              // Move the label-axis all the way down the value axis
+                                              .AxisCrossingValue(0, int.MinValue)
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                              .Visible(true)
+                                              .Format("{0}")
+                                              .Template("#= series.name #: #= value #")
+                                          )
+                                          )
                                 </div>
 
                             </div>
@@ -121,9 +125,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category="Pending",value=Model.Pending,color="#9de219"},
-                new {category="InProgress",value=Model.InProgress,color="#90cc38"},
-                new {category="Completed",value=Model.Completed,color="#068c35"}
+                new {category="Pending",value=(double)Model.Pending/Model.Total*100,color="#9de219"},
+                new {category="InProgress",value=(double)Model.InProgress/Model.Total*100,color="#90cc38"},
+                new {category="Completed",value=(double)Model.Completed/Model.Total*100,color="#068c35"}
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#%")
@@ -134,9 +138,10 @@
         })
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            .Format("{0}%")
+            .Format("{0}")
         )
-                            )
+                                  )
+
                         </div>
                     </div>
                 </div>

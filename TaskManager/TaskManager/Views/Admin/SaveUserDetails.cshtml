@@ -35,7 +35,7 @@
                                 @Html.Label("First Name")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
                                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 @Html.Label("Last Name")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                                 @Html.Label("Phone no")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "XX XXXXXXXXXX" })
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "XX XXXXXXXXXX" })
                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                 @Html.Label("Email Id")
                             </label>
                             <div class="col-lg-10" style="margin-bottom:10px;">
-                                @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Email Id - ex:abcd@gmail.com" })
+                                @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", placeholder = "Email Id - ex:abcd@gmail.com" })
                                 @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "error", style = "color:red" })
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.List, "--Select Roles--", new
                            {
-                               @class = "form-control", @*@id="rolename",*@ style = "160%"
+                               @class = "form-control", style = "160%"
                            })
                             </div>
                         </div>
@@ -88,12 +88,12 @@
                             <div class="col-lg-10" style="margin-bottom:10px;">
                                 @Html.DropDownListFor(m => m.ManagerId, (SelectList)ViewBag.List1, "--Select Manager--", new
                            {
-                               @class = "form-control", @*@id = "manager",*@ style = "160%"
+                               @class = "form-control", style = "160%"
                            })
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-sm btn-success" id="btn" onclick="notify()" @*"@("window.location.href='" + @Url.Action("ViewUserDetails", "Home") + "'");"*@>Add User</button>
+                        <button type="submit" class="btn btn-sm btn-success" id="btn" onclick="notify()" >Add User</button>
 
                     </form>
                 </div>
@@ -107,7 +107,7 @@
 <script type="text/javascript">
     function notify() {
         if (($('#FirstName').val() != "") && ($('#LastName').val() != "") && ($('#PhoneNumber').val() != "") && ($('#EmailId').val() != "") && ($('#RoleId').val() != "")) {
-            new PNotify({
+            PNotify({
                 title: 'Success!',
                 text: 'New user is added successfully.'
             });

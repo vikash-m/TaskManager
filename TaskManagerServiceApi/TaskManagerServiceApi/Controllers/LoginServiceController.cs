@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Configuration;
 using System.Threading.Tasks;
 using System;
+using System.Web;
 using TaskDomain.DomainModel;
 using TaskManagerUtility;
 namespace TaskManagerServiceApi.Controllers
@@ -23,7 +24,8 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/login/?name={name}&password={encryptedPassword}");
+                var response = await client.GetAsync($"/login/?name={name}&password=" + HttpContext.Current.Server.UrlEncode(encryptedPassword));
+
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -38,7 +40,7 @@ namespace TaskManagerServiceApi.Controllers
             return loginUser;
         }
         [HttpGet, Route("{id}")]
-        public async Task<UserDetailDm> GetUserDetailsData(int id)
+        public async Task<UserDetailDm> GetUserDetailsData(string id)
         {
             var userDetail = new UserDetailDm();
             try
@@ -49,10 +51,6 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
-
-                var roleName = await client.GetAsync($"/login/roles/{userDetail.RoleId}");
-                if (roleName.IsSuccessStatusCode)
-                    userDetail.RoleName = roleName.Content.ReadAsAsync<string>().Result;
             }
             catch
             {

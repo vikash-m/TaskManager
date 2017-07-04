@@ -14,7 +14,7 @@ namespace TaskManagerServiceApi.Controllers
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
 
         [HttpGet, Route("{managerId}/employees")]
-        public async Task<List<UserDetailDm>> GetEmployeesDetailsByManagerId(int managerId)
+        public async Task<List<UserDetailDm>> GetEmployeesDetailsByManagerId(string managerId)
         {
             var employee = new List<UserDetailDm>();
             try

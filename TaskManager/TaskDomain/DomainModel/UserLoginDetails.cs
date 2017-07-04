@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.IO;
+
 
 namespace TaskDomain.DomainModel
 {
@@ -8,7 +8,7 @@ namespace TaskDomain.DomainModel
 
         public string EmailId { get; set; }
         [Required]
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Minimum lenght of password is 6")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "Minimum lenght of password is 8")]
         public string Password { get; set; }
         [Required]
         [Compare("Password", ErrorMessage = "Password Doesn't Match")]
