@@ -42,7 +42,7 @@ namespace TaskManager.Controllers
                 }
                 return View(taskStatusCountDataModel);
             }
-            catch
+            catch(Exception)
             {
                 return View("Error");
             }
@@ -68,7 +68,7 @@ namespace TaskManager.Controllers
                 var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5); ;
                 return View(taskList);
             }
-            catch
+            catch(Exception)
             {
                 return View("Error");
             }
@@ -91,7 +91,7 @@ namespace TaskManager.Controllers
                 var statusList = response.Content.ReadAsAsync<List<TaskStatusModel>>().Result;
                 return Json(new { data = statusList }, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch(Exception)
             {
                 return null;
             }
@@ -118,7 +118,7 @@ namespace TaskManager.Controllers
                 }
                 return false;
             }
-            catch
+            catch(Exception)
             {
                 return false;
             }
@@ -141,7 +141,7 @@ namespace TaskManager.Controllers
                 return View(task);
                
             }
-            catch
+            catch(Exception)
             {
                 return View("Error");
             }

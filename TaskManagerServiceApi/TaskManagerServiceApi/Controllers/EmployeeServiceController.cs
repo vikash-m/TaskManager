@@ -31,7 +31,7 @@ namespace TaskManagerServiceApi.Controllers
 
 
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -58,7 +58,7 @@ namespace TaskManagerServiceApi.Controllers
                     item.TaskStatus = await managerSercviceController.GetTaskStatusNameByTaskStatusId(item.TaskStatusId);
                 }
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -78,7 +78,7 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskStatus = response.Content.ReadAsAsync<List<TaskStatuDm>>().Result;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -110,7 +110,7 @@ namespace TaskManagerServiceApi.Controllers
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
 
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -137,7 +137,7 @@ namespace TaskManagerServiceApi.Controllers
 
 
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -156,13 +156,9 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskDetail = response.Content.ReadAsAsync<TaskDm>().Result;
-                taskDetail.AssignedToName = await _managerServiceController.GetEmployeeNameById(taskDetail.AssignedTo);
-                taskDetail.CreatedByName = await _managerServiceController.GetEmployeeNameById(taskDetail.CreatedBy);
-                taskDetail.TaskStatus =
-                    await _managerServiceController.GetTaskStatusNameByTaskStatusId(taskDetail.TaskStatusId);
-
+               
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }

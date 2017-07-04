@@ -64,7 +64,7 @@
                     <div class="col-lg-6">
                         <div class="flot-chart">
                             <div class="flot-chart-content" id="flot-dashboard-chart">
-                                @*<div class="demo-section k-content wide">
+                                <div class="demo-section k-content wide">
                                     @(Html.Kendo().Chart()
         .Name("chart")
         .Title("Task Status Column chart")
@@ -88,7 +88,7 @@
         )
         .ValueAxis(axis => axis
             .Numeric()
-                .Labels(labels => labels.Format("{0}%"))
+                .Labels(labels => labels.Format("{0}"))
 
                 // Move the label-axis all the way down the value axis
                 .AxisCrossingValue(0, int.MinValue)
@@ -99,13 +99,13 @@
             .Template("#= series.name #: #= value #")
         )
                                     )
-                                </div>*@
+                                </div>
 
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        @*<div class="demo-section k-content wide">
+                        <div class="demo-section k-content wide">
                             @(Html.Kendo().Chart()
         .Name("Paichart")
                 .Title(title => title
@@ -125,7 +125,7 @@
                 new {category="Completed",value=Model.Completed,color="#068c35"}
             })
             .Labels(labels => labels
-                .Template("#= category #: \n #= value#%")
+                .Template("#= category #: \n #= value#")
                 .Background("transparent")
                 .Visible(true)
             )
@@ -136,7 +136,7 @@
             .Format("{0}")
         )
                             )
-                        </div>*@
+                        </div>
                     </div>
             </div>
         </div>

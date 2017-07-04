@@ -2,6 +2,7 @@
 using System.Web.Http;
 using TaskManagerDAL.Models;
 using TaskManagerDAL.DAL;
+using TaskDomain.DomainModel;
 
 namespace TaskManagerDAL.Controllers
 {
@@ -45,9 +46,11 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{taskId}")]
-        public Task GetTaskDetail(string taskId)
+        public TaskDm GetTaskDetail(string taskId)
         {
-            return _employeeRepository.GetTaskDetail(taskId);
+            var result=  _employeeRepository.GetTaskDetail(taskId);
+           return result;
+
         }
     }
 
