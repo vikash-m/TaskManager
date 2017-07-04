@@ -17,7 +17,6 @@ namespace TaskManagerDAL.Controllers
         {
             return _adminRepository.CreateUser(userDetail);
         }
-
         [HttpGet, Route("user-detail")]
         public List<UserDetailDm> GetUserDetail()
         {
@@ -33,7 +32,6 @@ namespace TaskManagerDAL.Controllers
         {
             //fetch emp id based on udm.EmailId
             var employee = _adminRepository.GetUserDetailByEmailId(loginDetails.EmailId);
-
             try
             {
                 var loginUserDetails = new LoginUser
@@ -49,19 +47,20 @@ namespace TaskManagerDAL.Controllers
                 var result = _adminRepository.CreateLoginUser(loginUserDetails);
                 return result;
             }
-
-            catch (Exception)
+            catch
             {
                 return false;
             }
         }
-
         [HttpGet, Route("roles")]
         public List<RoleDm> GetRoles()
         {
             return _adminRepository.GetRoles();
         }
-
+        public string GetUserDetailsAddedBy(string id)
+        {
+            return _adminRepository.GetManagerNameById(id);
+        }
         [HttpGet, Route("manager")]
         public List<UserDetailDm> GetManagerByRoleId()
         {
@@ -71,19 +70,16 @@ namespace TaskManagerDAL.Controllers
         {
             return _adminRepository.GetManagerNameById(managerId);
         }
-
         [HttpPut, Route("{id}")]
         public bool UpdateUserDetail(UserDetail userDetail)
         {
             return _adminRepository.UpdateUserDetail(userDetail);
         }
-
         [HttpDelete, Route("{id}")]
         public bool DeleteUser(string id, string loginUser)
         {
             return _adminRepository.DeleteUser(id);
         }
-
         [HttpGet, Route("{employeeId}")]
         public UserDetail GetUserDetailById(string employeeId)
         {

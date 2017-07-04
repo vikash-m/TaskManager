@@ -23,10 +23,8 @@ namespace TaskManagerServiceApi.Controllers
                 userDetail.Id = Guid.NewGuid().ToString();
                 userDetail.CreatedBy = loginUser;
                 userDetail.CreateDate = DateTime.Now;
-
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
                 var response = await client.PostAsJsonAsync("/admin/create-user", userDetail);
-
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     createStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -36,13 +34,12 @@ namespace TaskManagerServiceApi.Controllers
                     emailUtility.SendMail(userDetail);
                 }
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
             return createStatus;
         }
-
         [HttpGet, Route("roles")]
         public async Task<List<RoleDm>> GetRoles()
         {
@@ -56,13 +53,12 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     roles = response.Content.ReadAsAsync<List<RoleDm>>().Result;
             }
-            catch (Exception)
+            catch 
             {
                 throw;
             }
             return roles;
         }
-
         [HttpGet, Route("manager")]
         public async Task<List<UserDetailDm>> GetManagerByRoleId()
         {
@@ -83,7 +79,6 @@ namespace TaskManagerServiceApi.Controllers
             }
             return managers;
         }
-
         [HttpGet, Route("user-detail")]
         public async Task<List<UserDetailDm>> GetUserDetail()
         {
@@ -112,27 +107,13 @@ namespace TaskManagerServiceApi.Controllers
                         item.ManagerName = "No Manager";
                     }
                 }
-                // }
-                //foreach(var item in users)
-                //{
-                //    if(item!=null)
-                ////    {
-                //        var mgrResponse = await client.GetAsync($"/admin/manager/{item.ManagerId}");
-                //        if(mgrResponse.IsSuccessStatusCode)
-                //        {
-                //            item.ManagerName = mgrResponse.Content.ReadAsAsync<string>().Result;
-                //        }
-                //   }
-                // }
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
             return users;
         }
-
-       
         [HttpGet, Route("{employeeId}")]
         public async Task<UserDetailDm> EditUser(string employeeId)
         {
@@ -153,7 +134,6 @@ namespace TaskManagerServiceApi.Controllers
             }
             return user;
         }
-
         [HttpPut, Route("{id}")]
         public async Task<bool> EditUserDetails(string id, string loginUser, UserDetailDm userDetail)
         {
@@ -176,7 +156,6 @@ namespace TaskManagerServiceApi.Controllers
             }
             return updateStatus;
         }
-
         [HttpDelete, Route("{id}")]
         public async Task<bool> DeleteUser(string id, string loginUser)
         {
