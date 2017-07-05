@@ -23,7 +23,7 @@ namespace TaskDomain.DomainModel
         public DateTime? EndDate { get; set; }
         [Required(ErrorMessage = "Please provide a description")]
         public string Description { get; set; }
-        public int TaskStatusId { get; set; }
+        public int? TaskStatusId { get; set; }
         public string TaskStatus { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }

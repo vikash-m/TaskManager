@@ -17,7 +17,7 @@ namespace TaskDomain.DomainModel
         public string Password { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
         public string RoleName { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

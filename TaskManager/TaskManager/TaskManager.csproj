@@ -180,9 +180,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\PagedList.css" />
-    <Content Include="Content\pnotify.custom.css" />
-    <Content Include="Content\pnotify.custom.min.css" />
     <Content Include="Content\kendo\Black\editor.png" />
     <Content Include="Content\kendo\Black\imagebrowser.png" />
     <Content Include="Content\kendo\Black\indeterminate.gif" />
@@ -520,6 +517,8 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\pnotify.custom.min.css" />
     <Content Include="css\animate.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
@@ -739,10 +738,6 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.maskedinput.js" />
-    <Content Include="Scripts\jquery.maskedinput.min.js" />
-    <Content Include="Scripts\jquery.pnotify.js" />
-    <Content Include="Scripts\jquery.pnotify.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1359,10 +1354,10 @@
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-TW.min.js" />
     <Content Include="Scripts\kendo\pako_deflate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\pnotify.custom.js" />
     <Content Include="Scripts\pnotify.custom.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="TaskDocument\LMS\High level solution Diagram.png" />
     <Content Include="Template\EmailTemplate.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1373,9 +1368,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1385,19 +1378,6 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Shared\_LayoutDefault.cshtml" />
     <Content Include="Views\Admin\index1.cshtml" />
-    <Content Include="Views\Admin\GetUserDetails.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Employee\MyTasks.cshtml" />
-    <Content Include="Views\Employee\Dashboard.cshtml" />
-    <Content Include="Views\Employee\GetTaskDetails.cshtml" />
-    <Content Include="Views\Admin\SaveUserDetails.cshtml" />
-    <Content Include="Views\Admin\ViewUserDetails.cshtml" />
-    <Content Include="Views\Manager\CreateTask.cshtml" />
-    <Content Include="Views\Manager\Dashboard.cshtml" />
-    <Content Include="Views\Manager\ListTask.cshtml" />
-    <Content Include="Views\Manager\_AddDocument.cshtml" />
-    <Content Include="Views\Manager\EditTask.cshtml" />
-    <Content Include="Views\Email\Verify.cshtml" />
     <Content Include="Scripts\kendo\cultures\kendo.culture.af-ZA.min.js.map" />
     <Content Include="Scripts\kendo\cultures\kendo.culture.af.min.js.map" />
     <Content Include="Scripts\kendo\cultures\kendo.culture.am-ET.min.js.map" />
@@ -2005,11 +1985,28 @@
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-CN.min.js.map" />
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-HK.min.js.map" />
     <Content Include="Scripts\kendo\messages\kendo.messages.zh-TW.min.js.map" />
-    <Content Include="Views\Admin\EditUserDetails.cshtml" />
+    <Content Include="Views\Admin\GetUserDetails.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Employee\MyTasks.cshtml" />
+    <Content Include="Views\Employee\Dashboard.cshtml" />
+    <Content Include="Views\Employee\GetTaskDetails.cshtml" />
+    <Content Include="Views\Admin\SaveUserDetails.cshtml" />
+    <Content Include="Views\Admin\ViewUserDetails.cshtml" />
+    <Content Include="Views\Manager\CreateTask.cshtml" />
+    <Content Include="Views\Manager\Dashboard.cshtml" />
+    <Content Include="Views\Manager\ListTask.cshtml" />
+    <Content Include="Views\Manager\_AddDocument.cshtml" />
+    <Content Include="Views\Manager\EditTask.cshtml" />
+    <Content Include="Views\Email\Verify.cshtml" />
+    <Content Include="TaskDocument\LMS\High level solution Diagram.pdf" />
+    <Content Include="TaskDocument\LMS\pan card.pdf" />
+    <Content Include="TaskDocument\TM\High level solution Diagram.pdf" />
+    <Content Include="TaskDocument\TM\pan card.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="TaskDocumentFile\LMS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
