@@ -30,7 +30,7 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("status/{taskId}")]
-        public string GetTaskStatusByTaskStatusId(int taskId)
+        public string GetTaskStatusByTaskStatusId(int? taskId)
         {
             return _managerRepository.GetTaskStatusByTaskStatusId(taskId);
         }

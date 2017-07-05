@@ -33,7 +33,7 @@ namespace TaskManagerServiceApi.Controllers
             return employee;
         }
         [HttpGet, Route("{employeeId}/tasks")]
-        public async Task<List<TaskDm>> GetEmployeeTasks(int employeeId)
+        public async Task<List<TaskDm>> GetEmployeeTasks(string employeeId)
         {
             var employeeTask = new List<TaskDm>();
             try
@@ -44,13 +44,6 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employeeTask = response.Content.ReadAsAsync<List<TaskDm>>().Result;
-                foreach (var item in employeeTask)
-                {
-                    ManagerController managerSercviceController = new ManagerController();
-                    item.CreatedByName = await managerSercviceController.GetEmployeeNameById(item.CreatedBy);
-                    item.AssignedToName = await managerSercviceController.GetEmployeeNameById(item.AssignedTo);
-                    item.TaskStatus = await managerSercviceController.GetTaskStatusNameByTaskStatusId(item.TaskStatusId);
-                }
             }
             catch
             {
@@ -78,7 +71,7 @@ namespace TaskManagerServiceApi.Controllers
             return taskStatus;
         }
         [HttpGet, Route("{employeeId}/tasks/count")]
-        public async Task<TaskStatusCountDm> GetTaskCounts(int employeeId)
+        public async Task<TaskStatusCountDm> GetTaskCounts(string employeeId)
         {
             var taskCount = new TaskStatusCountDm();
             try
@@ -105,7 +98,7 @@ namespace TaskManagerServiceApi.Controllers
             return taskCount;
         }
         [HttpGet, Route("UpdateTask")]
-        public async Task<bool> UpdateTask(int Id, int status)
+        public async Task<bool> UpdateTask(string Id, int status)
         {
             var updateStatus = new bool();
             try

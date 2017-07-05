@@ -94,7 +94,7 @@ namespace TaskManager.Controllers
             }
         }
         [HttpPost]
-        public async Task<bool> UpdateTask(int id, int status)
+        public async Task<bool> UpdateTask(string id, int status)
         {
             try
             {

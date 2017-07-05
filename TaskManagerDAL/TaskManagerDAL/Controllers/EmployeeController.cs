@@ -2,6 +2,7 @@
 using System.Web.Http;
 using TaskManagerDAL.Models;
 using TaskManagerDAL.DAL;
+using TaskDomain.DomainModel;
 
 namespace TaskManagerDAL.Controllers
 {
@@ -9,9 +10,7 @@ namespace TaskManagerDAL.Controllers
     public class EmployeeController : ApiController
     {
         private readonly EmployeeRepository _employeeRepository = new EmployeeRepository();
-        // GET: Employee
-
-
+        
         [HttpGet, Route("")]
         public List<UserDetail> GetEmployee()
         {
@@ -19,19 +18,17 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("task-status")]
-        public List<TaskStatu> GetStatusList()
+        public List<TaskStatuDm> GetStatusList()
         {
             return _employeeRepository.GetStatusList();
         }
 
         [HttpGet, Route("UpdateTask")]
-        public bool UpdateTaskStatus(int id, int status)
+        public bool UpdateTaskStatus(string id, int status)
         {
             return _employeeRepository.UpdateTaskStatus(id, status);
         }
-
-
-        //[HttpGet, Route("tasks/count/completed/{assignedTo}")]
+        
         [HttpGet, Route("{employeeId}/tasks/count")]
         public int GetTaskCount(string employeeId, int statusId)
         {
@@ -39,13 +36,13 @@ namespace TaskManagerDAL.Controllers
         }
 
         [HttpGet, Route("{employeeId}/tasks")]
-        public List<Task> GetEmployeeTask(string employeeId)
+        public List<TaskDm> GetEmployeeTask(string employeeId)
         {
             return _employeeRepository.GetEmployeeTask(employeeId);
         }
 
         [HttpGet, Route("{taskId}")]
-        public Task GetTaskDetail(string taskId)
+        public TaskDm GetTaskDetail(string taskId)
         {
             return _employeeRepository.GetTaskDetail(taskId);
         }

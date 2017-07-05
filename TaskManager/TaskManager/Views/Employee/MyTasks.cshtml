@@ -68,35 +68,7 @@
         </div>
         <!-- /.row -->
     </section>
-                        @*@(Html.Kendo().Grid(Model)
-                        .Name("grid")
-                        .Columns(columns =>
-                        {
-                        columns.Bound(c => c.Id).ClientTemplate(
-                        @"");
-                        columns.Bound(c => c.Title);
-                        columns.Bound(c => c.CreatedByName).Title("Created By");
-                        columns.Bound(c => c.AssignedToName).Title("Assigned To");
-                        columns.Bound(c => c.StartDate).ClientTemplate("#= kendo.toString(kendo.parseDate(StartDate), 'dd/MM/yyyy') #");
-                        columns.Bound(c => c.EndDate).ClientTemplate("#= kendo.toString(kendo.parseDate(EndDate), 'dd/MM/yyyy') #");
-                        columns.Bound(c => c.Description);
-                        columns.Bound(c => c.TaskStatus);
-                        columns.Command(command => command.Custom("Update").Click("showDetails")).Width(180);
-                        })
-                        .HtmlAttributes(new { style = "height: 550px;" })
-                        .Scrollable()
-                        .Groupable(g => g.Messages(messages => messages.Empty("My Tasks")))
-                        .Sortable()
-                        .Pageable(pageable => pageable
-                        .Refresh(true)
-                        .PageSizes(true)
-                        .ButtonCount(5))
-                        .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .Read(read => read.Action("Employee", "Index"))
-                        .PageSize(20)
-                        )
-                        )*@
+                        
                         
                         <div style="align-content:center" class="modal bs-add-leave-modal" id="AddLeaveModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                             <div class="modal-dialog" style="margin: 50px -300px" role="document">
@@ -181,10 +153,6 @@
                             <div id="details-container">
                                 <table class="table table-bordered table-striped" style="width:100%;height:100%">
                                     <tr>
-                                        <td>Id:</td>
-                                        <td>#= Id #</td>
-                                    </tr>
-                                    <tr>
                                         <td>Title:</td>
                                         <td>#= Title #</td>
                                     </tr>
@@ -226,11 +194,11 @@
                             $(document).on('click', '#btnupdatetask', function (e) {
                                 var tt = $(this);
                                 
-                                var title = tt.parent().parent().children()[1].innerText;
-                                var createdby = tt.parent().parent().children()[2].innerText;
-                                var assignedto = tt.parent().parent().children()[3].innerText;
-                                var startdate = tt.parent().parent().children()[4].innerText;
-                                var enddate = tt.parent().parent().children()[5].innerText;
+                                var title = tt.parent().parent().children()[0].innerText;
+                                var createdby = tt.parent().parent().children()[1].innerText;
+                                var assignedto = tt.parent().parent().children()[2].innerText;
+                                var startdate = tt.parent().parent().children()[3].innerText;
+                                var enddate = tt.parent().parent().children()[4].innerText;
                                 var statusid = $(this).data("status")  ;
                                 var id = $(this).data("content");
                                 $('#taskid').html(id);
@@ -245,12 +213,10 @@
                             }
                             );
 
-
-                            //var detailsTemplate = kendo.template($("#template").html());
-
                            
 
                             function GetStatus(taskStatusId) {
+                                debugger;
                                 $.ajax({
                                     cache: false,
                                     type: 'get',
@@ -291,5 +257,4 @@
                             })
                            
                         </script>
-                        @*@Scripts.Render("~/bundles/jquery")
-                        @Scripts.Render("~/bundles/kendo")*@
+                       

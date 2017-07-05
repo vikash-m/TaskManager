@@ -1357,6 +1357,7 @@
     <Content Include="Scripts\pnotify.custom.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="TaskDocument\LMS\High level solution Diagram.png" />
     <Content Include="Template\EmailTemplate.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1997,10 +1998,15 @@
     <Content Include="Views\Manager\_AddDocument.cshtml" />
     <Content Include="Views\Manager\EditTask.cshtml" />
     <Content Include="Views\Email\Verify.cshtml" />
+    <Content Include="TaskDocument\LMS\High level solution Diagram.pdf" />
+    <Content Include="TaskDocument\LMS\pan card.pdf" />
+    <Content Include="TaskDocument\TM\High level solution Diagram.pdf" />
+    <Content Include="TaskDocument\TM\pan card.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="TaskDocumentFile\LMS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
