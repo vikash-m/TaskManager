@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
 
@@ -120,5 +121,10 @@ namespace TaskManagerDAL.DAL
 
         public UserDetail GetUserDetailByEmailId(string emailId)
             => _taskManagerEntities.UserDetails.First(r => r.EmailId == emailId);
+
+        public bool CheckForEmail(string email) => _taskManagerEntities.UserDetails.FirstOrDefault(x => x.EmailId.Equals(email) && x.IsDeleted == false) == null;
+
+
+
     }
 }

@@ -370,13 +370,14 @@ namespace TaskManager.Controllers
         {
             var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
-
+            var result = new bool();
             // List data response.
             var response = await client.GetAsync($"manager/tasks/task/{title}");
-
-            var data = response.Content.ReadAsAsync<bool>().Result;
-
-            return data == false ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
+            if (response.IsSuccessStatusCode)
+            {
+                result = response.Content.ReadAsAsync<bool>().Result;
+            }
+            return result == false ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -180,6 +180,21 @@ namespace TaskManager.Controllers
                 return View("Error");
             }
         }
+
+        public async Task<ActionResult> CheckForEmail(string emailId)
+        {
+            var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+            var result = new bool();
+
+            // List data response.
+            var response = await client.GetAsync($"admin/email/?emailId={emailId}");
+            if (response.IsSuccessStatusCode)
+            {
+                result = response.Content.ReadAsAsync<bool>().Result;
+            }
+            return result == false ? Json("Sorry, this email already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
 

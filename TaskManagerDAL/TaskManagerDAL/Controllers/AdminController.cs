@@ -85,5 +85,12 @@ namespace TaskManagerDAL.Controllers
         {
             return _adminRepository.GetUserDetailById(employeeId);
         }
+
+        [HttpGet, Route("email")]
+        public bool CheckForEmail(string emailId)
+        {
+            return _adminRepository.CheckForEmail(emailId);
+        }
+
     }
 }
