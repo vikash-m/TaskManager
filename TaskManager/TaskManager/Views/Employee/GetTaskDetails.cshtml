@@ -115,14 +115,12 @@
 
 
     $(document).ready(function () {
-        debugger;
         $('.file-box').each(function () {
             animationHover(this, 'pulse');
         });
         
         var res = $('.myextension')[0];
         var result = $(res).attr('data-path');
-        debugger;
         var extension = result.split('.');
         $('#fileicon').removeClass('fa fa-file');
         if (extension[1] == "png") {
