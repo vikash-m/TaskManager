@@ -115,10 +115,10 @@
     }
 </script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.maskedinput.js"></script>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#PhoneNumber').mask('+91 9999999999');
-    });
-</script>
+<link href="~/Content/intlTelInput.css" rel="stylesheet" />
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="~/Scripts/intlTelInput.js"></script>
+<script>
+    $('#PhoneNumber').intlTelInput();
+</script>
