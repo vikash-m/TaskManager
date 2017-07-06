@@ -2,12 +2,14 @@
 {
     public class Constant
     {
-        const string Greeen = "#1dfe16";
-        const string DarkGreen = "#035100";
-        const string DarkVoilet = "#350051";
-        const string Voilet = "#ab01da";
-        const string Black = "#000000";
-        const string White = "#ffffff";
-        const string Orange = "#fe6b16";
+        //Colors
+       public const string Greeen = "#1dfe16";
+        public const string DarkGreen = "#035100";
+        public const string DarkVoilet = "#350051";
+        public const string Voilet = "#ab01da";
+        public const string Black = "#000000";
+        public const string White = "#ffffff";
+        public const string Orange = "#fe6b16";
+        
     }
 }

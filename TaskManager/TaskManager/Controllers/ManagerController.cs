@@ -299,8 +299,11 @@ namespace TaskManager.Controllers
             foreach (var file in document)
             {
                 if (file == null) return true;
+                taskDocument.TaskTitle = taskDocument.TaskTitle.Replace(" ", "_");
+                var fileName = file.FileName.Replace(" ", "_");
                 var folderPath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle);
-                var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle, file.FileName);
+                var filePath = Path.Combine(Server.MapPath("~//TaskDocument//"), taskDocument.TaskTitle, fileName);
+
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);

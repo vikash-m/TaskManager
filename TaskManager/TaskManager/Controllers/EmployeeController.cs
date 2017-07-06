@@ -63,7 +63,7 @@ namespace TaskManager.Controllers
 
                 // List data response.
                 var response = await client.GetAsync($"/employees/{user.Id}/tasks");
-                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5); ;
+                var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5);
                 return View(taskList);
             }
             catch
@@ -143,7 +143,6 @@ namespace TaskManager.Controllers
 
         public FileResult Download(string fileName)
         {
-
             return File(fileName, "application/force-download", Path.GetFileName(fileName));
         }
     }
