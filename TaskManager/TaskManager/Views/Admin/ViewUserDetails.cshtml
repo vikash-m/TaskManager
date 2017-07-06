@@ -44,10 +44,11 @@
                 <th>Email Id</th>
                 <th>Role Name</th>
                 <th>Manager Name</th>
+                <th>Action</th>
            </tr>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="we">
                     @if (item != null)
                     {
                         <td>@item.FirstName</td>
@@ -56,6 +57,7 @@
                         <td>@item.EmailId</td>
                         <td>@item.RoleName</td>
                         <td>@item.ManagerName</td>
+                        
                         <td>
 
                             <a onclick="return confirm('Are you sure you want to delete?')" href="@Url.Action("DeleteUser", "Admin", new { id = item.Id })"><i class="fa fa-trash-o" style="color:red"></i></a>
