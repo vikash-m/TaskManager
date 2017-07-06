@@ -160,7 +160,7 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         <form role="search" class="navbar-form-custom" method="post" action="#">
                             <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" oninput="w3.filterHTML('#myTable', '.we', this.value)" @*onkeyup="myFunction()"*@>
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" oninput="w3.filterHTML('#myTable', '.search', this.value)" @*onkeyup="myFunction()"*@>
                             </div>
                         </form>
                     </div>
@@ -215,9 +215,79 @@
 </body>
 
 </html>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+
+
+<style type="text/css">
+    .container {
+        margin: 150px auto;
+    }
+
+    div.search span,
+    div.search input[name="top-search"] {
+        display: block;
+    }
+
+    div.search input[name="top-search"] {
+        margin-top: 4px;
+    }
+
+    div.panel {
+        margin-bottom: 15px;
+    }
+
+    span.match {
+        background: yellow;
+        color: black;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+<script src="~/Scripts/jquery.mark.min.js"></script>
+<script type='text/javascript'>
+//<![CDATA[
+    window.onload = function () {
+        $(function () {
+            debugger;
+            var mark = function () {
+                debugger;
+                // Read the keyword
+                var keyword = $("input[name='top-search']").val();
+
+                // Determine selected options
+                var options = {
+                    "className": "match"
+                };
+               
+                // Mark the keyword inside the context
+                $('#myTable').removeMark();
+                $('#myTable').mark(keyword, options);
+            };
+
+            $("input[name='top-search']").on("keyup", mark);
+            
+        });
+
+    }//]]>
+
+</script>
 <script type="text/javascript">
+      var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+       
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+@*<script type="text/javascript">
     function myFunction() {
-        
+
         // Declare variables
         var input, filter, table, tr, td, i;
         input = document.getElementById("top-search");
@@ -236,9 +306,9 @@
                 }
             }
         }
-    }
+    }*@
 
-    //$('#top-search').change(function () {
+    @*//$('#top-search').change(function () {
     //        var searchtext = $(this).val();
     //        $.ajax({
     //            cache: false,
@@ -249,6 +319,6 @@
     //            }
     //        })
     //    })
-    
 
-</script>
+
+</script>*@
