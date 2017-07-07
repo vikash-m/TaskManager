@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using NLog;
 
 namespace TaskManager.Controllers
 {
@@ -16,6 +17,7 @@ namespace TaskManager.Controllers
 
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
         private string _urlParameters;
+        Logger logger = LogManager.GetCurrentClassLogger();
 
         public async Task<ActionResult> Dashboard()
         {
@@ -41,8 +43,9 @@ namespace TaskManager.Controllers
                 }
                 return View(taskStatusCountDataModel);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -66,8 +69,9 @@ namespace TaskManager.Controllers
                 var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 5);
                 return View(taskList);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -88,8 +92,9 @@ namespace TaskManager.Controllers
                 var statusList = response.Content.ReadAsAsync<List<TaskStatusModel>>().Result;
                 return Json(new { data = statusList }, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return null;
             }
         }
@@ -111,8 +116,9 @@ namespace TaskManager.Controllers
                 var response = await client.GetAsync(_urlParameters);
                 return response.IsSuccessStatusCode;
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return false;
             }
         }
@@ -134,8 +140,9 @@ namespace TaskManager.Controllers
                 return View(task);
 
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }

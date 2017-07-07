@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace TaskManager.Controllers
 
     public class LoginController : Controller
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
         private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"]}";
         // GET: Login
         [HttpGet]
@@ -64,8 +66,9 @@ namespace TaskManager.Controllers
                 ViewBag.message = "Invalid UserName/Password";
                 return View();
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 ViewBag.message = "Invalid UserName/Password";
                 return View();
             }
@@ -85,9 +88,10 @@ namespace TaskManager.Controllers
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex,"Error Ocuured");
+               
             }
 
             return userDetail;
