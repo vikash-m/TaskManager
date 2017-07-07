@@ -42,7 +42,7 @@ namespace TaskManager.Controllers
                 }
 
                 var id = loginUser.EmpId;
-
+                logger.Info("Logger is working Fine");
                 var userDetails = await UserDetailsData(id);
                 if (userDetails != null)
                 {
@@ -64,6 +64,7 @@ namespace TaskManager.Controllers
                     }
                 }
                 ViewBag.message = "Invalid UserName/Password";
+                
                 return View();
             }
             catch(Exception ex)
