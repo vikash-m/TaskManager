@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace TaskManager.Controllers
     public class EmailController : Controller
     {
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
+        Logger logger = LogManager.GetCurrentClassLogger();
         // GET: Email
         public async Task<ActionResult> Verify(string username)
         {
