@@ -94,7 +94,7 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                     employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
 
-                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName");
                 return View();
 
 
