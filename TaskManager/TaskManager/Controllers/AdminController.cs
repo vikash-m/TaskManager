@@ -77,7 +77,7 @@ namespace TaskManager.Controllers
                 return View("Error");
             }
         }
-        public async Task<ActionResult> ViewUserDetails(int? page)
+        public async Task<ActionResult> ViewUserDetails(/*int? page*/)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace TaskManager.Controllers
                 // List data response.
                 var response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode) return View();
-                var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result.ToPagedList(page ?? 1, 10);
+                var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result/*.ToPagedList(page ?? 1, 10)*/;
                 return View(dataObjects);
             }
             catch

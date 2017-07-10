@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Task Manager</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jQuery-Table-Plugin.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/kendo/css")
@@ -15,11 +17,19 @@
     <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="~/css/animate.css" rel="stylesheet">
     <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/pagination.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/searching.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/sortable.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/resizable.css" type="text/css" rel="stylesheet" />
     <!-- Morris -->
     <link href="~/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
-    <script src="~/js/jquery-2.1.1.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/highlight.js"></script>
+    <link href="~/Content/highlight.css" rel="stylesheet" />
 
+    <script src="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -160,7 +170,9 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         <form role="search" class="navbar-form-custom" method="post" action="#">
                             <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" oninput="w3.filterHTML('#myTable', '.search', this.value)" @*onkeyup="myFunction()"*@>
+                                <div class="search_div">
+                                    @*<input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" />*@
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -194,7 +206,6 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="~/js/jquery-2.1.1.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -215,110 +226,4 @@
 </body>
 
 </html>
-<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 
-
-<style type="text/css">
-    .container {
-        margin: 150px auto;
-    }
-
-    div.search span,
-    div.search input[name="top-search"] {
-        display: block;
-    }
-
-    div.search input[name="top-search"] {
-        margin-top: 4px;
-    }
-
-    div.panel {
-        margin-bottom: 15px;
-    }
-
-    span.match {
-        background: yellow;
-        color: black;
-    }
-</style>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-<script src="~/Scripts/jquery.mark.min.js"></script>
-<script type='text/javascript'>
-//<![CDATA[
-    window.onload = function () {
-        $(function () {
-            debugger;
-            var mark = function () {
-                debugger;
-                // Read the keyword
-                var keyword = $("input[name='top-search']").val();
-
-                // Determine selected options
-                var options = {
-                    "className": "match"
-                };
-               
-                // Mark the keyword inside the context
-                $('#myTable').removeMark();
-                $('#myTable').mark(keyword, options);
-            };
-
-            $("input[name='top-search']").on("keyup", mark);
-            
-        });
-
-    }//]]>
-
-</script>
-<script type="text/javascript">
-      var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36251023-1']);
-    _gaq.push(['_setDomainName', 'jqueryscript.net']);
-    _gaq.push(['_trackPageview']);
-
-    (function () {
-       
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-</script>
-@*<script type="text/javascript">
-    function myFunction() {
-
-        // Declare variables
-        var input, filter, table, tr, td, i;
-        input = document.getElementById("top-search");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }*@
-
-    @*//$('#top-search').change(function () {
-    //        var searchtext = $(this).val();
-    //        $.ajax({
-    //            cache: false,
-    //            type: "get",
-    //            url: "/Admin/Search/",
-    //            data: { SearchText : searchtext },
-    //            success: function (response) {
-    //            }
-    //        })
-    //    })
-
-
-</script>*@
