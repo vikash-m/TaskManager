@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Black" xml:space="preserve">
+    <value>#000000</value>
+  </data>
+  <data name="DarkGreen" xml:space="preserve">
+    <value>#035100</value>
+  </data>
+  <data name="DarkVoilet" xml:space="preserve">
+    <value>#350051</value>
+  </data>
   <data name="getEmployeeTasksUrl" xml:space="preserve">
     <value>/employees/{0}/tasks</value>
   </data>
@@ -129,10 +138,31 @@
   <data name="getTaskDetailsUrl" xml:space="preserve">
     <value>employees/tasks/{0}</value>
   </data>
+  <data name="Green" xml:space="preserve">
+    <value>#1dfe16</value>
+  </data>
+  <data name="Orange" xml:space="preserve">
+    <value>#fe6b16</value>
+  </data>
   <data name="serviceLayerUrl" xml:space="preserve">
     <value>http://localhost:50862</value>
   </data>
   <data name="updateTaskUrl" xml:space="preserve">
     <value>/employees/UpdateTask</value>
+  </data>
+  <data name="Voilet" xml:space="preserve">
+    <value>#ab01da</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>#ffffff</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>InProgress</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
   </data>
 </root>
