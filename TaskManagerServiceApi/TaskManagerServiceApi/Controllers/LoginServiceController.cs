@@ -6,12 +6,15 @@ using System;
 using System.Web;
 using TaskDomain.DomainModel;
 using TaskManagerUtility;
+using NLog;
+
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("login")]
     public class LoginServiceController : ApiController
     {
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        Logger logger = LogManager.GetCurrentClassLogger(); 
 
         [HttpGet, Route("login-details")]
         public async Task<LoginUserDm> GetLoginDetails(string name, string password)
@@ -33,9 +36,10 @@ namespace TaskManagerServiceApi.Controllers
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return loginUser;
         }
@@ -52,11 +56,11 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     userDetail = response.Content.ReadAsAsync<UserDetailDm>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
-
             return userDetail;
 
         }

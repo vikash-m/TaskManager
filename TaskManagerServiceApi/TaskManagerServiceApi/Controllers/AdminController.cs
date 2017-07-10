@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
@@ -14,7 +15,7 @@ namespace TaskManagerServiceApi.Controllers
     public class AdminController : ApiController
     {
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
-
+        Logger logger = LogManager.GetCurrentClassLogger();
         [HttpPost, Route("create-user")]
         public async Task<bool> CreateUsers(string loginUser, UserDetailDm userDetail)
         {
@@ -35,9 +36,10 @@ namespace TaskManagerServiceApi.Controllers
                     emailUtility.SendMail(userDetail);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return createStatus;
         }
@@ -54,9 +56,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     roles = response.Content.ReadAsAsync<List<RoleDm>>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return roles;
         }
@@ -72,9 +75,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     managers = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return managers;
         }
@@ -106,9 +110,10 @@ namespace TaskManagerServiceApi.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return users;
         }
@@ -124,9 +129,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     user = response.Content.ReadAsAsync<UserDetailDm>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return user;
         }
@@ -144,9 +150,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     updateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return updateStatus;
         }
@@ -162,9 +169,10 @@ namespace TaskManagerServiceApi.Controllers
                 // Parse the response body. Blocking!
                 updateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return updateStatus;
         }
@@ -181,9 +189,10 @@ namespace TaskManagerServiceApi.Controllers
                     emailExist = response.Content.ReadAsAsync<bool>().Result;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return emailExist;
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using TaskDomain.DomainModel;
@@ -11,6 +12,7 @@ namespace TaskManagerDAL.Controllers
     public class AdminController : ApiController
     {
         private readonly AdminRepository _adminRepository = new AdminRepository();
+        Logger logger = LogManager.GetCurrentClassLogger();
 
         [HttpPost, Route("create-user")]
         public bool CreateUser(UserDetail userDetail)
@@ -47,8 +49,9 @@ namespace TaskManagerDAL.Controllers
                 var result = _adminRepository.CreateLoginUser(loginUserDetails);
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return false;
             }
         }
