@@ -35,10 +35,10 @@ namespace TaskManagerDAL.DAL
                 AssignedToName = GetEmployeeNameById(task.AssignedTo),
                 CreatedByName = GetEmployeeNameById(task.CreatedBy),
                 Description = task.Description,
-                StartDate = task.StartDate,
-                EndDate = task.EndDate,
+                StartDate = Convert.ToDateTime(task.StartDate),
+                EndDate = Convert.ToDateTime(task.EndDate),
                 TaskStatus = GetTaskStatusByTaskStatusId(task.TaskStatusId),
-                CreateDate = task.CreateDate,
+                CreateDate = Convert.ToDateTime(task.CreateDate),
                 ModifiedDate = task.ModifiedDate
             }).ToList();
 
@@ -118,10 +118,10 @@ namespace TaskManagerDAL.DAL
             AssignedTo = task.AssignedTo,
             CreatedByName = GetEmployeeNameById(task.CreatedBy),
             Description = task.Description,
-            StartDate = task.StartDate,
-            EndDate = task.EndDate,
+            StartDate = Convert.ToDateTime(task.StartDate),
+            EndDate = Convert.ToDateTime(task.EndDate),
             TaskStatus = GetTaskStatusByTaskStatusId(task.TaskStatusId),
-            CreateDate = task.CreateDate,
+            CreateDate = Convert.ToDateTime(task.CreateDate),
             ModifiedDate = task.ModifiedDate
         });
 

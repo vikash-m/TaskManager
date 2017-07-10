@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
 using TaskDomain.DomainModel;
@@ -36,11 +37,11 @@ namespace TaskManagerDAL.DAL
             AssignedTo = task.AssignedTo,
             CreatedByName = managerRepository.GetEmployeeNameById(task.CreatedBy),
             Description = task.Description,
-            StartDate = task.StartDate,
-            EndDate = task.EndDate,
+            StartDate = Convert.ToDateTime(task.StartDate),
+            EndDate = Convert.ToDateTime(task.EndDate),
             TaskStatus = managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
             TaskStatusId = task.TaskStatusId,
-            CreateDate = task.CreateDate,
+            CreateDate = Convert.ToDateTime(task.CreateDate),
             ModifiedDate = task.ModifiedDate
         }).ToList();
 
@@ -52,11 +53,11 @@ namespace TaskManagerDAL.DAL
             AssignedTo = task.AssignedTo,
             CreatedByName = managerRepository.GetEmployeeNameById(task.CreatedBy),
             Description = task.Description,
-            StartDate = task.StartDate,
-            EndDate = task.EndDate,
+            StartDate = Convert.ToDateTime(task.StartDate),
+            EndDate = Convert.ToDateTime(task.EndDate),
             TaskStatus = managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
             TaskStatusId = task.TaskStatusId,
-            CreateDate = task.CreateDate,
+            CreateDate = Convert.ToDateTime(task.CreateDate),
             ModifiedDate = task.ModifiedDate,
             TaskDocuments = GetTaskDocumants(task.Id)
 

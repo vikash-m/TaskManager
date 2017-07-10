@@ -4,7 +4,9 @@ using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using TaskDomain.CustomExceptions;
 using TaskDomain.DomainModel;
+using TaskManagerServiceApi.Content.Resources;
 
 namespace TaskManagerServiceApi.Controllers
 {
@@ -12,7 +14,7 @@ namespace TaskManagerServiceApi.Controllers
     public class EmployeeServiceController : ApiController
     {
         // GET: EmployeeService
-        private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        private static readonly string DalLayerUrl = DALLayerLinkResources.DalLayerUrl;
         private readonly ManagerController _managerServiceController = new ManagerController();
         [HttpGet, Route("")]
         public async Task<List<UserDetailDm>> GetEmployees()
@@ -21,7 +23,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync("/employees");
+                var response = await client.GetAsync(DALLayerLinkResources.getEmployeesUrl);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employee = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -39,7 +41,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/employees/{employeeId}/tasks");
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getEmployeeTasksUrl, employeeId));
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -58,7 +60,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync("/employees/task-status");
+                var response = await client.GetAsync(DALLayerLinkResources.getStatusListUrl);
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -77,9 +79,9 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var pendingCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Pending)}");
-                var inProgressCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.InProgress)}");
-                var completedCount = await client.GetAsync($"/employees/{employeeId}/tasks/count/?statusId={Convert.ToInt32(EnumClass.Status.Completed)}");
+                var pendingCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountUrl, employeeId, Convert.ToInt32(EnumClass.Status.Pending)));
+                var inProgressCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountUrl, employeeId, Convert.ToInt32(EnumClass.Status.InProgress)));
+                var completedCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountUrl, employeeId, Convert.ToInt32(EnumClass.Status.Completed)));
                 if (pendingCount.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskCount.Pending = pendingCount.Content.ReadAsAsync<int>().Result;
@@ -91,9 +93,10 @@ namespace TaskManagerServiceApi.Controllers
                     taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
             }
-            catch
+            catch(Exception)
             {
                 throw;
+               // throw new DashboardTaskCountException("Error is getting in GetTaskCounts method of EmployeeServiceController in Service Layer.");
             }
             return taskCount;
         }
@@ -103,7 +106,7 @@ namespace TaskManagerServiceApi.Controllers
             var updateStatus = new bool();
             try
             { 
-                string URL = DalLayerUrl + "/employees/UpdateTask";
+                string URL = DalLayerUrl + DALLayerLinkResources.updateTaskUrl;
                 HttpClient client = new HttpClient();
                 string urlParameters = "?Id=" + Id + "&status=" + status;
                 client.BaseAddress = new Uri(URL);
@@ -126,7 +129,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/employees/{taskId}");
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskDetailsUrl, taskId));
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
