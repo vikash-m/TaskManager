@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Ajax.Utilities;
 using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
+using NLog;
 
 namespace TaskManagerDAL.DAL
 {
     public class AdminRepository
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
-
+        Logger logger = LogManager.GetCurrentClassLogger();
         public bool CreateUser(UserDetail userDetail)
         {
             _taskManagerEntities.UserDetails.Add(userDetail);
@@ -101,8 +101,9 @@ namespace TaskManagerDAL.DAL
                 _taskManagerEntities.SaveChanges();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return false;
             }
         }

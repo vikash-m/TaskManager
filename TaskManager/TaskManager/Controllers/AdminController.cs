@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using System;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
-
+using NLog;
 
 namespace TaskManager.Controllers
 {
     public class AdminController : Controller
     {
+        Logger logger = LogManager.GetCurrentClassLogger();
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"] + "/admin";
 
         [HttpGet]
@@ -44,8 +45,9 @@ namespace TaskManager.Controllers
                 }
                 return View();
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -72,8 +74,9 @@ namespace TaskManager.Controllers
                 }
                 return RedirectToAction(result ? "ViewUserDetails" : "SaveUserDetails");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -94,8 +97,9 @@ namespace TaskManager.Controllers
                 var dataObjects = response.Content.ReadAsAsync<List<UserDetailDm>>().Result/*.ToPagedList(page ?? 1, 10)*/;
                 return View(dataObjects);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -136,8 +140,9 @@ namespace TaskManager.Controllers
                 var res = responseEditUser.Content.ReadAsAsync<UserDetailDm>().Result;
                 return View(res);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -156,8 +161,9 @@ namespace TaskManager.Controllers
                 if (!response.IsSuccessStatusCode) return View();
                 return RedirectToAction("ViewUserDetails");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -175,8 +181,9 @@ namespace TaskManager.Controllers
                 if (!response.IsSuccessStatusCode) return View();
                 return RedirectToAction("ViewUserDetails");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }

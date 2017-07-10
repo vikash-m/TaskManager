@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using TaskDomain.DomainModel;
 using TaskManagerDAL.Models;
@@ -8,25 +9,35 @@ namespace TaskManagerDAL.DAL
     public class LoginRepository
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
-
+        Logger logger = LogManager.GetCurrentClassLogger();
         public LoginUserDm GetLoginUserDetails(string name, string password)
         {
+            try
+            {
 
-            var response = _taskManagerEntities.LoginUsers.Where(m => m.UserName.Equals(name, StringComparison.CurrentCultureIgnoreCase) && m.Password.Equals(password)).Select(user => new LoginUserDm
-            {
-                Id = user.Id,
-                EmpId = user.EmpId,
-                UserName = user.UserName,
-                Password = user.Password,
-                RoleId = user.RoleId.Value
-                // RoleName = GetRoleNameById(user.RoleId.Value)
-            }).FirstOrDefault();
-            if (response != null)
-            {
-                var roleName = GetRoleNameById(response.RoleId);
-                response.RoleName = roleName;
+
+                var response = _taskManagerEntities.LoginUsers.Where(m => m.UserName.Equals(name, StringComparison.CurrentCultureIgnoreCase) && m.Password.Equals(password)).Select(user => new LoginUserDm
+                {
+                    Id = user.Id,
+                    EmpId = user.EmpId,
+                    UserName = user.UserName,
+                    Password = user.Password,
+                    RoleId = user.RoleId.Value
+                    // RoleName = GetRoleNameById(user.RoleId.Value)
+                }).FirstOrDefault();
+                if (response != null)
+                {
+                    var roleName = GetRoleNameById(response.RoleId);
+                    response.RoleName = roleName;
+                }
+                return response;
+
             }
-            return response;
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error Occured");
+                return null;
+            }
         }
 
         public UserDetailDm GetUserDetailsData(string id)

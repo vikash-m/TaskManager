@@ -5,6 +5,7 @@ using TaskDomain.DomainModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using NLog;
 
 namespace TaskManagerServiceApi.Controllers
 {
@@ -12,6 +13,7 @@ namespace TaskManagerServiceApi.Controllers
     public class ManagerController : ApiController
     {
         private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        Logger logger = LogManager.GetCurrentClassLogger();
 
         [HttpGet, Route("{managerId}/employees")]
         public async Task<List<UserDetailDm>> GetEmployeesDetailsByManagerId(string managerId)
@@ -25,9 +27,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     employee = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return employee;
         }
@@ -46,9 +49,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskResult = response.Content.ReadAsAsync<TaskDm>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return taskResult;
         }
@@ -65,9 +69,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     documentUploadStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return documentUploadStatus;
         }
@@ -84,9 +89,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     tasks = response.Content.ReadAsAsync<List<TaskDm>>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return tasks;
         }
@@ -105,9 +111,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskUpdateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return taskUpdateStatus;
         }
@@ -124,9 +131,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskDeleteStatus = response.Content.ReadAsAsync<bool>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return taskDeleteStatus;
         }
@@ -143,9 +151,10 @@ namespace TaskManagerServiceApi.Controllers
                     // Parse the response body. Blocking!
                     taskName = response.Content.ReadAsAsync<string>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return taskName;
         }
@@ -161,9 +170,10 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     task = response.Content.ReadAsAsync<TaskDm>().Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return task;
         }
@@ -192,9 +202,10 @@ namespace TaskManagerServiceApi.Controllers
                     taskCount.Completed = completedCount.Content.ReadAsAsync<int>().Result;
                 taskCount.Total = taskCount.Pending + taskCount.InProgress + taskCount.Completed;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return null;
             }
             return taskCount;
         }
@@ -212,9 +223,10 @@ namespace TaskManagerServiceApi.Controllers
                     taskNameExist = response.Content.ReadAsAsync<bool>().Result;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.Error(ex, "Error Occured");
+                return false;
             }
             return taskNameExist;
         }

@@ -8,13 +8,14 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Web;
+using NLog;
 
 namespace TaskManager.Controllers
 {
     public class ManagerController : Controller
     {
         private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
-
+        Logger logger = LogManager.GetCurrentClassLogger();
         public async Task<ActionResult> ListTask(int? page)
         {
 
@@ -39,8 +40,9 @@ namespace TaskManager.Controllers
                 var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10);
                 return View(taskList);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
 
@@ -94,13 +96,14 @@ namespace TaskManager.Controllers
                 if (response.IsSuccessStatusCode)
                     employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
 
-                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName");
                 return View();
 
 
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -152,8 +155,9 @@ namespace TaskManager.Controllers
                 return View(taskDm);
 
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
 
@@ -208,8 +212,9 @@ namespace TaskManager.Controllers
 
 
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
 
@@ -233,8 +238,9 @@ namespace TaskManager.Controllers
                 var response = await client.DeleteAsync($"manager/{id}/?loginUser={user.Id}");
 
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
 
@@ -267,8 +273,9 @@ namespace TaskManager.Controllers
                 };
                 return PartialView("_AddDocument", taskDocument);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
@@ -363,8 +370,9 @@ namespace TaskManager.Controllers
 
                 return View(task);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex, "Error Occured");
                 return View("Error");
             }
         }
