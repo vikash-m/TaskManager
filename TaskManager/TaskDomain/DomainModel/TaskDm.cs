@@ -18,14 +18,14 @@ namespace TaskDomain.DomainModel
         public string CreatedByName { get; set; }
         public string AssignedToName { get; set; }
         [Required(ErrorMessage = "Start Date is required")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         [Required(ErrorMessage = "End Date is required")]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         [Required(ErrorMessage = "Please provide a description")]
         public string Description { get; set; }
         public int? TaskStatusId { get; set; }
         public string TaskStatus { get; set; }
-        public DateTime? CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public List<HttpPostedFileBase> Document { get; set; }
