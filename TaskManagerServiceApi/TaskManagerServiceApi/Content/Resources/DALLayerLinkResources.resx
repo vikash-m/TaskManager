@@ -138,4 +138,28 @@
   <data name="updateTaskUrl" xml:space="preserve">
     <value>/employees/UpdateTask</value>
   </data>
+  <data name="checkForEmailUrl" xml:space="preserve">
+    <value>/admin/email/?emailId={0}</value>
+  </data>
+  <data name="createUserUrl" xml:space="preserve">
+    <value>/admin/create-user</value>
+  </data>
+  <data name="deleteUserUrl" xml:space="preserve">
+    <value>/admin/{0}/?loginUser={1}</value>
+  </data>
+  <data name="editUserUrl" xml:space="preserve">
+    <value>/admin/{0}</value>
+  </data>
+  <data name="managerUrl" xml:space="preserve">
+    <value>/admin/manager</value>
+  </data>
+  <data name="roleIdUrl" xml:space="preserve">
+    <value>/admin/roles/{0}</value>
+  </data>
+  <data name="rolesUrl" xml:space="preserve">
+    <value>/admin/roles</value>
+  </data>
+  <data name="userDetailUrl" xml:space="preserve">
+    <value>/admin/user-detail/</value>
+  </data>
 </root>
