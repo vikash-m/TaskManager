@@ -77,7 +77,9 @@
         )
         .Series(series =>
         {
-            series.Column(new double[] { Model.Pending, Model.InProgress, Model.Completed }).Name("Tasks");
+            series.Column(new double[] {  Model.Pending }).Name("Tasks").Color(ServiceLayerLinkResource.Black);
+            series.Column(new double[] { Model.InProgress}).Name("Tasks").Color(ServiceLayerLinkResource.Orange);
+            series.Column(new double[] { Model.Completed }).Name("Tasks").Color(ServiceLayerLinkResource.Green);
         })
         .CategoryAxis(axis => axis
             .Name("series-axis")
