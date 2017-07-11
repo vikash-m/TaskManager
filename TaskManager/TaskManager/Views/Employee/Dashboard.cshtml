@@ -1,4 +1,5 @@
 ﻿@model TaskDomain.DomainModel.TaskStatusCountDm
+    @using TaskManager.Content.Resources
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
@@ -120,9 +121,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category="Pending",value=Model.Pending,color="#9de219"},
-                new {category="InProgress",value=Model.InProgress,color="#90cc38"},
-                new {category="Completed",value=Model.Completed,color="#068c35"}
+                new {category="Pending",value=Model.Pending,color=ServiceLayerLinkResource.Black},
+                new {category="InProgress",value=Model.InProgress,color=ServiceLayerLinkResource.Orange},
+                new {category="Completed",value=Model.Completed,color=ServiceLayerLinkResource.Green }
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#")

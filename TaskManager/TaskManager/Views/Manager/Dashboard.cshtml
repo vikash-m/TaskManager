@@ -1,4 +1,4 @@
-﻿
+﻿@using TaskManager.Content.Resources;
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
@@ -66,7 +66,7 @@
                         <div class="flot-chart">
                             <div class="flot-chart-content" id="flot-dashboard-chart">
                                 <div class="demo-section k-content wide">
-                                   
+                                  
                                     @(Html.Kendo().Chart()
                                           .Name("chart")
                                           .Title("Task Status Column chart")
@@ -89,7 +89,7 @@
                                           )
                                           .CategoryAxis(axis => axis
                                               .Name("label-axis")
-                                              .Categories("Pending", "InProgress", "Completed")
+                                              .Categories(ServiceLayerLinkResource.Pending, ServiceLayerLinkResource.InProgress, ServiceLayerLinkResource.Completed)
                                           )
                                           .ValueAxis(axis => axis
                                               .Numeric()
@@ -125,9 +125,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category="Pending",value=(double)Model.Pending/Model.Total*100,color="#9de219"},
-                new {category="InProgress",value=(double)Model.InProgress/Model.Total*100,color="#90cc38"},
-                new {category="Completed",value=(double)Model.Completed/Model.Total*100,color="#068c35"}
+                new {category="Pending",value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.Black},
+                new {category="InProgress",value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.Orange},
+                new {category="Completed",value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.Green}
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#%")
@@ -135,6 +135,7 @@
                 .Visible(true)
             )
             .StartAngle(150);
+
         })
         .Tooltip(tooltip => tooltip
             .Visible(true)
