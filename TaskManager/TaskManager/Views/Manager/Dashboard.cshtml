@@ -78,7 +78,7 @@
                                           )
                                           .Series(series =>
                                           {
-                                              series.Column(new double[] { Model.Pending }).Name("Tasks").Color(ServiceLayerLinkResource.Black);
+                                              series.Column(new double[] { Model.Pending }).Name("Tasks").Color(ServiceLayerLinkResource.Blue);
                                               series.Column(new double[] { Model.InProgress }).Name("Tasks").Color(ServiceLayerLinkResource.Orange);
                                               series.Column(new double[] { Model.Completed }).Name("Tasks").Color(ServiceLayerLinkResource.Green);
 
@@ -128,9 +128,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category="Pending",value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.Black},
-                new {category="InProgress",value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.Orange},
-                new {category="Completed",value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.Green}
+                new {category=ServiceLayerLinkResource.Pending,value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.Blue},
+                new {category=ServiceLayerLinkResource.InProgress,value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.Orange},
+                new {category=ServiceLayerLinkResource.Completed,value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.Green}
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#%")

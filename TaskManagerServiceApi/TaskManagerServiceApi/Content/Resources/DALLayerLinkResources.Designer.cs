@@ -61,6 +61,15 @@ namespace TaskManagerServiceApi.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to admin/login-user.
+        /// </summary>
+        internal static string addLoginUserDetailsUrl {
+            get {
+                return ResourceManager.GetString("addLoginUserDetailsUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /manager/document.
         /// </summary>
         internal static string addTaskDocumentUrl {
@@ -187,6 +196,15 @@ namespace TaskManagerServiceApi.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /login/?name={0}&amp;password=.
+        /// </summary>
+        internal static string getLoginDetailsUrl {
+            get {
+                return ResourceManager.GetString("getLoginDetailsUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /employees/task-status.
         /// </summary>
         internal static string getStatusListUrl {
@@ -259,6 +277,15 @@ namespace TaskManagerServiceApi.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /login/user/{0}.
+        /// </summary>
+        internal static string getUserDetailsDataUrl {
+            get {
+                return ResourceManager.GetString("getUserDetailsDataUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /admin/manager.
         /// </summary>
         internal static string managerUrl {
@@ -309,6 +336,15 @@ namespace TaskManagerServiceApi.Content.Resources {
         internal static string userDetailUrl {
             get {
                 return ResourceManager.GetString("userDetailUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /login/verify/?emailId={0}.
+        /// </summary>
+        internal static string verifyUrl {
+            get {
+                return ResourceManager.GetString("verifyUrl", resourceCulture);
             }
         }
     }

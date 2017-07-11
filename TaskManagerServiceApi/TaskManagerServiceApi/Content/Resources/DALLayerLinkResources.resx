@@ -201,4 +201,16 @@
   <data name="updateTaskLinkUrl" xml:space="preserve">
     <value>/manager/task</value>
   </data>
+  <data name="addLoginUserDetailsUrl" xml:space="preserve">
+    <value>admin/login-user</value>
+  </data>
+  <data name="getLoginDetailsUrl" xml:space="preserve">
+    <value>/login/?name={0}&amp;password=</value>
+  </data>
+  <data name="getUserDetailsDataUrl" xml:space="preserve">
+    <value>/login/user/{0}</value>
+  </data>
+  <data name="verifyUrl" xml:space="preserve">
+    <value>/login/verify/?emailId={0}</value>
+  </data>
 </root>

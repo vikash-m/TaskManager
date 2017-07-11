@@ -1,10 +1,10 @@
-﻿using NLog;
-using System;
-using System.Configuration;
+﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using NLog;
 using TaskDomain.DomainModel;
+using TaskManager.Content.Resources;
 
 namespace TaskManager.Controllers
 {
@@ -12,7 +12,7 @@ namespace TaskManager.Controllers
     public class LoginController : Controller
     {
         Logger logger = LogManager.GetCurrentClassLogger();
-        private static readonly string ServiceLayerUrl = $"{ConfigurationManager.AppSettings["serviceLayerUrl"]}";
+        private static readonly string ServiceLayerUrl = ServiceLayerLinkResource.serviceLayerUrl;
         // GET: Login
         [HttpGet]
         public ActionResult Login()
@@ -35,7 +35,7 @@ namespace TaskManager.Controllers
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.GetAsync($"/login/login-details/?name={name}&password={password}");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.loginUrl , name , password));
                 if (response.IsSuccessStatusCode)
                 {
                     loginUser = response.Content.ReadAsAsync<LoginUserDm>().Result;
@@ -82,7 +82,7 @@ namespace TaskManager.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
-                var response = await client.GetAsync($"/login/{id}");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.userDetailsDataUrl , id));
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!

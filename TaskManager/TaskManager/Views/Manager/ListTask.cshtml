@@ -60,7 +60,7 @@
                         <td> @data.AssignedToName </td>
                        @if (data.StartDate != null)
                        {
-                        <td> @data.StartDate.Value.ToShortDateString() </td>
+                        <td> @data.StartDate.ToShortDateString() </td>
                        }
                        else
                        {
@@ -70,7 +70,7 @@
 
                         @if (data.EndDate != null)
                         {
-                            <td> @data.EndDate.Value.ToShortDateString() </td>
+                            <td> @data.EndDate.ToShortDateString() </td>
                         }
                         else
                         {
@@ -79,7 +79,7 @@
 
                         <td> @data.Description </td>
                         <td> @data.TaskStatus </td>
-                        <td> @data.CreateDate.Value.ToShortDateString() </td>
+                        <td> @data.CreateDate.ToShortDateString() </td>
                         @if (data.ModifiedDate != null)
                         {
                             <td> @data.ModifiedDate.Value.ToShortDateString() </td>

@@ -228,4 +228,19 @@
   <data name="taskExistsError" xml:space="preserve">
     <value>Sorry, this name already exists</value>
   </data>
+  <data name="Blue" xml:space="preserve">
+    <value>0000ff</value>
+  </data>
+  <data name="loginUrl" xml:space="preserve">
+    <value>/login/login-details/?name={0}&amp;password={1}</value>
+  </data>
+  <data name="userDetailsDataUrl" xml:space="preserve">
+    <value>/login/{0}</value>
+  </data>
+  <data name="verifyLoginUrl" xml:space="preserve">
+    <value>/login</value>
+  </data>
+  <data name="verifyUrl" xml:space="preserve">
+    <value>/email/verify?username={0}</value>
+  </data>
 </root>

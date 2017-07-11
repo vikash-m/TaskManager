@@ -1,11 +1,10 @@
-﻿using System.Web.Http;
-using System.Configuration;
-using System.Net.Http;
-using TaskDomain.DomainModel;
+﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System;
+using System.Web.Http;
 using NLog;
+using TaskDomain.DomainModel;
 using TaskManagerServiceApi.Content.Resources;
 
 namespace TaskManagerServiceApi.Controllers
