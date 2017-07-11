@@ -3,10 +3,8 @@ using System.Web.Http;
 using TaskManagerDAL.Models;
 using TaskManagerDAL.DAL;
 using TaskDomain.DomainModel;
-using TaskDomain.DomainModel.CustomExceptions;
-using System;
 using NLog;
-
+using TaskManagerDAL.CustomException;
 namespace TaskManagerDAL.Controllers
 {
     [RoutePrefix("employees")]
@@ -37,12 +35,12 @@ namespace TaskManagerDAL.Controllers
                 }
                 catch
                 {
-                    throw new UpdateTaskStatusException("Error at UpdateTaskStatus method of Employee controller in DAL layer.");
+                    throw new TaskManagerException("Error at UpdateTaskStatus method of Employee controller in DAL layer.");
                 }
             }
-            catch (UpdateTaskStatusException updateTaskStatusException)
+            catch (TaskManagerException taskManagerException)
             {
-                logger.Error(updateTaskStatusException, updateTaskStatusException.Message);
+                logger.Error(taskManagerException, taskManagerException.Message);
                 return false;
             }
         }
@@ -58,10 +56,10 @@ namespace TaskManagerDAL.Controllers
                }
                catch
                {
-                   throw new DashboardTaskCountException("Error at GetTaskCount method of Employee controller in DAL layer.");
+                   throw new TaskManagerException("Error at GetTaskCount method of Employee controller in DAL layer.");
                }
             }
-            catch(DashboardTaskCountException dashboardTaskCountException)
+            catch(TaskManagerException dashboardTaskCountException)
             {
                 logger.Error(dashboardTaskCountException, dashboardTaskCountException.Message);
                 return null;
@@ -80,10 +78,10 @@ namespace TaskManagerDAL.Controllers
                 }
                 catch
                 {
-                    throw new EmployeeTaskException("Error at GetEmployeeTask method of Employee controller in DAL layer.");
+                    throw new TaskManagerException("Error at GetEmployeeTask method of Employee controller in DAL layer.");
                 }
             }
-            catch (EmployeeTaskException employeeTaskException)
+            catch (TaskManagerException employeeTaskException)
             {
                 logger.Error(employeeTaskException, employeeTaskException.Message);
                 return null;
@@ -103,10 +101,10 @@ namespace TaskManagerDAL.Controllers
                }
                catch
                {
-                throw new TaskDetailException("Error at GetTaskDetail method of Employee controller in DAL layer.");
+                throw new TaskManagerException("Error at GetTaskDetail method of Employee controller in DAL layer.");
                }
             }
-            catch (TaskDetailException taskDetailException)
+            catch (TaskManagerException taskDetailException)
             {
                 logger.Error(taskDetailException, taskDetailException.Message);
                 return null;

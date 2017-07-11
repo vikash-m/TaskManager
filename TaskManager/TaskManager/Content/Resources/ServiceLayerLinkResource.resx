@@ -222,4 +222,10 @@
   <data name="White" xml:space="preserve">
     <value>#ffffff</value>
   </data>
+  <data name="checkForTaskNameUrl" xml:space="preserve">
+    <value>manager/tasks/task/{0}</value>
+  </data>
+  <data name="taskExistsError" xml:space="preserve">
+    <value>Sorry, this name already exists</value>
+  </data>
 </root>
