@@ -331,6 +331,15 @@ namespace TaskManager.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to string.
+        /// </summary>
+        internal static string str1 {
+            get {
+                return ResourceManager.GetString("str1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /employees/UpdateTask.
         /// </summary>
         internal static string updateTaskUrl {
