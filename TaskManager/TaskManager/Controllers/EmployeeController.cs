@@ -1,15 +1,13 @@
-﻿using System.IO;
-using System.Web.Mvc;
-using TaskDomain.DomainModel;
-using PagedList;
-using System.Configuration;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System;
-using System.Net.Http.Headers;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using NLog;
-using TaskDomain.CustomExceptions;
+using PagedList;
+using TaskDomain.DomainModel;
 using TaskManager.Content.Resources;
 
 namespace TaskManager.Controllers
@@ -46,11 +44,6 @@ namespace TaskManager.Controllers
 
                 }
                 return View(taskStatusCountDataModel);
-            }
-            catch (DashboardTaskCountException dashboardTaskCountException)
-            {
-                logger.Error(dashboardTaskCountException, dashboardTaskCountException.Message);
-                return View("Error");
             }
             catch (Exception ex)
             {

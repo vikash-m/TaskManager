@@ -6,11 +6,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
     }
-    @**@<script src="~/Scripts/kendo/jquery.min.js"></script>
-    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
-    <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
-    
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/kendo/jquery.min.js"></script>
+<script src="~/Scripts/kendo/kendo.all.min.js"></script>
+<script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+
 <div class="row border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>My Tasks</h2>
@@ -212,3 +212,5 @@
                            
                         </script>
                        
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/kendo")

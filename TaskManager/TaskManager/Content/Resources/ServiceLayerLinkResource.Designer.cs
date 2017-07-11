@@ -61,6 +61,87 @@ namespace TaskManager.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /admin.
+        /// </summary>
+        internal static string AdminUrl {
+            get {
+                return ResourceManager.GetString("AdminUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #000000.
+        /// </summary>
+        internal static string Black {
+            get {
+                return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to admin/email/?emailId={0}.
+        /// </summary>
+        internal static string checkForMailUrl {
+            get {
+                return ResourceManager.GetString("checkForMailUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        internal static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /create-user.
+        /// </summary>
+        internal static string createUserUrl {
+            get {
+                return ResourceManager.GetString("createUserUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #035100.
+        /// </summary>
+        internal static string DarkGreen {
+            get {
+                return ResourceManager.GetString("DarkGreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #350051.
+        /// </summary>
+        internal static string DarkVoilet {
+            get {
+                return ResourceManager.GetString("DarkVoilet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to admin/{0}/?loginUser={1}.
+        /// </summary>
+        internal static string deleteUserUrl {
+            get {
+                return ResourceManager.GetString("deleteUserUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to admin/{0}/?loginUser={1}.
+        /// </summary>
+        internal static string editUserDetailsUrl {
+            get {
+                return ResourceManager.GetString("editUserDetailsUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /employees/{0}/tasks.
         /// </summary>
         internal static string getEmployeeTasksUrl {
@@ -97,6 +178,60 @@ namespace TaskManager.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #1dfe16.
+        /// </summary>
+        internal static string Green {
+            get {
+                return ResourceManager.GetString("Green", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InProgress.
+        /// </summary>
+        internal static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /manager.
+        /// </summary>
+        internal static string managerUrl {
+            get {
+                return ResourceManager.GetString("managerUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #fe6b16.
+        /// </summary>
+        internal static string Orange {
+            get {
+                return ResourceManager.GetString("Orange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        internal static string Pending {
+            get {
+                return ResourceManager.GetString("Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /roles.
+        /// </summary>
+        internal static string roleUrl {
+            get {
+                return ResourceManager.GetString("roleUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://localhost:50862.
         /// </summary>
         internal static string serviceLayerUrl {
@@ -111,6 +246,33 @@ namespace TaskManager.Content.Resources {
         internal static string updateTaskUrl {
             get {
                 return ResourceManager.GetString("updateTaskUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /user-detail.
+        /// </summary>
+        internal static string userDetailUrl {
+            get {
+                return ResourceManager.GetString("userDetailUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #ab01da.
+        /// </summary>
+        internal static string Voilet {
+            get {
+                return ResourceManager.GetString("Voilet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #ffffff.
+        /// </summary>
+        internal static string White {
+            get {
+                return ResourceManager.GetString("White", resourceCulture);
             }
         }
     }

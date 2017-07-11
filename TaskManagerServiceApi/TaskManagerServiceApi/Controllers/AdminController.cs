@@ -8,13 +8,14 @@ using System.Web;
 using System.Web.Http;
 using TaskDomain.DomainModel;
 using TaskManagerUtility;
+using TaskManagerServiceApi.Content.Resources;
 
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("admin")]
     public class AdminController : ApiController
     {
-        private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        private static readonly string DalLayerUrl = DALLayerLinkResources.DalLayerUrl;
         Logger logger = LogManager.GetCurrentClassLogger();
         [HttpPost, Route("create-user")]
         public async Task<bool> CreateUsers(string loginUser, UserDetailDm userDetail)
@@ -26,7 +27,7 @@ namespace TaskManagerServiceApi.Controllers
                 userDetail.CreatedBy = loginUser;
                 userDetail.CreateDate = DateTime.Now;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PostAsJsonAsync("/admin/create-user", userDetail);
+                var response = await client.PostAsJsonAsync(DALLayerLinkResources.createUserUrl, userDetail);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     createStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -50,7 +51,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync("/admin/roles");
+                var response = await client.GetAsync(DALLayerLinkResources.rolesUrl);
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -70,7 +71,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/manager");
+                var response = await client.GetAsync(DALLayerLinkResources.managerUrl);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     managers = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -89,7 +90,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/user-detail/");
+                var response = await client.GetAsync(DALLayerLinkResources.userDetailUrl);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     users = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -98,7 +99,7 @@ namespace TaskManagerServiceApi.Controllers
                     if (item != null)
                     {
                         var id = item.Id;
-                        var roleResponse = await client.GetAsync($"/admin/roles/{item.RoleId}");
+                        var roleResponse = await client.GetAsync(string.Format(DALLayerLinkResources.roleIdUrl, item.RoleId));
                         if (roleResponse.IsSuccessStatusCode)
                         {
                             item.RoleName = roleResponse.Content.ReadAsAsync<string>().Result;
@@ -124,7 +125,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/{employeeId}");
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.editUserUrl , employeeId));
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     user = response.Content.ReadAsAsync<UserDetailDm>().Result;
@@ -145,7 +146,7 @@ namespace TaskManagerServiceApi.Controllers
                 userDetail.ModifiedBy = loginUser;
                 userDetail.ModifiedDate = DateTime.Now;
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.PutAsJsonAsync($"/admin/{userDetail.Id}", userDetail);
+                var response = await client.PutAsJsonAsync(string.Format(DALLayerLinkResources.editUserUrl, userDetail.Id), userDetail);
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     updateStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -165,7 +166,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.DeleteAsync($"/admin/{id}/?loginUser={loginUser}");
+                var response = await client.DeleteAsync(string.Format(DALLayerLinkResources.deleteUserUrl , id , loginUser));
                 // Parse the response body. Blocking!
                 updateStatus = response.Content.ReadAsAsync<bool>().Result;
             }
@@ -183,7 +184,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/admin/email/?emailId={emailId}");
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.checkForEmailUrl , emailId));
                 if (response.IsSuccessStatusCode)
                 {
                     emailExist = response.Content.ReadAsAsync<bool>().Result;

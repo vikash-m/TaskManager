@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModel\CustomExceptions\DashboardTaskCountException.cs" />
+    <Compile Include="DomainModel\CustomExceptions\EmployeeTaskException.cs" />
+    <Compile Include="DomainModel\CustomExceptions\TaskDetailException.cs" />
+    <Compile Include="DomainModel\CustomExceptions\UpdateTaskStatusException.cs" />
     <Compile Include="DomainModel\EnumClass.cs" />
     <Compile Include="DomainModel\LoginUserDm.cs" />
     <Compile Include="DomainModel\RoleDm.cs" />

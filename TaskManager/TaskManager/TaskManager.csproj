@@ -169,7 +169,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Constant\Constant.cs" />
-    <Compile Include="Content\Resources\ServiceLayerLinkResource.Designer.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -2045,8 +2044,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Constant.resx" />
-    <EmbeddedResource Include="Content\Resources\ServiceLayerLinkResource.resx" />
+    <EmbeddedResource Include="Content\Resources\ServiceLayerLinkResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceLayerLinkResource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
