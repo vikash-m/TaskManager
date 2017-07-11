@@ -97,6 +97,15 @@ namespace TaskManager.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to manager/tasks/task/{0}.
+        /// </summary>
+        internal static string checkForTaskNameUrl {
+            get {
+                return ResourceManager.GetString("checkForTaskNameUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
         internal static string Completed {
@@ -336,6 +345,15 @@ namespace TaskManager.Content.Resources {
         internal static string str1 {
             get {
                 return ResourceManager.GetString("str1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, this name already exists.
+        /// </summary>
+        internal static string taskExistsError {
+            get {
+                return ResourceManager.GetString("taskExistsError", resourceCulture);
             }
         }
         

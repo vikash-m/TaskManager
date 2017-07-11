@@ -162,4 +162,43 @@
   <data name="userDetailUrl" xml:space="preserve">
     <value>/admin/user-detail/</value>
   </data>
+  <data name="addTaskDocumentUrl" xml:space="preserve">
+    <value>/manager/document</value>
+  </data>
+  <data name="checkForTaskNameUrl" xml:space="preserve">
+    <value>/manager/tasks/tasks/{0}</value>
+  </data>
+  <data name="createTaskUrl" xml:space="preserve">
+    <value>/manager/task</value>
+  </data>
+  <data name="deleteTaskUrl" xml:space="preserve">
+    <value>/manager/{0}/?loginUser={1}</value>
+  </data>
+  <data name="getAllTaskUrl" xml:space="preserve">
+    <value>/manager/{0}/tasks</value>
+  </data>
+  <data name="getEmployeeNameByIdUrl" xml:space="preserve">
+    <value>/manager/employeename/{0}</value>
+  </data>
+  <data name="getEmployeesDetailsByManagerIdUrl" xml:space="preserve">
+    <value>/manager/employees?managerId={0}</value>
+  </data>
+  <data name="getTaskByTaskIdUrl" xml:space="preserve">
+    <value>/manager/tasks/{taskId}</value>
+  </data>
+  <data name="getTaskCountsManagerUrl" xml:space="preserve">
+    <value>/manager/{0}/tasks/count/?statusId={1}</value>
+  </data>
+  <data name="getTaskDocumentBytaskIdUrl" xml:space="preserve">
+    <value>/manager/tasks/{0}/task-document</value>
+  </data>
+  <data name="getTaskNameByTaskIdUrl" xml:space="preserve">
+    <value>/manager/tasks/{0}/task-name</value>
+  </data>
+  <data name="getTaskStatusNameByTaskStatusIdUrl" xml:space="preserve">
+    <value>/manager/status/{0}</value>
+  </data>
+  <data name="updateTaskLinkUrl" xml:space="preserve">
+    <value>/manager/task</value>
+  </data>
 </root>

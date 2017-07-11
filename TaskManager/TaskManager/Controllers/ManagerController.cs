@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Web;
 using NLog;
+using TaskManager.Content.Resources;
 
 namespace TaskManager.Controllers
 {
     public class ManagerController : Controller
     {
-        private static readonly string ServiceLayerUrl = ConfigurationManager.AppSettings["serviceLayerUrl"];
+        private static readonly string ServiceLayerUrl = ServiceLayerLinkResource.serviceLayerUrl;
         Logger logger = LogManager.GetCurrentClassLogger();
         public async Task<ActionResult> ListTask(int? page)
         {
@@ -34,7 +35,7 @@ namespace TaskManager.Controllers
 
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                var response = await client.GetAsync($"/manager/{user.Id}/tasks");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.listTaskUrl , user.Id));
 
                 if (!response.IsSuccessStatusCode) return View();
                 var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10);
@@ -64,7 +65,7 @@ namespace TaskManager.Controllers
                 var taskStatusCounts = new TaskStatusCountDm();
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                var response = await client.GetAsync($"/manager/{employeeId}/tasks/count");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.dashboardUrl , employeeId));
                 if (response.IsSuccessStatusCode)
                     taskStatusCounts = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
                 return View(taskStatusCounts);
@@ -91,7 +92,7 @@ namespace TaskManager.Controllers
 
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                var response = await client.GetAsync($"/manager/{user.Id}/employees");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskUrl, user.Id));
                 var employeeList = new List<UserDetailDm>();
                 if (response.IsSuccessStatusCode)
                     employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -132,7 +133,7 @@ namespace TaskManager.Controllers
 
                     // foreach (var document in taskDm.)
                     taskDm.Document.Clear(); // List data response.
-                    var response = await client.PostAsJsonAsync($"/manager/?loginUserId={user.Id}", taskDm);
+                    var response = await client.PostAsJsonAsync(string.Format(ServiceLayerLinkResource.createTaskManagerUrl , user.Id), taskDm);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -145,7 +146,7 @@ namespace TaskManager.Controllers
                 }
                 // List data response.
                 var employeeList = new List<UserDetailDm>();
-                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                var responseEmployeeList = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskLinkUrl, user.Id));
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -190,7 +191,7 @@ namespace TaskManager.Controllers
                     }
                     taskDm.Document.Clear();
                     // List data response.
-                    var response = await client.PutAsJsonAsync($"manager/{taskDm.Id}/?loginUser={user.Id}", taskDm);
+                    var response = await client.PutAsJsonAsync(string.Format(ServiceLayerLinkResource.editTaskUrl , taskDm.Id , user.Id), taskDm);
                     if (response.IsSuccessStatusCode)
                     {
                         if (!taskDocument.Document.Contains(null))
@@ -201,7 +202,7 @@ namespace TaskManager.Controllers
 
                 // List data response.
                 var employeeList = new List<UserDetailDm>();
-                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                var responseEmployeeList = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskLinkUrl , user.Id));
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -235,7 +236,7 @@ namespace TaskManager.Controllers
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.DeleteAsync($"manager/{id}/?loginUser={user.Id}");
+                var response = await client.DeleteAsync(string.Format(ServiceLayerLinkResource.deleteTaskUrl , id , user.Id));
 
             }
             catch(Exception ex)
@@ -263,7 +264,7 @@ namespace TaskManager.Controllers
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.GetAsync($"manager/tasks/{id}/task-name");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.documentPartialViewUrl , id));
                 if (!response.IsSuccessStatusCode) return View("Error");
                 var taskName = response.Content.ReadAsAsync<string>().Result;
                 var taskDocument = new TaskDocumentDm
@@ -332,7 +333,7 @@ namespace TaskManager.Controllers
             var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
             var documentUploadStatus = new bool(); ;
             // List data response.
-            var response = await client.PostAsJsonAsync($"/manager/document", taskDocumentDm);
+            var response = await client.PostAsJsonAsync(ServiceLayerLinkResource.addDocumentUrl, taskDocumentDm);
             if (response.IsSuccessStatusCode)
                 documentUploadStatus = response.Content.ReadAsAsync<bool>().Result;
             return documentUploadStatus;
@@ -355,13 +356,13 @@ namespace TaskManager.Controllers
 
 
                 // List data response.
-                var response = await client.GetAsync($"/manager/tasks/{id}");
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.editTaskLinkUrl , id));
                 var task = new TaskDm();
                 // List data response.
                 if (response.IsSuccessStatusCode)
                     task = response.Content.ReadAsAsync<TaskDm>().Result;
                 var employeeList = new List<UserDetailDm>();
-                var responseEmployeeList = await client.GetAsync($"manager/{user.Id}/employees");
+                var responseEmployeeList = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskLinkUrl, user.Id));
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -383,12 +384,12 @@ namespace TaskManager.Controllers
 
             var result = new bool();
             // List data response.
-            var response = await client.GetAsync($"manager/tasks/task/{title}");
+            var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.checkForTaskNameUrl , title));
             if (response.IsSuccessStatusCode)
             {
                 result = response.Content.ReadAsAsync<bool>().Result;
             }
-            return result == false ? Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
+            return result == false ? Json(ServiceLayerLinkResource.taskExistsError, JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }
