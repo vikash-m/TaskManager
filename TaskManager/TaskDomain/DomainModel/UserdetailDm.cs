@@ -17,8 +17,8 @@ namespace TaskDomain.DomainModel
         [Required(ErrorMessage = "Enter the Phone no")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
-
         public string PhoneNumber { get; set; }
+        public string DialCode { get; set; }
         [Display(Name = "Email")]
        // [Remote("CheckForEmail", "Admin", ErrorMessage = "Email already exists. Please enter a different Email.")]
         [Required(ErrorMessage = "Enter Email Id")]

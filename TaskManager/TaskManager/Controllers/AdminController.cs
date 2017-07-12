@@ -65,6 +65,7 @@ namespace TaskManager.Controllers
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+                userDetailDm.PhoneNumber = userDetailDm.DialCode + userDetailDm.PhoneNumber;
                 // List data response.
                 var response = await client.PostAsJsonAsync($"{url}?loginUser={name}", userDetailDm);
                 var result = new bool();

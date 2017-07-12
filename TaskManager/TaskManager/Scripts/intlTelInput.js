@@ -46,7 +46,7 @@
         // the countries at the top of the list. defaults to united states and united kingdom
         preferredCountries: [ "us", "gb" ],
         // display the country dial code next to the selected flag so it's not part of the typed number
-        separateDialCode: false,
+        separateDialCode: true,
         // specify the path to the libphonenumber script to enable validation/formatting
         utilsScript: ""
     }, keys = {
@@ -712,6 +712,7 @@
             var title = countryCode ? this.selectedCountryData.name + ": +" + this.selectedCountryData.dialCode : "Unknown";
             this.selectedFlagInner.parent().attr("title", title);
             if (this.options.separateDialCode) {
+                $('#DialCode').val("+" + this.selectedCountryData.dialCode);
                 var dialCode = this.selectedCountryData.dialCode ? "+" + this.selectedCountryData.dialCode : "", parent = this.telInput.parent();
                 if (prevCountry.dialCode) {
                     parent.removeClass("iti-sdc-" + (prevCountry.dialCode.length + 1));
