@@ -1,14 +1,13 @@
-﻿using PagedList;
-using System.IO;
-using System.Web.Mvc;
-using TaskDomain.DomainModel;
-using System.Net.Http;
-using System.Configuration;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using NLog;
+using PagedList;
+using TaskDomain.DomainModel;
 using TaskManager.Content.Resources;
 
 namespace TaskManager.Controllers

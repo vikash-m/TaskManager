@@ -1,19 +1,19 @@
-﻿using System.Web.Http;
+﻿using System;
 using System.Net.Http;
-using System.Configuration;
 using System.Threading.Tasks;
-using System;
 using System.Web;
-using TaskDomain.DomainModel;
-using TaskManagerUtility;
+using System.Web.Http;
 using NLog;
+using TaskDomain.DomainModel;
+using TaskManagerServiceApi.Content.Resources;
+using TaskManagerUtility;
 
 namespace TaskManagerServiceApi.Controllers
 {
     [RoutePrefix("login")]
     public class LoginServiceController : ApiController
     {
-        private static readonly string DalLayerUrl = ConfigurationManager.AppSettings["dalLayerUrl"];
+        private static readonly string DalLayerUrl = DALLayerLinkResources.DalLayerUrl;
         Logger logger = LogManager.GetCurrentClassLogger(); 
 
         [HttpGet, Route("login-details")]
@@ -27,7 +27,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/login/?name={name}&password=" + HttpContext.Current.Server.UrlEncode(encryptedPassword));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getLoginDetailsUrl , name) + HttpContext.Current.Server.UrlEncode(encryptedPassword));
 
 
                 if (response.IsSuccessStatusCode)
@@ -50,7 +50,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync($"/login/user/{id}");
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getUserDetailsDataUrl , id));
 
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
@@ -72,7 +72,7 @@ namespace TaskManagerServiceApi.Controllers
             var encryptedPassword = encryptDecryt.Encrypt(loginDetails.Password);
             loginDetails.Password = encryptedPassword;
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-            var response = await client.PostAsJsonAsync("admin/login-user", loginDetails);
+            var response = await client.PostAsJsonAsync(DALLayerLinkResources.addLoginUserDetailsUrl, loginDetails);
             var status = new bool();
             if (response.IsSuccessStatusCode)
             {

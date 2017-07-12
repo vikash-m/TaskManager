@@ -183,8 +183,8 @@
   <data name="getTaskDetailsUrl" xml:space="preserve">
     <value>employees/tasks/{0}</value>
   </data>
-  <data name="Green" xml:space="preserve">
-    <value>#1dfe16</value>
+  <data name="GreyishBlue" xml:space="preserve">
+    <value>#8291d2</value>
   </data>
   <data name="InProgress" xml:space="preserve">
     <value>InProgress</value>
@@ -195,8 +195,8 @@
   <data name="managerUrl" xml:space="preserve">
     <value>/manager</value>
   </data>
-  <data name="Orange" xml:space="preserve">
-    <value>#fe6b16</value>
+  <data name="DeepGreyishBlue" xml:space="preserve">
+    <value>#40499d</value>
   </data>
   <data name="Pending" xml:space="preserve">
     <value>Pending</value>
@@ -227,5 +227,20 @@
   </data>
   <data name="taskExistsError" xml:space="preserve">
     <value>Sorry, this name already exists</value>
+  </data>
+  <data name="LightGreyishBlue" xml:space="preserve">
+    <value>#b0bbdf</value>
+  </data>
+  <data name="loginUrl" xml:space="preserve">
+    <value>/login/login-details/?name={0}&amp;password={1}</value>
+  </data>
+  <data name="userDetailsDataUrl" xml:space="preserve">
+    <value>/login/{0}</value>
+  </data>
+  <data name="verifyLoginUrl" xml:space="preserve">
+    <value>/login</value>
+  </data>
+  <data name="verifyUrl" xml:space="preserve">
+    <value>/email/verify?username={0}</value>
   </data>
 </root>
