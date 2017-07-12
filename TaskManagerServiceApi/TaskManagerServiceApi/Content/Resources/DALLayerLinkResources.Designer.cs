@@ -22,7 +22,7 @@ namespace TaskManagerServiceApi.Content.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DALLayerLinkResources {
+    public class DALLayerLinkResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TaskManagerServiceApi.Content.Resources.DALLayerLinkResources", typeof(DALLayerLinkResources).Assembly);
@@ -51,7 +51,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace TaskManagerServiceApi.Content.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /manager/task/assignTo.
+        /// </summary>
+        public static string addAssignTo {
+            get {
+                return ResourceManager.GetString("addAssignTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to admin/login-user.
         /// </summary>
-        internal static string addLoginUserDetailsUrl {
+        public static string addLoginUserDetailsUrl {
             get {
                 return ResourceManager.GetString("addLoginUserDetailsUrl", resourceCulture);
             }
@@ -72,7 +81,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/document.
         /// </summary>
-        internal static string addTaskDocumentUrl {
+        public static string addTaskDocumentUrl {
             get {
                 return ResourceManager.GetString("addTaskDocumentUrl", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/email/?emailId={0}.
         /// </summary>
-        internal static string checkForEmailUrl {
+        public static string checkForEmailUrl {
             get {
                 return ResourceManager.GetString("checkForEmailUrl", resourceCulture);
             }
@@ -90,7 +99,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/tasks/tasks/{0}.
         /// </summary>
-        internal static string checkForTaskNameUrl {
+        public static string checkForTaskNameUrl {
             get {
                 return ResourceManager.GetString("checkForTaskNameUrl", resourceCulture);
             }
@@ -99,7 +108,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/task.
         /// </summary>
-        internal static string createTaskUrl {
+        public static string createTaskUrl {
             get {
                 return ResourceManager.GetString("createTaskUrl", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/create-user.
         /// </summary>
-        internal static string createUserUrl {
+        public static string createUserUrl {
             get {
                 return ResourceManager.GetString("createUserUrl", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to http://localhost:52187.
         /// </summary>
-        internal static string DalLayerUrl {
+        public static string DalLayerUrl {
             get {
                 return ResourceManager.GetString("DalLayerUrl", resourceCulture);
             }
@@ -126,7 +135,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/{0}/?loginUser={1}.
         /// </summary>
-        internal static string deleteTaskUrl {
+        public static string deleteTaskUrl {
             get {
                 return ResourceManager.GetString("deleteTaskUrl", resourceCulture);
             }
@@ -135,7 +144,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/{0}/?loginUser={1}.
         /// </summary>
-        internal static string deleteUserUrl {
+        public static string deleteUserUrl {
             get {
                 return ResourceManager.GetString("deleteUserUrl", resourceCulture);
             }
@@ -144,7 +153,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/{0}.
         /// </summary>
-        internal static string editUserUrl {
+        public static string editUserUrl {
             get {
                 return ResourceManager.GetString("editUserUrl", resourceCulture);
             }
@@ -153,7 +162,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/{0}/tasks.
         /// </summary>
-        internal static string getAllTaskUrl {
+        public static string getAllTaskUrl {
             get {
                 return ResourceManager.GetString("getAllTaskUrl", resourceCulture);
             }
@@ -162,7 +171,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/employeename/{0}.
         /// </summary>
-        internal static string getEmployeeNameByIdUrl {
+        public static string getEmployeeNameByIdUrl {
             get {
                 return ResourceManager.GetString("getEmployeeNameByIdUrl", resourceCulture);
             }
@@ -171,7 +180,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/employees?managerId={0}.
         /// </summary>
-        internal static string getEmployeesDetailsByManagerIdUrl {
+        public static string getEmployeesDetailsByManagerIdUrl {
             get {
                 return ResourceManager.GetString("getEmployeesDetailsByManagerIdUrl", resourceCulture);
             }
@@ -180,7 +189,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees.
         /// </summary>
-        internal static string getEmployeesUrl {
+        public static string getEmployeesUrl {
             get {
                 return ResourceManager.GetString("getEmployeesUrl", resourceCulture);
             }
@@ -189,7 +198,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees/{0}/tasks.
         /// </summary>
-        internal static string getEmployeeTasksUrl {
+        public static string getEmployeeTasksUrl {
             get {
                 return ResourceManager.GetString("getEmployeeTasksUrl", resourceCulture);
             }
@@ -198,7 +207,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /login/?name={0}&amp;password=.
         /// </summary>
-        internal static string getLoginDetailsUrl {
+        public static string getLoginDetailsUrl {
             get {
                 return ResourceManager.GetString("getLoginDetailsUrl", resourceCulture);
             }
@@ -207,7 +216,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees/task-status.
         /// </summary>
-        internal static string getStatusListUrl {
+        public static string getStatusListUrl {
             get {
                 return ResourceManager.GetString("getStatusListUrl", resourceCulture);
             }
@@ -216,7 +225,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/tasks/{taskId}.
         /// </summary>
-        internal static string getTaskByTaskIdUrl {
+        public static string getTaskByTaskIdUrl {
             get {
                 return ResourceManager.GetString("getTaskByTaskIdUrl", resourceCulture);
             }
@@ -225,7 +234,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/{0}/tasks/count/?statusId={1}.
         /// </summary>
-        internal static string getTaskCountsManagerUrl {
+        public static string getTaskCountsManagerUrl {
             get {
                 return ResourceManager.GetString("getTaskCountsManagerUrl", resourceCulture);
             }
@@ -234,7 +243,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees/{0}/tasks/count/?statusId={1}.
         /// </summary>
-        internal static string getTaskCountUrl {
+        public static string getTaskCountUrl {
             get {
                 return ResourceManager.GetString("getTaskCountUrl", resourceCulture);
             }
@@ -243,7 +252,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees/{0}.
         /// </summary>
-        internal static string getTaskDetailsUrl {
+        public static string getTaskDetailsUrl {
             get {
                 return ResourceManager.GetString("getTaskDetailsUrl", resourceCulture);
             }
@@ -252,7 +261,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/tasks/{0}/task-document.
         /// </summary>
-        internal static string getTaskDocumentBytaskIdUrl {
+        public static string getTaskDocumentBytaskIdUrl {
             get {
                 return ResourceManager.GetString("getTaskDocumentBytaskIdUrl", resourceCulture);
             }
@@ -261,7 +270,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/tasks/{0}/task-name.
         /// </summary>
-        internal static string getTaskNameByTaskIdUrl {
+        public static string getTaskNameByTaskIdUrl {
             get {
                 return ResourceManager.GetString("getTaskNameByTaskIdUrl", resourceCulture);
             }
@@ -270,7 +279,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/status/{0}.
         /// </summary>
-        internal static string getTaskStatusNameByTaskStatusIdUrl {
+        public static string getTaskStatusNameByTaskStatusIdUrl {
             get {
                 return ResourceManager.GetString("getTaskStatusNameByTaskStatusIdUrl", resourceCulture);
             }
@@ -279,7 +288,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /login/user/{0}.
         /// </summary>
-        internal static string getUserDetailsDataUrl {
+        public static string getUserDetailsDataUrl {
             get {
                 return ResourceManager.GetString("getUserDetailsDataUrl", resourceCulture);
             }
@@ -288,7 +297,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/manager.
         /// </summary>
-        internal static string managerUrl {
+        public static string managerUrl {
             get {
                 return ResourceManager.GetString("managerUrl", resourceCulture);
             }
@@ -297,7 +306,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/roles/{0}.
         /// </summary>
-        internal static string roleIdUrl {
+        public static string roleIdUrl {
             get {
                 return ResourceManager.GetString("roleIdUrl", resourceCulture);
             }
@@ -306,7 +315,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/roles.
         /// </summary>
-        internal static string rolesUrl {
+        public static string rolesUrl {
             get {
                 return ResourceManager.GetString("rolesUrl", resourceCulture);
             }
@@ -315,7 +324,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /manager/task.
         /// </summary>
-        internal static string updateTaskLinkUrl {
+        public static string updateTaskLinkUrl {
             get {
                 return ResourceManager.GetString("updateTaskLinkUrl", resourceCulture);
             }
@@ -324,7 +333,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /employees/UpdateTask.
         /// </summary>
-        internal static string updateTaskUrl {
+        public static string updateTaskUrl {
             get {
                 return ResourceManager.GetString("updateTaskUrl", resourceCulture);
             }
@@ -333,7 +342,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /admin/user-detail/.
         /// </summary>
-        internal static string userDetailUrl {
+        public static string userDetailUrl {
             get {
                 return ResourceManager.GetString("userDetailUrl", resourceCulture);
             }
@@ -342,7 +351,7 @@ namespace TaskManagerServiceApi.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to /login/verify/?emailId={0}.
         /// </summary>
-        internal static string verifyUrl {
+        public static string verifyUrl {
             get {
                 return ResourceManager.GetString("verifyUrl", resourceCulture);
             }

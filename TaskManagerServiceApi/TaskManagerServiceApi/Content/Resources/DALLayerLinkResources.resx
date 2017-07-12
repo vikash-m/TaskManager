@@ -213,4 +213,7 @@
   <data name="verifyUrl" xml:space="preserve">
     <value>/login/verify/?emailId={0}</value>
   </data>
+  <data name="addAssignTo" xml:space="preserve">
+    <value>/manager/task/assignTo</value>
+  </data>
 </root>
