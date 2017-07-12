@@ -14,6 +14,8 @@
 <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/chosen/1.7.0/chosen.jquery.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.7.0/chosen.css"/>
 
 @*<script src="@Url.Content("~/Scripts/jquery.json-2.2.min.js")" type="text/javascript"></script>*@
 <script src="~/Scripts/bootstrap.min.js"></script>
@@ -56,23 +58,7 @@
                             @Html.Label("Assign To")
                         </label>
                     </div>
-                        <div class="clearfix">
-                            <div class="col-lg-10  " style="margin-bottom: 10px; float: left" id="addAssignTo">
-                                <span>
-                                    @Html.DropDownListFor(model => model.AssignedTo, ViewBag.Employee as IEnumerable<SelectListItem>, "-- Select Assignee To--", new { @class = "form-control", style = "160%" })
-                                    @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
-                                </span>
-                                <div class="input-group" style="float: left">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary" id="addNewAssigneeToBtn">
-                                            Add AssignTo <i class="fa fa-plus"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <div id="addNewAssignedTo"></div>
-                            </div>
                         
-                    </div>
                     
 
                     <div class="form-group">
@@ -134,10 +120,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    
-    $('#addNewAssigneeToBtn').click(function () {
-        $('#AssignedTo').clone().appendTo('#addNewAssignedTo');
-    })
+
+    //$('#addNewAssigneeToBtn').click(function() {
+    //    $('#AssignedTo').clone().appendTo('#addNewAssignedTo');
+    //});
+
+    $('.chosen-select').chosen();
 </script>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/kendo")
