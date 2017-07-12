@@ -1,5 +1,5 @@
 ﻿@model TaskDomain.DomainModel.TaskStatusCountDm
-    @using TaskManager.Content.Resources
+@using TaskManager.Content.Resources
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
@@ -108,38 +108,41 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        @if (Model.Total != 0)
+                        {
                         <div class="demo-section k-content wide">
                             @(Html.Kendo().Chart()
-        .Name("Paichart")
-                .Title(title => title
-                    .Text("Task Status Pie chart")
-                    .Position(ChartTitlePosition.Top))
-        .Legend(legend => legend
-            .Visible(false)
-        )
-        .ChartArea(chart => chart
-            .Background("transparent")
-         )
-        .Series(series =>
-        {
-            series.Pie(new dynamic[] {
+            .Name("Paichart")
+                    .Title(title => title
+                        .Text("Task Status Pie chart")
+                        .Position(ChartTitlePosition.Top))
+            .Legend(legend => legend
+                .Visible(false)
+            )
+            .ChartArea(chart => chart
+                .Background("transparent")
+             )
+            .Series(series =>
+            {
+                series.Pie(new dynamic[] {
                 new {category=ServiceLayerLinkResource.Pending,value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.Blue},
                 new {category=ServiceLayerLinkResource.InProgress,value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.Orange},
                 new {category=ServiceLayerLinkResource.Completed,value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.Green}
+                })
+                .Labels(labels => labels
+                    .Template("#= category #: \n #= value#%")
+                    .Background("transparent")
+                    .Visible(true)
+                )
+                .StartAngle(150);
             })
-            .Labels(labels => labels
-                .Template("#= category #: \n #= value#%")
-                .Background("transparent")
+            .Tooltip(tooltip => tooltip
                 .Visible(true)
+                .Format("{0}")
             )
-            .StartAngle(150);
-        })
-        .Tooltip(tooltip => tooltip
-            .Visible(true)
-            .Format("{0}")
-        )
                             )
                         </div>
+                        }
                     </div>
             </div>
         </div>
