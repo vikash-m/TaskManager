@@ -243,4 +243,7 @@
   <data name="verifyUrl" xml:space="preserve">
     <value>/email/verify?username={0}</value>
   </data>
+  <data name="Red" xml:space="preserve">
+    <value>red</value>
+  </data>
 </root>
