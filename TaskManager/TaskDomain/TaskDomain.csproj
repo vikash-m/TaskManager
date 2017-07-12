@@ -53,11 +53,12 @@
     <Compile Include="DomainModel\EnumClass.cs" />
     <Compile Include="DomainModel\LoginUserDm.cs" />
     <Compile Include="DomainModel\RoleDm.cs" />
+    <Compile Include="DomainModel\TaskAssignmentDm.cs" />
     <Compile Include="DomainModel\TaskDocumentDm.cs" />
     <Compile Include="DomainModel\TaskStatuDm.cs" />
     <Compile Include="DomainModel\TaskStatusCountDm.cs" />
     <Compile Include="DomainModel\TaskStatusModel.cs" />
-    <Compile Include="DomainModel\UserdetailDm.cs" />
+    <Compile Include="DomainModel\UserDetailDm.cs" />
     <Compile Include="DomainModel\UserLoginDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModel\TaskDm.cs" />

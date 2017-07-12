@@ -12,7 +12,7 @@ namespace TaskManagerDAL.Controllers
     public class ManagerController : ApiController
     {
         private readonly ManagerRepository _managerRepository = new ManagerRepository();
-        Logger logger = LogManager.GetCurrentClassLogger(); 
+        Logger logger = LogManager.GetCurrentClassLogger();
         [HttpGet, Route("employees")]
         public List<UserDetailDm> GetEmployeesDetailsByManagerId(string managerId)
         {
@@ -37,7 +37,8 @@ namespace TaskManagerDAL.Controllers
         [HttpPost, Route("task")]
         public Task CreateTask(Task task)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.CreateTask(task);
@@ -57,7 +58,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("{managerId}/tasks")]
         public List<TaskDm> GetAllTask(string managerId)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.GetAllTask(managerId);
@@ -78,7 +80,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("status/{taskId}")]
         public string GetTaskStatusByTaskStatusId(int? taskId)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.GetTaskStatusByTaskStatusId(taskId);
@@ -98,7 +101,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("employeename/{id}")]
         public string GetEmployeeNameById(string id)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.GetEmployeeNameById(id);
@@ -118,7 +122,8 @@ namespace TaskManagerDAL.Controllers
         [HttpPut, Route("task")]
         public bool UpdateTask(Task task)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.UpdateTask(task);
@@ -138,7 +143,8 @@ namespace TaskManagerDAL.Controllers
         [HttpDelete, Route("{id}")]
         public bool DeleteTask(string id, string loginUser)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.DeleteTask(id, loginUser);
@@ -159,7 +165,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("tasks/{id}/task-name")]
         public string GetTaskNameByTaskId(string id)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.GetTaskNameByTaskId(id);
@@ -201,7 +208,8 @@ namespace TaskManagerDAL.Controllers
         [HttpDelete, Route("document")]
         public bool DeleteTaskDocument(TaskDocument taskDocument)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.DeleteTaskDocument(taskDocument);
@@ -221,7 +229,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("tasks/{id}")]
         public TaskDm GetTaskByTaskId(string id)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.GetTaskByTaskId(id);
@@ -241,7 +250,8 @@ namespace TaskManagerDAL.Controllers
         [HttpGet, Route("tasks/tasks/{title}")]
         public bool CheckForTaskName(string title)
         {
-            try {
+            try
+            {
                 try
                 {
                     return _managerRepository.CheckForTaskName(title);
@@ -300,7 +310,26 @@ namespace TaskManagerDAL.Controllers
             }
         }
 
-
+        [HttpPost, Route("task/assignTo")]
+        public bool AddTaskAssignTo(List<TaskAssignment> taskAssignment)
+        {
+            try
+            {
+                try
+                {
+                    return _managerRepository.AddAssignTo(taskAssignment);
+                }
+                catch
+                {
+                    throw new TaskManagerException("Error at Create Task method of Employee controller in DAL layer.");
+                }
+            }
+            catch (TaskManagerException taskManagerException)
+            {
+                logger.Error(taskManagerException, taskManagerException.Message);
+                return false;
+            }
+        }
 
     }
 }

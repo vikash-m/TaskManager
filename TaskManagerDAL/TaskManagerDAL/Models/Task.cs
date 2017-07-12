@@ -18,6 +18,7 @@ namespace TaskManagerDAL.Models
         public Task()
         {
             this.TaskDocuments = new HashSet<TaskDocument>();
+            this.TaskAssignments = new HashSet<TaskAssignment>();
         }
     
         public string Id { get; set; }
@@ -39,5 +40,7 @@ namespace TaskManagerDAL.Models
         public virtual TaskStatu TaskStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskDocument> TaskDocuments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
     }
 }

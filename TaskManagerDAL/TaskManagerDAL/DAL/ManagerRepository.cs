@@ -32,7 +32,7 @@ namespace TaskManagerDAL.DAL
             {
                 Id = task.Id,
                 Title = task.Title,
-                AssignedToName = GetEmployeeNameById(task.AssignedTo),
+                // AssignedToName = GetEmployeeNameById(task.AssignedTo),
                 CreatedByName = GetEmployeeNameById(task.CreatedBy),
                 Description = task.Description,
                 StartDate = Convert.ToDateTime(task.StartDate),
@@ -114,8 +114,8 @@ namespace TaskManagerDAL.DAL
         {
             Id = task.Id,
             Title = task.Title,
-            AssignedToName = GetEmployeeNameById(task.AssignedTo),
-            AssignedTo = task.AssignedTo,
+            //AssignedToName = GetEmployeeNameById(task.AssignedTo),
+            //AssignedTo = task.AssignedTo,
             CreatedByName = GetEmployeeNameById(task.CreatedBy),
             Description = task.Description,
             StartDate = Convert.ToDateTime(task.StartDate),
@@ -142,7 +142,16 @@ namespace TaskManagerDAL.DAL
             }).ToList();
 
 
+        public bool AddAssignTo(List<TaskAssignment> taskAssignment)
+        {
+            foreach (var assignTo in taskAssignment)
+            {
+                _taskManagerEntities.TaskAssignments.Add(assignTo);
+            }
 
+            return _taskManagerEntities.SaveChanges() > 0;
+
+        }
 
 
 

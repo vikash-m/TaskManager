@@ -179,11 +179,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Content\Resources\DALLayerLinkResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DALLayerLinkResources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Content\Resources\DALLayerLinkResources.Designer.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\EmployeeServiceController.cs" />
     <Compile Include="Controllers\LoginServiceController.cs" />
@@ -287,10 +283,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\Resources\DALLayerLinkResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DALLayerLinkResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Resources\DALLayerLinkResources.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

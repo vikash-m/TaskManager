@@ -21,6 +21,10 @@
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__TaskI__1FCDBCEB" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Added__20C1E124" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagerModel.FK__TaskDocum__Modif__21B6055D" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TaskManagerModel.TaskAssignment" Width="1.5" PointX="13.5" PointY="7.75" />
+        <AssociationConnector Association="TaskManagerModel.TaskId" />
+        <AssociationConnector Association="TaskManagerModel.AssignedBy" />
+        <AssociationConnector Association="TaskManagerModel.ReAssignedBy" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

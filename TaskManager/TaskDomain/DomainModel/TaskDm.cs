@@ -14,9 +14,9 @@ namespace TaskDomain.DomainModel
         public string Title { get; set; }
         public string CreatedBy { get; set; }
         [Required(ErrorMessage = "Assign To is required")]
-        public string AssignedTo { get; set; }
+        public List<string> AssignedTo { get; set; }
         public string CreatedByName { get; set; }
-        public string AssignedToName { get; set; }
+        public List<string> AssignedToName { get; set; }
         [Required(ErrorMessage = "Start Date is required")]
         public DateTime StartDate { get; set; }
         [Required(ErrorMessage = "End Date is required")]
@@ -32,6 +32,7 @@ namespace TaskDomain.DomainModel
         public bool IsDeleted { get; set; }
         public virtual TaskStatuDm TaskStatu { get; set; }
         public virtual ICollection<TaskDocumentDm> TaskDocuments { get; set; }
+        public virtual ICollection<TaskAssignmentDm> TaskAssignments { get; set; }
 
     }
 }

@@ -22,7 +22,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getEmployeesDetailsByManagerIdUrl , managerId));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getEmployeesDetailsByManagerIdUrl, managerId));
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     employee = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -48,6 +48,25 @@ namespace TaskManagerServiceApi.Controllers
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskResult = response.Content.ReadAsAsync<TaskDm>().Result;
+                var taskAssignmentList = new List<TaskAssignmentDm>();
+                foreach (var assignTo in task.AssignedTo)
+                {
+                    var taskAssignment = new TaskAssignmentDm()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        AssignedTo = assignTo,
+                        AssignedBy = task.CreatedBy,
+                        AssignedOn = DateTime.Now,
+                        TaskId = task.Id
+
+                    };
+                    taskAssignmentList.Add(taskAssignment);
+                }
+                var assignToResponse = await client.PostAsJsonAsync(DALLayerLinkResources.addAssignTo, taskAssignmentList);
+                if (assignToResponse.IsSuccessStatusCode)
+                {
+                }
+
             }
             catch (Exception ex)
             {
@@ -84,7 +103,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getAllTaskUrl , managerId));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getAllTaskUrl, managerId));
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     tasks = response.Content.ReadAsAsync<List<TaskDm>>().Result;
@@ -126,7 +145,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.DeleteAsync(string.Format(DALLayerLinkResources.deleteTaskUrl , id , loginUser));
+                var response = await client.DeleteAsync(string.Format(DALLayerLinkResources.deleteTaskUrl, id, loginUser));
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskDeleteStatus = response.Content.ReadAsAsync<bool>().Result;
@@ -146,7 +165,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskNameByTaskIdUrl , taskId));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskNameByTaskIdUrl, taskId));
                 if (response.IsSuccessStatusCode)
                     // Parse the response body. Blocking!
                     taskName = response.Content.ReadAsAsync<string>().Result;
@@ -166,7 +185,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskByTaskIdUrl , taskId));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskByTaskIdUrl, taskId));
                 if (response.IsSuccessStatusCode)
                     task = response.Content.ReadAsAsync<TaskDm>().Result;
             }
@@ -185,7 +204,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var pendingCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountsManagerUrl , employeeId , Convert.ToInt32(EnumClass.Status.Pending)));
+                var pendingCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountsManagerUrl, employeeId, Convert.ToInt32(EnumClass.Status.Pending)));
                 var inProgressCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountsManagerUrl, employeeId, Convert.ToInt32(EnumClass.Status.InProgress)));
                 var completedCount = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskCountsManagerUrl, employeeId, Convert.ToInt32(EnumClass.Status.Completed)));
 
@@ -217,7 +236,7 @@ namespace TaskManagerServiceApi.Controllers
             try
             {
                 var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-                var response = await client.GetAsync(string.Format(DALLayerLinkResources.checkForTaskNameUrl , title));
+                var response = await client.GetAsync(string.Format(DALLayerLinkResources.checkForTaskNameUrl, title));
                 if (response.IsSuccessStatusCode)
                 {
                     taskNameExist = response.Content.ReadAsAsync<bool>().Result;
@@ -235,14 +254,14 @@ namespace TaskManagerServiceApi.Controllers
         public async Task<string> GetEmployeeNameById(string id)
         {
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-            var createdByResponse = await client.GetAsync(string.Format(DALLayerLinkResources.getEmployeeNameByIdUrl , id));
+            var createdByResponse = await client.GetAsync(string.Format(DALLayerLinkResources.getEmployeeNameByIdUrl, id));
             return createdByResponse.Content.ReadAsAsync<string>().Result;
         }
 
         public async Task<string> GetTaskStatusNameByTaskStatusId(int id)
         {
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-            var statusResponse = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskStatusNameByTaskStatusIdUrl , id));
+            var statusResponse = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskStatusNameByTaskStatusIdUrl, id));
             return statusResponse.Content.ReadAsAsync<string>().Result;
         }
 
@@ -250,7 +269,7 @@ namespace TaskManagerServiceApi.Controllers
         public async Task<List<TaskDocumentDm>> GetTaskDocumentBytaskId(string taskId)
         {
             var client = new HttpClient { BaseAddress = new Uri(DalLayerUrl) };
-            var taskDocumentList = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskDocumentBytaskIdUrl , taskId));
+            var taskDocumentList = await client.GetAsync(string.Format(DALLayerLinkResources.getTaskDocumentBytaskIdUrl, taskId));
             return taskDocumentList.Content.ReadAsAsync<List<TaskDocumentDm>>().Result;
         }
     }
