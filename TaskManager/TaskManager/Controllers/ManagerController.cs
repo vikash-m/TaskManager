@@ -366,11 +366,9 @@ namespace TaskManager.Controllers
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
-                var employeeArray = employeeList.ToArray();
-                var assignToArray = task.AssignedToName.ToString();
 
-                ViewBag.Employee = new SelectList(employeeArray, "Id", "FirstName", "LastName");
-                ViewData["AssignTo"] = assignToArray;
+                ViewBag.Employee = new MultiSelectList(employeeList, "Id", "FirstName", task.AssignedToName);
+                //ViewData["AssignTo"] = assignToArray;
 
                 return View(task);
             }
@@ -425,6 +423,11 @@ namespace TaskManager.Controllers
             try
             {
                 var user = (UserDetailDm)Session["SessionData"];
+                if (null == user)
+                {
+                    return RedirectToAction("Login", "Login");
+                }
+
                 var employeeTaskDetail = new EmployeeTaskDetailDm();
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 var response = await client.GetAsync($"/manager/{user.Id}/employees/{id}/taskDetails");

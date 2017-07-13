@@ -11,10 +11,10 @@
 <script src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 </script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
 <div class="row-wrapper border-bottom white-bg page-heading" style="margin-left: -15px; margin-right: -15px; height: 95px;">
-    <script src="//cdn.jsdelivr.net/chosen/1.7.0/chosen.jquery.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/chosen/1.7.0/chosen.css" />
+    <script src="@Url.Content("~/Scripts/chosen.jquery.min.js")"></script>
+    <link rel="stylesheet" href="~/Content/chosen.css" />
     <br/>
     <div class="col-lg-10">
         <h2><b>Edit Task Details </b>
@@ -52,8 +52,8 @@
                             <div class="clearfix">
                                 <div class="col-lg-10  " style="margin-bottom: 10px; float: left" id="addAssignTo">
                                     
-                                    @Html.DropDownListFor(model => model.AssignedTo,
-                                    ViewBag.Employee as IEnumerable<SelectListItem>,new {@class = "form-control chosen-select", style = "160%", multiple = true})
+                                   @Html.ListBoxFor(model => model.AssignedTo,
+                                    ViewBag.Employee as MultiSelectList, new { @class = "form-control chosen-select", style = "160%", multiple = true })
                                     @Html.ValidationMessageFor(model => model.AssignedTo, "", new {@class = "text-danger"})
 
                                     @*<div class="input-group" style="float: left">
@@ -127,14 +127,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var values =@Model.AssignedToName.ToArray();
-            ('.chosen-select').val(),
-        $('.chosen-select').trigger("liszt:updated");
-    });
-
-    $('.chosen-select').chosen();
-
+    $(".chosen-select").chosen();
+ 
+    $(".chosen-select").trigger("chosen:updated");
+    $(".chosen-select").trigger("liszt:updated");
+    $(".chosen-select").chosen().change();
 </script>
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/kendo")
