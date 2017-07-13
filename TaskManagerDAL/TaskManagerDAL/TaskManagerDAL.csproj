@@ -136,27 +136,27 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\TaskModel.Context.tt">
+    <Content Include="Models\TaskManager.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskModel.edmx</DependentUpon>
-      <LastGenOutput>TaskModel.Context.cs</LastGenOutput>
+      <DependentUpon>TaskManager.edmx</DependentUpon>
+      <LastGenOutput>TaskManager.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\TaskModel.tt">
+    <Content Include="Models\TaskManager.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskModel.edmx</DependentUpon>
-      <LastGenOutput>TaskModel.cs</LastGenOutput>
+      <DependentUpon>TaskManager.edmx</DependentUpon>
+      <LastGenOutput>TaskManager.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\TaskModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TaskModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TaskModel.edmx.diagram">
-      <DependentUpon>TaskModel.edmx</DependentUpon>
-    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="Models\TaskManager.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TaskManager.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TaskManager.edmx.diagram">
+      <DependentUpon>TaskManager.edmx</DependentUpon>
     </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
@@ -191,40 +191,40 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginUser.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskAssignment.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskDocument.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TaskModel.Context.cs">
+    <Compile Include="Models\TaskManager.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TaskModel.Context.tt</DependentUpon>
+      <DependentUpon>TaskManager.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TaskModel.cs">
+    <Compile Include="Models\TaskManager.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TaskModel.Designer.cs">
+    <Compile Include="Models\TaskManager.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TaskModel.edmx</DependentUpon>
+      <DependentUpon>TaskManager.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskStatu.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDetail.cs">
-      <DependentUpon>TaskModel.tt</DependentUpon>
+      <DependentUpon>TaskManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAL\EmployeeRepository.cs" />

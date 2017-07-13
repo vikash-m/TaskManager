@@ -131,9 +131,9 @@
         .Series(series =>
         {
             series.Pie(new dynamic[] {
-                new {category=ServiceLayerLinkResource.Pending,value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.LightGreyishBlue},
-                new {category=ServiceLayerLinkResource.InProgress,value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.GreyishBlue},
-                new {category=ServiceLayerLinkResource.Completed,value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.DeepGreyishBlue}
+                 new {category=ServiceLayerLinkResource.Pending,value=Math.Round(((double)Model.Pending/Model.Total*100),2),color=ServiceLayerLinkResource.LightGreyishBlue},
+                 new {category=ServiceLayerLinkResource.InProgress,value=Math.Round(((double)Model.InProgress/Model.Total*100),2),color=ServiceLayerLinkResource.GreyishBlue},
+                 new {category=ServiceLayerLinkResource.Completed,value=Math.Round(((double)Model.Completed/Model.Total*100),2),color=ServiceLayerLinkResource.DeepGreyishBlue}
             })
             .Labels(labels => labels
                 .Template("#= category #: \n #= value#%")

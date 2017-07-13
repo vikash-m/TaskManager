@@ -12,7 +12,7 @@ namespace TaskManagerDAL.DAL
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
         public List<UserDetail> GetEmployee() => _taskManagerEntities.UserDetails.ToList();
-        ManagerRepository managerRepository = new ManagerRepository();
+        private readonly ManagerRepository _managerRepository = new ManagerRepository();
 
         public List<TaskStatuDm> GetStatusList() => _taskManagerEntities.TaskStatus.ToList().Select(taskStatus => new TaskStatuDm
         {
@@ -28,40 +28,60 @@ namespace TaskManagerDAL.DAL
             return true;
         }
 
-        public int GetTaskCount(string employeeId, int statusId) => _taskManagerEntities.Tasks.Count(x => x.TaskStatusId == statusId & x.AssignedTo.Equals(employeeId));
-        public List<TaskDm> GetEmployeeTask(string assignedTo) => _taskManagerEntities.Tasks.Where(x => x.AssignedTo.Equals(assignedTo)).ToList().Select(task => new TaskDm
+        public int GetTaskCount(string employeeId, int statusId)
         {
-            Id = task.Id,
-            Title = task.Title,
-            AssignedToName = managerRepository.GetEmployeeNameById(task.AssignedTo),
-            AssignedTo = task.AssignedTo,
-            CreatedByName = managerRepository.GetEmployeeNameById(task.CreatedBy),
-            Description = task.Description,
-            StartDate = Convert.ToDateTime(task.StartDate),
-            EndDate = Convert.ToDateTime(task.EndDate),
-            TaskStatus = managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
-            TaskStatusId = task.TaskStatusId,
-            CreateDate = Convert.ToDateTime(task.CreateDate),
-            ModifiedDate = task.ModifiedDate
-        }).ToList();
+            var taskIds = _taskManagerEntities.TaskAssignments.Where(x => x.AssignedTo.Equals(employeeId)).Select(x => x.TaskId).ToList();
+            var count =
+                _taskManagerEntities.Tasks.Count(
+                    x => taskIds.Contains(x.Id) & x.TaskStatusId == statusId & x.IsDeleted.Value == false);
+            return count;
+        }
 
-        public TaskDm GetTaskDetail(string taskId) => _taskManagerEntities.Tasks.FirstOrDefault(m => m.Id.Equals(taskId)).IfNotNull(task => new TaskDm
+        public List<TaskDm> GetEmployeeTask(string assignedTo)
         {
-            Id = task.Id,
-            Title = task.Title,
-            AssignedToName = managerRepository.GetEmployeeNameById(task.AssignedTo),
-            AssignedTo = task.AssignedTo,
-            CreatedByName = managerRepository.GetEmployeeNameById(task.CreatedBy),
-            Description = task.Description,
-            StartDate = Convert.ToDateTime(task.StartDate),
-            EndDate = Convert.ToDateTime(task.EndDate),
-            TaskStatus = managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
-            TaskStatusId = task.TaskStatusId,
-            CreateDate = Convert.ToDateTime(task.CreateDate),
-            ModifiedDate = task.ModifiedDate,
-            TaskDocuments = GetTaskDocumants(task.Id)
+            var taskIds = _taskManagerEntities.TaskAssignments.Where(x => x.AssignedTo.Equals(assignedTo)).Select(x => x.TaskId).ToList();
+            var tasks = _taskManagerEntities.Tasks.Where(x => taskIds.Contains(x.Id)).ToList().Select(task => new TaskDm
+            {
+                Id = task.Id,
+                Title = task.Title,
+                //AssignedToName = managerRepository.GetEmployeeNameById(task.AssignedTo),
+                // AssignedTo = task.AssignedTo,
+                CreatedByName = _managerRepository.GetEmployeeNameById(task.CreatedBy),
+                Description = task.Description,
+                StartDate = Convert.ToDateTime(task.StartDate),
+                EndDate = Convert.ToDateTime(task.EndDate),
+                TaskStatus = _managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
+                TaskStatusId = task.TaskStatusId,
+                CreateDate = Convert.ToDateTime(task.CreateDate),
+                ModifiedDate = task.ModifiedDate
+            }).ToList();
+            return tasks;
+        }
 
-        });
+        public TaskDm GetTaskDetail(string taskId)
+        {
+            var taskDetail = _taskManagerEntities.Tasks.FirstOrDefault(m => m.Id.Equals(taskId)).IfNotNull(task => new TaskDm
+            {
+                Id = task.Id,
+                Title = task.Title,
+                // AssignedToName = managerRepository.GetEmployeeNameById(task.AssignedTo),
+                AssignedTo = _managerRepository.GetAssignToByTaskId(taskId),
+                CreatedByName = _managerRepository.GetEmployeeNameById(task.CreatedBy),
+                Description = task.Description,
+                StartDate = Convert.ToDateTime(task.StartDate),
+                EndDate = Convert.ToDateTime(task.EndDate),
+                TaskStatus = _managerRepository.GetTaskStatusByTaskStatusId(task.TaskStatusId),
+                TaskStatusId = task.TaskStatusId,
+                CreateDate = Convert.ToDateTime(task.CreateDate),
+                ModifiedDate = task.ModifiedDate,
+                TaskDocuments = GetTaskDocumants(task.Id)
+
+            });
+
+            taskDetail.AssignedToName = _managerRepository.GetAssignToNameByAssisnTo(taskDetail.AssignedTo);
+            return taskDetail;
+
+        }
 
         public List<TaskDocumentDm> GetTaskDocumants(string taskId) => _taskManagerEntities.TaskDocuments.Where(m => m.TaskId.Equals(taskId)).Select(taskDocument => new TaskDocumentDm
         {
@@ -76,6 +96,6 @@ namespace TaskManagerDAL.DAL
         }).ToList();
     }
 
-    
+
 }
 

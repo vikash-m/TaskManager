@@ -35,47 +35,41 @@
             </div>
         </div>
         <br />
-        <table class="table table-striped table-bordered table-hover dataTables" border="1" cellpadding="10" width="100%" >
+        <table class="table table-striped table-bordered table-hover dataTables"  >
             <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Create By</th>
-                    <th>Assigned To</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Description</th>
-                    <th>Task Status</th>
-                    <th>Created Date</th>
-                    <th>Modified Date </th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Title</th>
+                <th>Create By</th>
+               <th>Assigned To</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Description</th>
+                <th>Task Status</th>
+                <th>Created Date</th>
+                <th>Modified Date </th>
+                <th></th>
+            </tr>
 
             </thead>
+
             <tbody>
                 @foreach (var data in Model)
             {
                     <tr>
                         <td> @data.Title </td>
                         <td> @data.CreatedByName </td>
-                        <td> @data.AssignedToName </td>
-                       @if (data.StartDate != null)
-                       {
+                        
+                        <td>
+                            @foreach (var assignTo in data.AssignedToName)
+                            {
+                                <div>@assignTo</div>
+                            }
+                        </td>
                         <td> @data.StartDate.ToShortDateString() </td>
-                       }
-                       else
-                       {
-                        <td></td>
-                       }
 
 
-                        @if (data.EndDate != null)
-                        {
-                            <td> @data.EndDate.ToShortDateString() </td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
+
+                        <td> @data.EndDate.ToShortDateString() </td>
 
                         <td> @data.Description </td>
                         <td> @data.TaskStatus </td>

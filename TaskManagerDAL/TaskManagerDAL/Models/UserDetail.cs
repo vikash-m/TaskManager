@@ -20,11 +20,10 @@ namespace TaskManagerDAL.Models
             this.LoginUsers = new HashSet<LoginUser>();
             this.Tasks = new HashSet<Task>();
             this.Tasks1 = new HashSet<Task>();
-            this.Tasks2 = new HashSet<Task>();
-            this.TaskDocuments = new HashSet<TaskDocument>();
-            this.TaskDocuments1 = new HashSet<TaskDocument>();
             this.TaskAssignments = new HashSet<TaskAssignment>();
             this.TaskAssignments1 = new HashSet<TaskAssignment>();
+            this.TaskDocuments = new HashSet<TaskDocument>();
+            this.TaskDocuments1 = new HashSet<TaskDocument>();
         }
     
         public string Id { get; set; }
@@ -48,14 +47,12 @@ namespace TaskManagerDAL.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks2 { get; set; }
+        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskAssignment> TaskAssignments1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskDocument> TaskDocuments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskDocument> TaskDocuments1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskAssignment> TaskAssignments1 { get; set; }
     }
 }

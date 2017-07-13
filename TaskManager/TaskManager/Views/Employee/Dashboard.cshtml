@@ -77,9 +77,9 @@
         )
         .Series(series =>
         {
-            series.Column(new double[] {  Model.Pending }).Name("Tasks").Color(ServiceLayerLinkResource.Blue);
-            series.Column(new double[] { Model.InProgress}).Name("Tasks").Color(ServiceLayerLinkResource.Orange);
-            series.Column(new double[] { Model.Completed }).Name("Tasks").Color(ServiceLayerLinkResource.Green);
+            series.Column(new double[] {  Model.Pending }).Name("Tasks").Color(ServiceLayerLinkResource.LightGreyishBlue);
+            series.Column(new double[] { Model.InProgress}).Name("Tasks").Color(ServiceLayerLinkResource.GreyishBlue);
+            series.Column(new double[] { Model.Completed }).Name("Tasks").Color(ServiceLayerLinkResource.DeepGreyishBlue);
         })
         .CategoryAxis(axis => axis
             .Name("series-axis")
@@ -125,9 +125,9 @@
             .Series(series =>
             {
                 series.Pie(new dynamic[] {
-                new {category=ServiceLayerLinkResource.Pending,value=(double)Model.Pending/Model.Total*100,color=ServiceLayerLinkResource.Blue},
-                new {category=ServiceLayerLinkResource.InProgress,value=(double)Model.InProgress/Model.Total*100,color=ServiceLayerLinkResource.Orange},
-                new {category=ServiceLayerLinkResource.Completed,value=(double)Model.Completed/Model.Total*100,color=ServiceLayerLinkResource.Green}
+                new {category=ServiceLayerLinkResource.Pending,value=Math.Round(((double)Model.Pending/Model.Total*100),2),color=ServiceLayerLinkResource.LightGreyishBlue},
+                new {category=ServiceLayerLinkResource.InProgress,value=Math.Round(((double)Model.InProgress/Model.Total*100),2),color=ServiceLayerLinkResource.GreyishBlue},
+                new {category=ServiceLayerLinkResource.Completed,value=Math.Round(((double)Model.Completed/Model.Total*100),2),color=ServiceLayerLinkResource.DeepGreyishBlue}
                 })
                 .Labels(labels => labels
                     .Template("#= category #: \n #= value#%")

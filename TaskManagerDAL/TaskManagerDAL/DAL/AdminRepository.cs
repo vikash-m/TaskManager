@@ -11,6 +11,7 @@ namespace TaskManagerDAL.DAL
     {
         private readonly TaskManagerEntities _taskManagerEntities = new TaskManagerEntities();
         Logger logger = LogManager.GetCurrentClassLogger();
+
         public bool CreateUser(UserDetail userDetail)
         {
             _taskManagerEntities.UserDetails.Add(userDetail);
@@ -33,8 +34,7 @@ namespace TaskManagerDAL.DAL
                         RoleId = userDetailDm.Role.RoleId,
                         ManagerId = userDetailDm.ManagerId,
                         ModifiedBy = userDetailDm.ModifiedBy,
-                        CreateDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        CreateDate = userDetailDm.CreateDate.Value,
                         ManagerName = GetManagerNameById(userDetailDm.ManagerId)
                     }).ToList();
         }

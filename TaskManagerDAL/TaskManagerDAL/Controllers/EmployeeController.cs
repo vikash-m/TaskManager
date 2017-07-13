@@ -44,22 +44,22 @@ namespace TaskManagerDAL.Controllers
                 return false;
             }
         }
-        
+
         [HttpGet, Route("{employeeId}/tasks/count")]
         public int? GetTaskCount(string employeeId, int statusId)
         {
             try
-            { 
-               try
-               {
+            {
+                try
+                {
                     return _employeeRepository.GetTaskCount(employeeId, statusId);
-               }
-               catch
-               {
-                   throw new TaskManagerException("Error at GetTaskCount method of Employee controller in DAL layer.");
-               }
+                }
+                catch
+                {
+                    throw new TaskManagerException("Error at GetTaskCount method of Employee controller in DAL layer.");
+                }
             }
-            catch(TaskManagerException dashboardTaskCountException)
+            catch (TaskManagerException dashboardTaskCountException)
             {
                 logger.Error(dashboardTaskCountException, dashboardTaskCountException.Message);
                 return null;
@@ -75,6 +75,7 @@ namespace TaskManagerDAL.Controllers
                 {
 
                     return _employeeRepository.GetEmployeeTask(employeeId);
+                    return null;
                 }
                 catch
                 {
@@ -86,7 +87,7 @@ namespace TaskManagerDAL.Controllers
                 logger.Error(employeeTaskException, employeeTaskException.Message);
                 return null;
             }
-            
+
         }
 
         [HttpGet, Route("{taskId}")]
@@ -94,15 +95,15 @@ namespace TaskManagerDAL.Controllers
         {
             try
             {
-               try
-               {
-               
-                  return _employeeRepository.GetTaskDetail(taskId);
-               }
-               catch
-               {
-                throw new TaskManagerException("Error at GetTaskDetail method of Employee controller in DAL layer.");
-               }
+                try
+                {
+
+                    return _employeeRepository.GetTaskDetail(taskId);
+                }
+                catch
+                {
+                    throw new TaskManagerException("Error at GetTaskDetail method of Employee controller in DAL layer.");
+                }
             }
             catch (TaskManagerException taskDetailException)
             {
