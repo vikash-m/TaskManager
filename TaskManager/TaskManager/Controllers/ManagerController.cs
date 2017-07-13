@@ -9,6 +9,7 @@ using NLog;
 using PagedList;
 using TaskDomain.DomainModel;
 using TaskManager.Content.Resources;
+using TaskManager.ViewModels;
 
 namespace TaskManager.Controllers
 {
@@ -34,13 +35,13 @@ namespace TaskManager.Controllers
 
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.listTaskUrl , user.Id));
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.listTaskUrl, user.Id));
 
                 if (!response.IsSuccessStatusCode) return View();
                 var taskList = response.Content.ReadAsAsync<List<TaskDm>>().Result.ToPagedList(page ?? 1, 10);
                 return View(taskList);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -64,7 +65,7 @@ namespace TaskManager.Controllers
                 var taskStatusCounts = new TaskStatusCountDm();
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
                 // List data response.
-                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.dashboardUrl , employeeId));
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.dashboardUrl, employeeId));
                 if (response.IsSuccessStatusCode)
                     taskStatusCounts = response.Content.ReadAsAsync<TaskStatusCountDm>().Result;
                 return View(taskStatusCounts);
@@ -101,7 +102,7 @@ namespace TaskManager.Controllers
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -132,7 +133,7 @@ namespace TaskManager.Controllers
 
                     // foreach (var document in taskDm.)
                     taskDm.Document.Clear(); // List data response.
-                    var response = await client.PostAsJsonAsync(string.Format(ServiceLayerLinkResource.createTaskManagerUrl , user.Id), taskDm);
+                    var response = await client.PostAsJsonAsync(string.Format(ServiceLayerLinkResource.createTaskManagerUrl, user.Id), taskDm);
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -155,7 +156,7 @@ namespace TaskManager.Controllers
                 return View(taskDm);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -190,7 +191,7 @@ namespace TaskManager.Controllers
                     }
                     taskDm.Document.Clear();
                     // List data response.
-                    var response = await client.PutAsJsonAsync(string.Format(ServiceLayerLinkResource.editTaskUrl , taskDm.Id , user.Id), taskDm);
+                    var response = await client.PutAsJsonAsync(string.Format(ServiceLayerLinkResource.editTaskUrl, taskDm.Id, user.Id), taskDm);
                     if (response.IsSuccessStatusCode)
                     {
                         if (!taskDocument.Document.Contains(null))
@@ -201,7 +202,7 @@ namespace TaskManager.Controllers
 
                 // List data response.
                 var employeeList = new List<UserDetailDm>();
-                var responseEmployeeList = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskLinkUrl , user.Id));
+                var responseEmployeeList = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskLinkUrl, user.Id));
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
@@ -212,7 +213,7 @@ namespace TaskManager.Controllers
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -235,10 +236,10 @@ namespace TaskManager.Controllers
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.DeleteAsync(string.Format(ServiceLayerLinkResource.deleteTaskUrl , id , user.Id));
+                var response = await client.DeleteAsync(string.Format(ServiceLayerLinkResource.deleteTaskUrl, id, user.Id));
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -263,7 +264,7 @@ namespace TaskManager.Controllers
                 var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
 
                 // List data response.
-                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.documentPartialViewUrl , id));
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.documentPartialViewUrl, id));
                 if (!response.IsSuccessStatusCode) return View("Error");
                 var taskName = response.Content.ReadAsAsync<string>().Result;
                 var taskDocument = new TaskDocumentDm
@@ -273,7 +274,7 @@ namespace TaskManager.Controllers
                 };
                 return PartialView("_AddDocument", taskDocument);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -292,7 +293,7 @@ namespace TaskManager.Controllers
 
             var response = await SetDocumentPathAndSaveFile(taskDocument);
 
-            return response && user.RoleId == (int)Enum.Enum.Roles.Employee ?
+            return response && user.RoleId == (int)EnumClass.Roles.Employee ?
                 RedirectToAction("MyTasks", "Employee")
               : RedirectToAction("ListTask", "Manager");
         }
@@ -355,7 +356,7 @@ namespace TaskManager.Controllers
 
 
                 // List data response.
-                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.editTaskLinkUrl , id));
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.editTaskLinkUrl, id));
                 var task = new TaskDm();
                 // List data response.
                 if (response.IsSuccessStatusCode)
@@ -365,12 +366,15 @@ namespace TaskManager.Controllers
                 if (responseEmployeeList.IsSuccessStatusCode)
 
                     employeeList = responseEmployeeList.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+                var employeeArray = employeeList.ToArray();
+                var assignToArray = task.AssignedToName.ToString();
 
-                ViewBag.Employee = new SelectList(employeeList, "Id", "FirstName", "LastName");
+                ViewBag.Employee = new SelectList(employeeArray, "Id", "FirstName", "LastName");
+                ViewData["AssignTo"] = assignToArray;
 
                 return View(task);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex, "Error Occured");
                 return View("Error");
@@ -383,12 +387,63 @@ namespace TaskManager.Controllers
 
             var result = new bool();
             // List data response.
-            var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.checkForTaskNameUrl , title));
+            var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.checkForTaskNameUrl, title));
             if (response.IsSuccessStatusCode)
             {
                 result = response.Content.ReadAsAsync<bool>().Result;
             }
             return result == false ? Json(ServiceLayerLinkResource.taskExistsError, JsonRequestBehavior.AllowGet) : Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> ManagerEmployees()
+        {
+            try
+            {
+                var user = (UserDetailDm)Session["SessionData"];
+                if (null == user)
+                {
+                    return RedirectToAction("Login", "Login");
+                }
+
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+                var response = await client.GetAsync(string.Format(ServiceLayerLinkResource.createTaskUrl, user.Id));
+                var employeeList = new List<UserDetailDm>();
+                if (response.IsSuccessStatusCode)
+                    employeeList = response.Content.ReadAsAsync<List<UserDetailDm>>().Result;
+
+                return View(employeeList);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error Occured");
+                return View("Error");
+            }
+        }
+
+        public async Task<ActionResult> EmployeeTaskDetail(string id)
+        {
+            try
+            {
+                var user = (UserDetailDm)Session["SessionData"];
+                var employeeTaskDetail = new EmployeeTaskDetailDm();
+                var client = new HttpClient { BaseAddress = new Uri(ServiceLayerUrl) };
+                var response = await client.GetAsync($"/manager/{user.Id}/employees/{id}/taskDetails");
+                if (response.IsSuccessStatusCode)
+                {
+                    employeeTaskDetail.Task = response.Content.ReadAsAsync<List<TaskDm>>().Result;
+
+                    var taskCount = await client.GetAsync($"/manager/{user.Id}/employees/{id}/tasks/count");
+                    if (taskCount.IsSuccessStatusCode)
+                        employeeTaskDetail.TaskCount = taskCount.Content.ReadAsAsync<TaskStatusCountDm>().Result;
+                    return View(employeeTaskDetail);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Error Occured");
+                return View("Error");
+            }
         }
     }
 }

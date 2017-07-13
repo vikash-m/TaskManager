@@ -210,12 +210,12 @@ namespace TaskManagerDAL.DAL
 
         public List<TaskDm> GetTaskDetails(string managerId, string employeeId)
         {
-            var taskIda =
+            var taskIds =
                 _taskManagerEntities.TaskAssignments.Where(x => x.AssignedTo.Equals(employeeId))
                     .ToList()
                     .Select(x => x.TaskId)
                     .ToList();
-            var tasks = _taskManagerEntities.Tasks.Where(x => taskIda.Contains(x.Id) && x.CreatedBy.Equals(managerId) && x.IsDeleted == false).ToList().Select(x => new TaskDm
+            var tasks = _taskManagerEntities.Tasks.Where(x => taskIds.Contains(x.Id) && x.CreatedBy.Equals(managerId) && x.IsDeleted == false).ToList().Select(x => new TaskDm
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -231,6 +231,19 @@ namespace TaskManagerDAL.DAL
                 task.TaskDocuments = GetTaskDocumentBytaskId(task.Id);
             }
             return tasks;
+        }
+
+        public int GetEmployeeTaskCount(string managerId, string employeeId, int statusId)
+        {
+            var taskIds =
+               _taskManagerEntities.TaskAssignments.Where(x => x.AssignedTo.Equals(employeeId))
+                   .ToList()
+                   .Select(x => x.TaskId)
+                   .ToList();
+            var taskCount =
+                _taskManagerEntities.Tasks.Count(x => taskIds.Contains(x.Id) && x.CreatedBy.Equals(managerId) && x.TaskStatusId == statusId && x.IsDeleted == false);
+            return taskCount;
+
         }
     }
 }

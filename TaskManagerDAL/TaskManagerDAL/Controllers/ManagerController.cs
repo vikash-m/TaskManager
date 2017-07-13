@@ -268,14 +268,14 @@ namespace TaskManagerDAL.Controllers
             }
         }
 
-        [HttpGet, Route("{employeeId}/tasks/count")]
-        public int GetTaskCounts(string employeeId, int statusId)
+        [HttpGet, Route("{managerId}/tasks/count")]
+        public int GetTaskCounts(string managerId, int statusId)
         {
             try
             {
                 try
                 {
-                    return _managerRepository.GetTaskCounts(employeeId, statusId);
+                    return _managerRepository.GetTaskCounts(managerId, statusId);
                 }
                 catch
                 {
@@ -321,7 +321,7 @@ namespace TaskManagerDAL.Controllers
                 }
                 catch
                 {
-                    throw new TaskManagerException("Error at Create Task method of Employee controller in DAL layer.");
+                    throw new TaskManagerException("Error at Add AssignTo method of Employee controller in DAL layer.");
                 }
             }
             catch (TaskManagerException taskManagerException)
@@ -331,5 +331,46 @@ namespace TaskManagerDAL.Controllers
             }
         }
 
+        [HttpGet, Route("{managerId}/employees/{employeeId}/taskDetails")]
+        public List<TaskDm> GetTaskDetail(string managerId, string employeeId)
+        {
+            try
+            {
+                try
+                {
+                    return _managerRepository.GetTaskDetails(managerId, employeeId);
+                }
+                catch
+                {
+                    throw new TaskManagerException("Error at  Task Detail method of Employee controller in DAL layer.");
+                }
+            }
+            catch (TaskManagerException taskManagerException)
+            {
+                logger.Error(taskManagerException, taskManagerException.Message);
+                return new List<TaskDm>();
+            }
+        }
+
+        [HttpGet, Route("{managerId}/employees/{employeeId}/tasks/count")]
+        public int GetEmployeeTaskCounts(string managerId, string employeeId, int statusId)
+        {
+            try
+            {
+                try
+                {
+                    return _managerRepository.GetEmployeeTaskCount(managerId, employeeId, statusId);
+                }
+                catch
+                {
+                    throw new TaskManagerException("Error at Task Count method of Employee controller in DAL layer.");
+                }
+            }
+            catch (TaskManagerException taskManagerException)
+            {
+                logger.Error(taskManagerException, taskManagerException.Message);
+                return 0;
+            }
+        }
     }
 }
