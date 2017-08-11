@@ -45,7 +45,11 @@
                                 <tr>
                                     <td>@m.Title</td>
                                     <td>@m.CreatedByName</td>
-                                    <td>@m.AssignedToName</td>
+                                    <td>
+                                    @foreach (var assignTo in m.AssignedToName)
+                                    {
+                                        <div>@assignTo</div>
+                                    }</td>
                                     <td>@m.StartDate.Date.ToShortDateString()</td>
                                     <td>@m.EndDate.Date.ToShortDateString()</td>
                                     <td>@m.TaskStatus</td>
